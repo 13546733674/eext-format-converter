@@ -1,0 +1,16 @@
+{
+	"About": "About",
+	"EasyEDA extension SDK v": "EasyEDA extension SDK v${1}",
+	"Format Convert": "Format Convert",
+	"Import Xpedition files": "Import Xpedition files",
+	"Export Xpedition files": "Export Xpedition files",
+	"Import/Export Wizard": "Import/Export Wizard",
+	"Converting...": "Converting...",
+	"Importing...": "Importing...",
+	"Import to Pro": "Import to Pro",
+	"Download library file": "Download library file",
+	"Conversion complete": "Conversion complete",
+	"Select an action": "Select an action",
+	"Click or drag ZIP file here": "Click or drag ZIP file here",
+	"Please select a ZIP file": "Please select a .zip file"
+}

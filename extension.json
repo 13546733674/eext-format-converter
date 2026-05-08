@@ -1,0 +1,67 @@
+{
+	"name": "format-convert",
+	"uuid": "d16ec4f7259c47fda39f9183547c52d5",
+	"displayName": "格式转换",
+	"description": "将Xpedition库文件（PSK/CEL/PDB/符号）转换为嘉立创EDA专业版格式并导入",
+	"version": "1.0.0",
+	"publisher": "可乐荆棘鸟",
+	"engines": {
+		"eda": ">=3.0.0"
+	},
+	"license": "Apache-2.0",
+		"repository": {},
+	"categories": "Other",
+	"keywords": [
+		"Xpedition",
+		"导入",
+		"格式转换",
+		"库转换"
+	],
+	"images": {
+		"logo": "./images/logo.jpg"
+	},
+	"activationEvents": {},
+	"entry": "./dist/index",
+	"dependentExtensions": {},
+	"headerMenus": {
+		"home": [
+			{
+				"id": "format-convert",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "import-export-wizard",
+						"title": "导入向导",
+						"registerFn": "readAllLibraries"
+					}
+				]
+			}
+		],
+		"sch": [
+			{
+				"id": "format-convert",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "import-export-wizard",
+						"title": "导入向导",
+						"registerFn": "readAllLibraries"
+					}
+				]
+			}
+		],
+		"pcb": [
+			{
+				"id": "format-convert",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "import-export-wizard",
+						"title": "导入向导",
+						"registerFn": "readAllLibraries"
+					}
+				]
+			}
+		]
+	}
+}

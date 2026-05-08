@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>导入导出向导</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
+
+  .dialog { display: flex; flex-direction: column; width: 100%; height: 100%; }
+
+  .body-wrap { flex: 1; display: flex; flex-direction: column; padding: 21px 24px 4px 24px; overflow: hidden; }
+  .body { flex: 1; display: flex; flex-direction: column; gap: 12px; border: 1px solid #D1D1D1; border-radius: 5px; padding: 12px 14px; overflow: hidden; }
+
+  .pg-title { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+
+  /* ── unified table ── */
+  .type-table { border: 1px solid #D1D1D1; border-radius: 4px; overflow: hidden; }
+  .group-row { display: flex; align-items: center; height: 28px; padding: 0 10px; background: #F0F0F0; }
+  .group-label { font-size: 11px; font-weight: 600; color: #555; }
+  .divider { height: 1px; background: #D1D1D1; }
+
+  .type-row { display: flex; align-items: center; height: 40px; padding: 0 10px; cursor: pointer; gap: 0; }
+  .type-row:hover { background: #F5F9FF; }
+  .type-row.selected { background: #EBF2FF; border-left: 2px solid #1890FF; border-right: 2px solid #1890FF; }
+  .type-row.selected:first-of-type { border-top: 2px solid #1890FF; }
+  .type-row.selected:last-of-type { border-bottom: 2px solid #1890FF; }
+
+  .radio { width: 16px; height: 16px; flex-shrink: 0; margin-right: 8px; }
+  .col-name { font-size: 12px; color: #1A1A1A; width: 184px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .col-desc { font-size: 12px; color: #555; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── radio SVGs ── */
+  .radio-checked { fill: #1890FF; }
+  .radio-unchecked { fill: #AAAAAA; }
+
+  .footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 58px; padding: 0 24px 0 24px; flex-shrink: 0; margin-top: -3px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; width: 86px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #D0D0D0; background: #fff; color: #333; user-select: none; }
+  .btn:hover { background: #F5F5F5; }
+  .btn-primary { background: #1890FF; border-color: #1890FF; color: #fff; }
+  .btn-primary:hover { background: #0D7DE8; }
+  .btn-disabled { background: #E8E8E8; border-color: #E8E8E8; color: #aaa; cursor: default; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="dialog">
+  <div class="body-wrap">
+    <div class="body">
+      <div class="pg-title">选择您希望的转换类型</div>
+
+      <div class="type-table">
+        <!-- Import group -->
+        <div class="group-row"><span class="group-label">导入</span></div>
+        <div class="divider"></div>
+        <div class="type-row" data-mode="import" data-type="xpedition">
+          <svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
+          <span class="col-name">Xpedition文件</span>
+          <span class="col-desc">Xpedition库文件（*.zip）</span>
+        </div>
+        <div class="divider"></div>
+
+        <!-- Export group -->
+        <div class="group-row"><span class="group-label">导出</span></div>
+        <div class="divider"></div>
+        <div class="type-row selected" data-mode="export" data-type="xpedition">
+          <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span class="col-name">Xpedition文件</span>
+          <span class="col-desc">Xpedition库文件（*.zip）</span>
+        </div>
+        <div class="divider"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="btn" id="btnExit">退出</div>
+    <div class="btn" id="btnBack">返回</div>
+    <div class="btn btn-primary" id="btnNext">下一步</div>
+    <div class="btn btn-disabled" id="btnDone">完成</div>
+  </div>
+</div>
+
+<script>
+var STORE_KEY = 'expWizardData';
+var selectedMode = 'export';
+var selectedType = 'xpedition';
+
+var RADIO_CHECKED = '<svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+var RADIO_UNCHECKED = '<svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>';
+
+async function storeRead() {
+  var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+  return raw ? JSON.parse(raw) : {};
+}
+
+async function storeWrite(obj) {
+  await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
+}
+
+function updateSelection() {
+  document.querySelectorAll('.type-row').forEach(function(row) {
+    var isSelected = row.dataset.mode === selectedMode && row.dataset.type === selectedType;
+    row.classList.toggle('selected', isSelected);
+    row.querySelector('.radio').outerHTML = isSelected ? RADIO_CHECKED : RADIO_UNCHECKED;
+  });
+}
+
+document.querySelectorAll('.type-row').forEach(function(row) {
+  row.addEventListener('click', function() {
+    selectedMode = row.dataset.mode;
+    selectedType = row.dataset.type;
+    updateSelection();
+  });
+});
+
+async function closeDialog() {
+  await storeWrite({ cmd: 'exit' });
+  eda.sys_IFrame.closeIFrame('exp-choose-type');
+}
+
+async function goBack() {
+  await storeWrite({ cmd: 'back', step: 2 });
+  eda.sys_IFrame.closeIFrame('exp-choose-type');
+}
+
+async function goNext() {
+  await storeWrite({ cmd: 'next', step: 2, mode: selectedMode, type: selectedType });
+  eda.sys_IFrame.closeIFrame('exp-choose-type');
+}
+
+document.getElementById('btnExit').addEventListener('click', closeDialog);
+document.getElementById('btnBack').addEventListener('click', goBack);
+document.getElementById('btnNext').addEventListener('click', goNext);
+</script>
+</body>
+</html>

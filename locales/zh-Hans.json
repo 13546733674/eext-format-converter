@@ -1,0 +1,16 @@
+{
+	"About": "关于",
+	"EasyEDA extension SDK v": "嘉立创EDA 扩展 SDK v${1}",
+	"Format Convert": "格式转换",
+	"Import Xpedition files": "导入Xpedition文件",
+	"Export Xpedition files": "导出Xpedition文件",
+	"Import/Export Wizard": "导入导出向导",
+	"Converting...": "正在转换...",
+	"Importing...": "正在导入...",
+	"Import to Pro": "导入专业版",
+	"Download library file": "下载库文件",
+	"Conversion complete": "转换完成",
+	"Select an action": "请选择后续操作",
+	"Click or drag ZIP file here": "点击或拖放ZIP文件到此处",
+	"Please select a ZIP file": "请选择 .zip 格式的文件"
+}
