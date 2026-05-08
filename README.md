@@ -26,7 +26,7 @@
 | -------- | ------------------------------------------ |
 | `.zip`   | 包含 PSK/CEL/PDB/符号文件的 Xpedition 库包 |
 
-转换工具：[使用说明README](https://github.com/easyeda/eext-format-converttools/xpedition-library-packager/README.md)
+转换工具：[使用说明README](https://github.com/easyeda/eext-format-convert/tools/xpedition-library-packager/README.md)
 
 ## 系统要求
 
