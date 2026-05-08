@@ -16,7 +16,7 @@
 4. 预览转换结果，选择需要导入的器件/符号/封装
 5. 选择归属（个人/团队），点击导入
 
-   ![demo-import](image/README/demo-import.gif)
+    ![demo-import](images/demo-import.gif)
 
 ## 支持的文件格式
 
@@ -24,9 +24,9 @@
 
 | 输入格式 | 说明                                       |
 | -------- | ------------------------------------------ |
-| `.zip` | 包含 PSK/CEL/PDB/符号文件的 Xpedition 库包 |
+| `.zip`   | 包含 PSK/CEL/PDB/符号文件的 Xpedition 库包 |
 
-转换工具链接：https://gitee.com/hua-jisa/xpedition-library-packager.git
+转换工具：[使用说明README](https://github.com/easyeda/eext-format-converttools/xpedition-library-packager/README.md)
 
 ## 系统要求
 
