@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>导入导出向导</title>
+<title></title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
@@ -103,51 +103,57 @@
   <div class="body-wrap">
     <div class="body">
       <div class="aff-row">
-        <span class="aff-label">归属：</span>
+        <span class="aff-label"></span>
         <div class="dd-wrap dd-aff" id="ddAff">
-          <div class="dd-trigger" data-value="personal"><span class="dd-text">个人</span></div>
+          <div class="dd-trigger" data-value="personal"><span class="dd-text"></span></div>
           <div class="dd-panel">
-            <div class="dd-option active" data-value="personal">个人</div>
-            <div class="dd-option" data-value="team">团队</div>
+            <div class="dd-option active" data-value="personal"></div>
+            <div class="dd-option" data-value="team"></div>
           </div>
         </div>
         <div class="dd-wrap dd-team" id="ddTeam" style="display:none">
-          <div class="dd-trigger" data-value=""><span class="dd-text">请选择团队</span></div>
+          <div class="dd-trigger" data-value=""><span class="dd-text"></span></div>
           <div class="dd-panel" id="ddTeamPanel"></div>
         </div>
       </div>
 
       <div class="filter-row">
-        <span class="lib-label">库列表：</span>
+        <span class="lib-label"></span>
         <span class="sel-info" id="selInfo"></span>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+" />符号(<span class="count" id="cntSymbol">0</span>)</label>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+" />封装(<span class="count" id="cntFootprint">0</span>)</label>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg==" />器件(<span class="count" id="cntDevice">0</span>)</label>
+        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+" /><span class="type-label-text"></span>(<span class="count" id="cntSymbol">0</span>)</label>
+        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+" /><span class="type-label-text"></span>(<span class="count" id="cntFootprint">0</span>)</label>
+        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg==" /><span class="type-label-text"></span>(<span class="count" id="cntDevice">0</span>)</label>
       </div>
 
       <div class="lib-table">
         <div class="lib-head">
           <div class="col-check"><input type="checkbox" id="checkAll" /></div>
           <span class="col-icon"></span>
-          <span class="col-name">库名称</span>
-          <span class="col-type">类型</span>
+          <span class="col-name"></span>
+          <span class="col-type"></span>
         </div>
         <div class="lib-scroll" id="libScroll">
-          <div class="empty-msg"><span class="spinner"></span>正在加载...</div>
+          <div class="empty-msg"><span class="spinner"></span></div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit">退出</div>
-    <div class="btn" id="btnBack">返回</div>
-    <div class="btn btn-primary" id="btnNext">下一步</div>
-    <div class="btn btn-disabled" id="btnDone">完成</div>
+    <div class="btn" id="btnExit"></div>
+    <div class="btn" id="btnBack"></div>
+    <div class="btn btn-primary" id="btnNext"></div>
+    <div class="btn btn-disabled" id="btnDone"></div>
   </div>
 </div>
 
 <script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag, ...args) {
+  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+  return tag;
+}
+
 var STORE_KEY = 'libReaderData';
 var WIZARD_KEY = 'expWizardData';
 var allItems = [];
@@ -230,7 +236,7 @@ async function requestLoad(aff, teamUuid) {
   loadSeq++;
   selectedUuids = {};
   document.getElementById('checkAll').checked = false;
-  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>正在加载库内容...</div>';
+  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
   document.getElementById('selInfo').textContent = '';
   updateCounts([]);
 
@@ -247,7 +253,7 @@ async function requestLoad(aff, teamUuid) {
         pollTimer = null;
         allItems = data.items || [];
         if (allItems.length === 0) {
-          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">当前工作区下无库内容</div>';
+          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No library content in workspace') + '</div>';
         } else {
           // default select all
           selectedUuids = {};
@@ -276,7 +282,7 @@ function updateCounts(items) {
 function updateSelInfo() {
   var checked = Object.keys(selectedUuids).length;
   var total = allItems.length;
-  document.getElementById('selInfo').textContent = total > 0 ? '已选 ' + checked + ' / ' + total + ' 项' : '';
+  document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
 }
 
 // ── render ──
@@ -341,9 +347,9 @@ function syncCheckAll() {
   }
   var typeMap = { symbol: '符号', footprint: '封装', device: '器件' };
   document.querySelectorAll('.type-cb').forEach(function(cb) {
-    var t = typeMap[cb.dataset.type];
-    var total = counts[t] || 0;
-    var sel = selCounts[t] || 0;
+    var typ = typeMap[cb.dataset.type];
+    var total = counts[typ] || 0;
+    var sel = selCounts[typ] || 0;
     cb.checked = total > 0 && sel === total;
     cb.indeterminate = sel > 0 && sel < total;
   });
@@ -400,8 +406,8 @@ initDropdown(document.getElementById('ddAff'), function(val) {
       requestLoad('team', first.uuid);
     } else {
       teamTrigger.dataset.value = '';
-      teamTrigger.querySelector('.dd-text').textContent = '无团队';
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">无可用团队</div>';
+      teamTrigger.querySelector('.dd-text').textContent = t('No team');
+      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
       document.getElementById('selInfo').textContent = '';
     }
   }
@@ -411,7 +417,7 @@ initDropdown(document.getElementById('ddTeam'), function(val) {
   if (val) {
     requestLoad('team', val);
   } else {
-    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">请选择团队</div>';
+    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
     document.getElementById('selInfo').textContent = '';
   }
 });
@@ -441,21 +447,42 @@ document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', goBack);
 document.getElementById('btnNext').addEventListener('click', goNext);
 
+// ── i18n: set translated text ──
+
+document.title = t('Import/Export Wizard');
+document.querySelector('.aff-label').textContent = t('Ownership') + '：';
+document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Personal');
+document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
+document.querySelector('#ddAff .dd-option[data-value="team"]').textContent = t('Team');
+document.querySelector('#ddTeam .dd-trigger .dd-text').textContent = t('Please select team');
+document.querySelector('.lib-label').textContent = t('Library list') + '：';
+var typeLabelTexts = document.querySelectorAll('.type-label-text');
+typeLabelTexts[0].textContent = t('Symbol');
+typeLabelTexts[1].textContent = t('Footprint');
+typeLabelTexts[2].textContent = t('Device');
+document.querySelector('.lib-head .col-name').textContent = t('Library name');
+document.querySelector('.lib-head .col-type').textContent = t('Type');
+document.querySelector('.empty-msg').innerHTML = '<span class="spinner"></span>' + t('Loading...');
+document.getElementById('btnExit').textContent = t('Exit');
+document.getElementById('btnBack').textContent = t('Back');
+document.getElementById('btnNext').textContent = t('Next');
+document.getElementById('btnDone').textContent = t('Done');
+
 // ── init ──
 
 async function init() {
   try {
     var data = await storeRead();
     teams = data.teams || [];
-  } catch (e) { console.warn('读取团队数据失败:', e); }
+  } catch (e) { console.warn(t('Read team data failed') + ':', e); }
 
   var teamPanel = document.getElementById('ddTeamPanel');
   var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  for (var t of teams) {
+  for (var tt of teams) {
     var opt = document.createElement('div');
     opt.className = 'dd-option';
-    opt.dataset.value = t.uuid;
-    opt.textContent = t.name;
+    opt.dataset.value = tt.uuid;
+    opt.textContent = tt.name;
     teamPanel.appendChild(opt);
   }
   // rebind team dropdown with new options

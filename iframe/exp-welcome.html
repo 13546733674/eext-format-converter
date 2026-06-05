@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>导入导出向导</title>
+<title></title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
@@ -47,29 +47,35 @@
           <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
         </div>
         <div class="title-col">
-          <div class="main-title">导入导出向导</div>
-          <div class="sub-title">文件格式互转工具</div>
+          <div class="main-title"></div>
+          <div class="sub-title"></div>
         </div>
       </div>
 
-      <div class="desc">该向导将帮助您将其他供应商文件与嘉立创EDA专业版文件互转。</div>
+      <div class="desc"></div>
 
       <div class="warn-row">
         <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-        <div class="warn-text">嘉立创EDA不承担任何因格式转换差异产生的损失，如不同意请不要进行转换。</div>
+        <div class="warn-text"></div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit">退出</div>
-    <div class="btn btn-back-disabled" id="btnBack">返回</div>
-    <div class="btn btn-primary" id="btnNext">下一步</div>
-    <div class="btn btn-disabled" id="btnDone">完成</div>
+    <div class="btn" id="btnExit"></div>
+    <div class="btn btn-back-disabled" id="btnBack"></div>
+    <div class="btn btn-primary" id="btnNext"></div>
+    <div class="btn btn-disabled" id="btnDone"></div>
   </div>
 </div>
 
 <script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag, ...args) {
+  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+  return tag;
+}
+
 var STORE_KEY = 'expWizardData';
 
 async function storeRead() {
@@ -94,6 +100,17 @@ async function goNext() {
 document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', closeDialog);
 document.getElementById('btnNext').addEventListener('click', goNext);
+
+// ── i18n: set translated text ──
+document.title = t('Import/Export Wizard');
+document.querySelector('.main-title').textContent = t('Import/Export Wizard');
+document.querySelector('.sub-title').textContent = t('File format conversion tool');
+document.querySelector('.desc').textContent = t('Wizard description');
+document.querySelector('.warn-text').textContent = t('Warning disclaimer');
+document.getElementById('btnExit').textContent = t('Exit');
+document.getElementById('btnBack').textContent = t('Back');
+document.getElementById('btnNext').textContent = t('Next');
+document.getElementById('btnDone').textContent = t('Done');
 </script>
 </body>
 </html>

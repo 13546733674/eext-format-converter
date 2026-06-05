@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>导入导出向导</title>
+<title></title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
@@ -52,35 +52,41 @@
         <div class="success-circle">
           <svg viewBox="0 0 24 24" fill="#34A853"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div class="success-title">转换完成！</div>
+        <div class="success-title"></div>
       </div>
 
       <div class="divider"></div>
 
       <div class="save-sec">
-        <div class="save-title">保存到本地</div>
-        <div class="save-desc">选择本地路径将转换结果保存为 ZIP 文件</div>
+        <div class="save-title"></div>
+        <div class="save-desc"></div>
         <div class="path-row">
           <div class="path-input" id="pathInput">
             <svg class="folder-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-            <span class="path-text" id="pathText">点击浏览选择保存路径</span>
+            <span class="path-text" id="pathText"></span>
           </div>
-          <button class="browse-btn" id="btnBrowse">浏览</button>
+          <button class="browse-btn" id="btnBrowse"></button>
         </div>
-        <div class="path-hint">默认路径：浏览器下载路径</div>
+        <div class="path-hint"></div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit">退出</div>
-    <div class="btn" id="btnBack">返回</div>
-    <div class="btn btn-disabled" id="btnNext">下一步</div>
-    <div class="btn btn-primary" id="btnDone">完成</div>
+    <div class="btn" id="btnExit"></div>
+    <div class="btn" id="btnBack"></div>
+    <div class="btn btn-disabled" id="btnNext"></div>
+    <div class="btn btn-primary" id="btnDone"></div>
   </div>
 </div>
 
 <script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag, ...args) {
+  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+  return tag;
+}
+
 var STORE_KEY = 'expWizardData';
 var savePath = '';
 
@@ -100,14 +106,14 @@ function updatePathDisplay() {
     el.textContent = savePath;
     input.classList.add('active');
   } else {
-    el.textContent = '点击浏览选择保存路径';
+    el.textContent = t('Click browse to select save path');
     input.classList.remove('active');
   }
 }
 
 document.getElementById('btnBrowse').addEventListener('click', async function() {
   try {
-    var result = await eda.sys_Dialog.showOpenFileDialog({ title: '选择保存路径', filters: [] });
+    var result = await eda.sys_Dialog.showOpenFileDialog({ title: t('Select save path'), filters: [] });
     if (result) {
       savePath = result;
       updatePathDisplay();
@@ -139,6 +145,19 @@ async function doSave() {
 document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', goBack);
 document.getElementById('btnDone').addEventListener('click', doSave);
+
+// ── i18n: set translated text ──
+document.title = t('Import/Export Wizard');
+document.querySelector('.success-title').textContent = t('Conversion complete!');
+document.querySelector('.save-title').textContent = t('Save locally');
+document.querySelector('.save-desc').textContent = t('Save conversion result as ZIP');
+document.getElementById('pathText').textContent = t('Click browse to select save path');
+document.getElementById('btnBrowse').textContent = t('Browse');
+document.querySelector('.path-hint').textContent = t('Default path: browser download');
+document.getElementById('btnExit').textContent = t('Exit');
+document.getElementById('btnBack').textContent = t('Back');
+document.getElementById('btnNext').textContent = t('Next');
+document.getElementById('btnDone').textContent = t('Done');
 </script>
 </body>
 </html>

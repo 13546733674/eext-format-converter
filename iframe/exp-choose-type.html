@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>导入导出向导</title>
+<title></title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
@@ -47,26 +47,26 @@
 <div class="dialog">
   <div class="body-wrap">
     <div class="body">
-      <div class="pg-title">选择您希望的转换类型</div>
+      <div class="pg-title"></div>
 
       <div class="type-table">
         <!-- Import group -->
-        <div class="group-row"><span class="group-label">导入</span></div>
+        <div class="group-row"><span class="group-label"></span></div>
         <div class="divider"></div>
         <div class="type-row" data-mode="import" data-type="xpedition">
           <svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-          <span class="col-name">Xpedition文件</span>
-          <span class="col-desc">Xpedition库文件（*.zip）</span>
+          <span class="col-name"></span>
+          <span class="col-desc"></span>
         </div>
         <div class="divider"></div>
 
         <!-- Export group -->
-        <div class="group-row"><span class="group-label">导出</span></div>
+        <div class="group-row"><span class="group-label"></span></div>
         <div class="divider"></div>
         <div class="type-row selected" data-mode="export" data-type="xpedition">
           <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-          <span class="col-name">Xpedition文件</span>
-          <span class="col-desc">Xpedition库文件（*.zip）</span>
+          <span class="col-name"></span>
+          <span class="col-desc"></span>
         </div>
         <div class="divider"></div>
       </div>
@@ -74,14 +74,20 @@
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit">退出</div>
-    <div class="btn" id="btnBack">返回</div>
-    <div class="btn btn-primary" id="btnNext">下一步</div>
-    <div class="btn btn-disabled" id="btnDone">完成</div>
+    <div class="btn" id="btnExit"></div>
+    <div class="btn" id="btnBack"></div>
+    <div class="btn btn-primary" id="btnNext"></div>
+    <div class="btn btn-disabled" id="btnDone"></div>
   </div>
 </div>
 
 <script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag, ...args) {
+  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+  return tag;
+}
+
 var STORE_KEY = 'expWizardData';
 var selectedMode = 'export';
 var selectedType = 'xpedition';
@@ -132,6 +138,19 @@ async function goNext() {
 document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', goBack);
 document.getElementById('btnNext').addEventListener('click', goNext);
+
+// ── i18n: set translated text ──
+document.title = t('Import/Export Wizard');
+document.querySelector('.pg-title').textContent = t('Select conversion type');
+var groupLabels = document.querySelectorAll('.group-label');
+groupLabels[0].textContent = t('Import');
+groupLabels[1].textContent = t('Export');
+document.querySelectorAll('.col-name').forEach(function(el) { el.textContent = t('Xpedition file'); });
+document.querySelectorAll('.col-desc').forEach(function(el) { el.textContent = t('Xpedition library file (*.zip)'); });
+document.getElementById('btnExit').textContent = t('Exit');
+document.getElementById('btnBack').textContent = t('Back');
+document.getElementById('btnNext').textContent = t('Next');
+document.getElementById('btnDone').textContent = t('Done');
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>导入导出向导</title>
+<title></title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
@@ -245,35 +245,35 @@
             <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
           </div>
           <div class="title-col">
-            <div class="main-title">导入导出向导</div>
-            <div class="sub-title">文件格式互转工具</div>
+            <div class="main-title"></div>
+            <div class="sub-title"></div>
           </div>
         </div>
-        <div class="desc">该向导将帮助您将其他供应商文件与嘉立创EDA专业版文件互转。</div>
+        <div class="desc"></div>
         <div class="warn-row">
           <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-          <div class="warn-text">嘉立创EDA不承担任何因格式转换差异产生的损失，如不同意请不要进行转换。</div>
+          <div class="warn-text"></div>
         </div>
       </div>
 
       <!-- ===== 步骤2：选择导入/导出类型 ===== -->
       <div class="step" id="step2">
-        <div class="pg-title">选择您希望的转换类型</div>
+        <div class="pg-title" id="step2Title"></div>
         <div class="type-table">
           <div class="type-row selected" data-mode="import" data-type="xpedition">
             <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
             <svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
             <div class="type-texts">
-              <span class="type-main">导入Xpedition文件</span>
-              <span class="type-sub">Xpedition库文件（*.zip）</span>
+              <span class="type-main"></span>
+              <span class="type-sub"></span>
             </div>
           </div>
           <div class="type-row" data-mode="export" style="display:none" data-type="xpedition">
             <svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
             <svg class="row-icon" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
             <div class="type-texts">
-              <span class="type-main">导出Xpedition文件</span>
-              <span class="type-sub">Xpedition库文件（*.zip）</span>
+              <span class="type-main"></span>
+              <span class="type-sub"></span>
             </div>
           </div>
         </div>
@@ -282,47 +282,47 @@
       <!-- ===== 步骤3：库列表（导出流程） ===== -->
       <div class="step" id="step3">
         <div class="aff-row">
-          <span class="aff-label">归属：</span>
+          <span class="aff-label"></span>
           <div class="dd-wrap dd-aff" id="ddAff">
-            <div class="dd-trigger" data-value=""><span class="dd-text">请选择归属</span></div>
+            <div class="dd-trigger" data-value=""><span class="dd-text"></span></div>
             <div class="dd-panel">
-              <div class="dd-option" data-value="personal">个人</div>
-              <div class="dd-option" data-value="team">团队</div>
+              <div class="dd-option" data-value="personal"></div>
+              <div class="dd-option" data-value="team"></div>
             </div>
           </div>
           <div class="dd-wrap dd-team" id="ddTeam" style="display:none">
-            <div class="dd-trigger" data-value=""><span class="dd-text">请选择团队</span></div>
+            <div class="dd-trigger" data-value=""><span class="dd-text"></span></div>
             <div class="dd-panel" id="ddTeamPanel"></div>
           </div>
         </div>
 
         <div class="filter-row">
-          <img class="lib-label-icon" src="data:image/png;base64,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" /><span class="lib-label">库列表：</span>
+          <img class="lib-label-icon" src="data:image/png;base64,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" /><span class="lib-label"></span>
           <span class="sel-info" id="selInfo"></span>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" />符号(<span class="count" id="cntSymbol">0</span>)</label>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" />封装(<span class="count" id="cntFootprint">0</span>)</label>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/png;base64,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" />器件(<span class="count" id="cntDevice">0</span>)</label>
+          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" /><span class="type-label-text"></span>(<span class="count" id="cntSymbol">0</span>)</label>
+          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" /><span class="type-label-text"></span>(<span class="count" id="cntFootprint">0</span>)</label>
+          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/png;base64,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" /><span class="type-label-text"></span>(<span class="count" id="cntDevice">0</span>)</label>
         </div>
 
         <div class="lib-table">
           <div class="lib-head">
             <div class="col-check"><input type="checkbox" id="checkAll" /></div>
             <span class="col-icon-hd"></span>
-            <span class="col-name">库名称</span>
-            <span class="col-type">类型</span>
+            <span class="col-name"></span>
+            <span class="col-type"></span>
           </div>
           <div class="lib-scroll" id="libScroll">
-            <div class="empty-msg"><span class="spinner"></span>正在加载...</div>
+            <div class="empty-msg"><span class="spinner"></span></div>
           </div>
         </div>
       </div>
 
       <!-- ===== 步骤：导入上传文件 ===== -->
       <div class="step" id="stepImport">
-        <div class="pg-title">选择要导入的Xpedition库文件</div>
+        <div class="pg-title" id="stepImportTitle"></div>
         <div class="upload-zone" id="uploadZone">
           <svg class="upload-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
-          <div class="upload-text" id="uploadText">点击或拖放ZIP文件到此处</div>
+          <div class="upload-text" id="uploadText"></div>
           <div class="upload-filename" id="uploadFilename" style="display:none"></div>
         </div>
         <input type="file" id="importFileInput" accept=".zip" />
@@ -331,35 +331,35 @@
       <!-- ===== 步骤：导入转换结果 ===== -->
       <div class="step" id="stepResults">
         <div class="result-stats" id="resultStats">
-          <label class="rs-check"><input type="checkbox" id="chkResultSelectAll" checked /> 全选</label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="器件" checked /> <img class="rs-type-icon" src="data:image/png;base64,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" /> 器件 <b id="cntResultDev">0</b></label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="符号" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" /> 符号 <b id="cntResultSym">0</b></label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="封装" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" /> 封装 <b id="cntResultFp">0</b></label>
+          <label class="rs-check"><input type="checkbox" id="chkResultSelectAll" checked /> <span class="rs-label-selectall"></span></label>
+          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="器件" checked /> <img class="rs-type-icon" src="data:image/png;base64,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" /> <span class="rs-label-device"></span> <b id="cntResultDev">0</b></label>
+          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="符号" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" /> <span class="rs-label-symbol"></span> <b id="cntResultSym">0</b></label>
+          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="封装" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" /> <span class="rs-label-footprint"></span> <b id="cntResultFp">0</b></label>
           <span class="rs-info" id="resultSelInfo"></span>
         </div>
         <div class="result-list">
           <div class="result-list-head">
             <div class="rl-col-check"></div>
-            <span class="rl-col-type">类型</span>
+            <span class="rl-col-type" id="rlColType"></span>
             <span class="rl-col-icon"></span>
-            <span class="rl-col-name">名称</span>
+            <span class="rl-col-name" id="rlColName"></span>
             <span class="rl-col-status"></span>
-            <span class="rl-col-msg">信息</span>
+            <span class="rl-col-msg" id="rlColMsg"></span>
           </div>
           <div class="result-list-scroll" id="resultListScroll">
-            <div class="empty-msg">暂无结果</div>
+            <div class="empty-msg" id="resultEmptyMsg"></div>
           </div>
         </div>
         <div class="import-action-sec import-action-in-results">
           <div class="import-org-row" id="importOrgRow">
-            <span class="import-org-label">归属：</span>
+            <span class="import-org-label" id="importOrgLabel"></span>
             <div class="dd-wrap dd-import-team" id="ddImportTeam">
-              <div class="dd-trigger" data-value=""><span class="dd-text">请选择归属</span></div>
+              <div class="dd-trigger" data-value=""><span class="dd-text" id="ddImportTeamText"></span></div>
               <div class="dd-panel" id="ddImportTeamPanel"></div>
             </div>
           </div>
           <div class="import-org-row" id="createDeviceRow">
-            <label class="import-sub-check"><input type="checkbox" id="chkCreateDevice" checked /><span>为单符号创建器件</span></label>
+            <label class="import-sub-check"><input type="checkbox" id="chkCreateDevice" checked /><span id="createDeviceLabel"></span></label>
           </div>
         </div>
       </div>
@@ -369,10 +369,10 @@
         <div class="spinner-ring">
           <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
         </div>
-        <div class="prog-title" id="progTitle">正在导出中...</div>
-        <div class="prog-desc" id="progDesc">请稍候，正在将嘉立创EDA专业版库数据转换为Xpedition格式文件。</div>
+        <div class="prog-title" id="progTitle"></div>
+        <div class="prog-desc" id="progDesc"></div>
         <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBarFill"></div></div>
-        <div class="prog-lbl" id="progLbl">准备中...</div>
+        <div class="prog-lbl" id="progLbl"></div>
         <div class="log-box" id="logBox"></div>
       </div>
 
@@ -382,12 +382,12 @@
           <div class="success-circle">
             <svg viewBox="0 96 960 960" fill="#34A853"><path d="M438 670 650 458l-56-56-156 156-56-56-56 56 112 112Zm42 250q-83 0-156-31.5T197 763q-54-54-85.5-127T80 480q0-83 31.5-156T197 197q54-54 127-85.5T480 80q83 0 156 31.5T763 197q54 54 85.5 127T880 480q0 83-31.5 156T763 763q-54 54-127 85.5T480 920Zm0-80q134 0 227-93t93-227q0-134-93-227T480 160q-134 0-227 93T160 480q0 134 93 227t227 93Zm0-320Z"/></svg>
           </div>
-          <div class="success-title">转换完成！</div>
+          <div class="success-title" id="successTitle"></div>
         </div>
         <div class="sep"></div>
         <div class="save-sec">
-          <div class="save-label">文件名</div>
-          <div class="save-desc">设置导出文件的名称</div>
+          <div class="save-label" id="saveLabel"></div>
+          <div class="save-desc" id="saveDesc"></div>
           <div class="filename-row">
             <input type="text" class="filename-input" id="filenameInput" value="asyeda2xpedition" spellcheck="false" />
             <span class="filename-suffix" id="filenameSuffix">.zip</span>
@@ -396,11 +396,11 @@
             <div class="pw-check-row">
               <label id="pwLabel">
                 <input type="checkbox" id="pwCheck" />
-                <span>设置密码</span>
+                <span id="pwLabelSpan"></span>
               </label>
             </div>
             <div class="pw-input-row">
-              <input type="password" class="pw-input" id="pwInput" placeholder="请输入密码" disabled />
+              <input type="password" class="pw-input" id="pwInput" disabled />
               <button class="eye-btn" id="eyeBtn" type="button">
                 <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
               </button>
@@ -413,14 +413,21 @@
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit">退出</div>
-    <div class="btn btn-back-disabled" id="btnBack">返回</div>
-    <div class="btn btn-primary" id="btnNext">下一步</div>
-    <div class="btn btn-disabled" id="btnDone">完成</div>
+    <div class="btn" id="btnExit"></div>
+    <div class="btn btn-back-disabled" id="btnBack"></div>
+    <div class="btn btn-primary" id="btnNext"></div>
+    <div class="btn btn-disabled" id="btnDone"></div>
   </div>
 </div>
 
 <script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, args[0], args[1], args[2], args[3], args[4]);
+  return tag;
+}
+
 var STORE_KEY = 'libReaderData';
 var allItems = [];
 var selectedUuids = {};
@@ -460,7 +467,7 @@ function setStep(n) {
     if (currentAff) {
       requestLoad(currentAff, currentTeamUuid);
     } else {
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">请先选择归属</div>';
+      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select ownership first') + '</div>';
     }
   }
 }
@@ -628,7 +635,7 @@ async function requestLoad(aff, teamUuid) {
   loadSeq++;
   selectedUuids = {};
   document.getElementById('checkAll').checked = false;
-  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>正在加载库内容...</div>';
+  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
   document.getElementById('selInfo').textContent = '';
   updateCounts([]);
 
@@ -645,7 +652,7 @@ async function requestLoad(aff, teamUuid) {
         pollTimer = null;
         allItems = data.items || [];
         if (allItems.length === 0) {
-          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">当前工作区下无库内容</div>';
+          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No library content in workspace') + '</div>';
         } else {
           selectedUuids = {};
           allItems.forEach(function(item) { selectedUuids[item.uuid] = true; });
@@ -673,7 +680,7 @@ function updateCounts(items) {
 function updateSelInfo() {
   var checked = Object.keys(selectedUuids).length;
   var total = allItems.length;
-  document.getElementById('selInfo').textContent = total > 0 ? '已选 ' + checked + ' / ' + total + ' 项' : '';
+  document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
 }
 
 // ── 渲染 ──
@@ -790,8 +797,8 @@ initDropdown(document.getElementById('ddAff'), function(val) {
       requestLoad('team', first.uuid);
     } else {
       teamTrigger.dataset.value = '';
-      teamTrigger.querySelector('.dd-text').textContent = '无团队';
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">无可用团队</div>';
+      teamTrigger.querySelector('.dd-text').textContent = t('No team');
+      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
       document.getElementById('selInfo').textContent = '';
     }
   }
@@ -801,7 +808,7 @@ initDropdown(document.getElementById('ddAff'), function(val) {
 initDropdown(document.getElementById('ddTeam'), function(val) {
   if (val) { requestLoad('team', val); }
   else {
-    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">请选择团队</div>';
+    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
     document.getElementById('selInfo').textContent = '';
   }
 });
@@ -874,18 +881,18 @@ async function startConversion() {
   }
 
   if (items.length === 0) {
-    eda.sys_Dialog.showInformationMessage('请至少选择一个项目');
+    eda.sys_Dialog.showInformationMessage(t('Please select at least one item'));
     return;
   }
 
   // 切换到进度视图
   setStep('progress');
-  document.getElementById('progTitle').textContent = '正在导出中...';
-  document.getElementById('progDesc').textContent = '请稍候，正在将嘉立创EDA专业版库数据转换为Xpedition格式文件。';
+  document.getElementById('progTitle').textContent = t('Exporting...');
+  document.getElementById('progDesc').textContent = t('Export description');
   document.getElementById('progBarFill').style.width = '0%';
-  document.getElementById('progLbl').textContent = '准备中...';
+  document.getElementById('progLbl').textContent = t('Preparing...');
   document.getElementById('logBox').innerHTML = '';
-  addLog('开始转换 ' + items.length + ' 个项目...');
+  addLog(t('Start converting ${1} items', items.length));
 
   // 发送转换命令到扩展
   await storeWrite({ teams: teams, cmd: 'convert', items: items, filename: 'asyeda2xpedition.zip', seq: Date.now(), aff: currentAff, teamUuid: currentTeamUuid });
@@ -902,9 +909,9 @@ async function startConversion() {
         var p = data.progress;
         var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
         document.getElementById('progBarFill').style.width = pct + '%';
-        document.getElementById('progLbl').textContent = '正在处理: ' + (p.name || '') + '... ' + p.done + '/' + p.total;
+        document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
         if (p.name && p.name !== lastLogName) {
-          addLog('正在转换: ' + p.name);
+          addLog(t('Converting item: ${1}', p.name));
           lastLogName = p.name;
         }
       }
@@ -912,16 +919,16 @@ async function startConversion() {
         clearInterval(convertPollTimer);
         convertPollTimer = null;
         document.getElementById('progBarFill').style.width = '100%';
-        document.getElementById('progLbl').textContent = '转换完成！';
-        addLog('转换完成，文件已保存。');
+        document.getElementById('progLbl').textContent = t('Conversion complete!');
+        addLog(t('Conversion complete, file saved'));
         setTimeout(function() { setStep(4); }, 600);
       }
       if (data.cmd === 'convert-error') {
         clearInterval(convertPollTimer);
         convertPollTimer = null;
-        document.getElementById('progTitle').textContent = '转换失败';
-        document.getElementById('progDesc').textContent = data.error || '转换过程中发生错误，请重试。';
-        addLog('错误: ' + (data.error || '未知错误'), true);
+        document.getElementById('progTitle').textContent = t('Conversion failed');
+        document.getElementById('progDesc').textContent = data.error || t('Conversion error, please retry');
+        addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
         document.getElementById('btnBack').className = 'btn';
         document.getElementById('btnBack').onclick = function() { setStep(3); document.getElementById('btnBack').onclick = null; };
       }
@@ -937,7 +944,7 @@ document.getElementById('btnDone').addEventListener('click', async function() {
   if (currentStep === 'results') {
     var importPro = true;
     var createDevice = document.getElementById('chkCreateDevice').checked;
-    var personalTeam = teams.find(function(t) { return t.name === '个人'; });
+    var personalTeam = teams.find(function(tt) { return tt.name === '个人'; });
     var importAffVal = (personalTeam && importTeamUuid === personalTeam.uuid) ? 'personal' : 'team';
     var selUuids = Object.keys(importResultSelectedUuids);
     var allSelected = selUuids.length === allResultItems.length;
@@ -946,11 +953,11 @@ document.getElementById('btnDone').addEventListener('click', async function() {
     await storeWrite(cmdData);
     // 切换到进度页签并轮询完成状态
     setStep('progress');
-    document.getElementById('progTitle').textContent = '正在执行...';
+    document.getElementById('progTitle').textContent = t('Executing...');
     document.getElementById('progBarFill').style.width = '0%';
-    document.getElementById('progLbl').textContent = '请稍候...';
+    document.getElementById('progLbl').textContent = t('Please wait...');
     document.getElementById('logBox').innerHTML = '';
-    addLog('开始导入 ' + selUuids.length + ' 个项目...');
+    addLog(t('Start importing ${1} items', selUuids.length));
     if (importPollTimer) clearInterval(importPollTimer);
     importPollTimer = setInterval(async function() {
       try {
@@ -961,7 +968,7 @@ document.getElementById('btnDone').addEventListener('click', async function() {
           clearInterval(importPollTimer);
           importPollTimer = null;
           document.getElementById('progBarFill').style.width = '100%';
-          addLog('执行完成！');
+          addLog(t('Execution complete!'));
           setTimeout(async function() {
             await storeWrite({ teams: teams, cmd: 'done-wizard' });
             eda.sys_IFrame.closeIFrame('wizard');
@@ -970,9 +977,9 @@ document.getElementById('btnDone').addEventListener('click', async function() {
         if (data.cmd === 'import-error') {
           clearInterval(importPollTimer);
           importPollTimer = null;
-          document.getElementById('progTitle').textContent = '执行失败';
-          document.getElementById('progDesc').textContent = data.error || '执行过程中发生错误。';
-          addLog('错误: ' + (data.error || '未知错误'), true);
+          document.getElementById('progTitle').textContent = t('Execution failed');
+          document.getElementById('progDesc').textContent = data.error || t('Execution error');
+          addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
         }
       } catch (ex) { /* continue */ }
     }, 300);
@@ -993,15 +1000,15 @@ async function init() {
   try {
     var data = await storeRead();
     teams = data.teams || [];
-  } catch (e) { console.warn('读取团队数据失败:', e); }
+  } catch (e) { console.warn('Failed to read team data:', e); }
 
   var teamPanel = document.getElementById('ddTeamPanel');
   var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  for (var t of teams) {
+  for (var tt of teams) {
     var opt = document.createElement('div');
     opt.className = 'dd-option';
-    opt.dataset.value = t.uuid;
-    opt.textContent = t.name;
+    opt.dataset.value = tt.uuid;
+    opt.textContent = tt.name;
     teamPanel.appendChild(opt);
   }
   teamPanel.querySelectorAll('.dd-option').forEach(function(opt) {
@@ -1023,14 +1030,14 @@ async function init() {
   var importTeamPanel = document.getElementById('ddImportTeamPanel');
   var importTeamTrigger = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
   // 从团队数组中查找个人团队UUID
-  var personalTeam = teams.find(function(t) { return t.name === '个人'; });
+  var personalTeam = teams.find(function(tt) { return tt.name === '个人'; });
   var personalUuid = personalTeam ? personalTeam.uuid : 'personal';
   var personalOpt = document.createElement('div');
   personalOpt.className = 'dd-option';
   personalOpt.dataset.value = personalUuid;
-  personalOpt.textContent = '个人';
+  personalOpt.textContent = t('Personal');
   importTeamPanel.appendChild(personalOpt);
-  var filteredTeams = teams.filter(function(t) { return t.name !== '1.专业版测试' && t.name !== '个人'; });
+  var filteredTeams = teams.filter(function(tt) { return tt.name !== '1.专业版测试' && tt.name !== '个人'; });
   for (var t2 of filteredTeams) {
     var opt2 = document.createElement('div');
     opt2.className = 'dd-option';
@@ -1074,6 +1081,67 @@ async function init() {
     }
   });
 
+  // ── i18n: set translated text ──
+  document.title = t('Import/Export Wizard');
+  // Step 1
+  document.querySelector('#step1 .main-title').textContent = t('Import/Export Wizard');
+  document.querySelector('#step1 .sub-title').textContent = t('File format conversion tool');
+  document.querySelector('#step1 .desc').textContent = t('Wizard description');
+  document.querySelector('#step1 .warn-text').textContent = t('Warning disclaimer');
+  // Step 2
+  document.getElementById('step2Title').textContent = t('Select conversion type');
+  var typeRows = document.querySelectorAll('#step2 .type-row');
+  if (typeRows[0]) {
+    typeRows[0].querySelector('.type-main').textContent = t('Import Xpedition files');
+    typeRows[0].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
+  }
+  if (typeRows[1]) {
+    typeRows[1].querySelector('.type-main').textContent = t('Export Xpedition files');
+    typeRows[1].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
+  }
+  // Step 3
+  document.querySelector('#step3 .aff-label').textContent = t('Ownership') + ':';
+  document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
+  document.querySelector('#ddAff .dd-option[data-value="team"]').textContent = t('Team');
+  document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Personal');
+  document.querySelector('#step3 .lib-label').textContent = t('Library list');
+  document.querySelectorAll('#step3 .type-label-text').forEach(function(el, idx) {
+    var labels = [t('Symbol'), t('Footprint'), t('Device')];
+    el.textContent = labels[idx] || '';
+  });
+  document.querySelector('#step3 .col-name').textContent = t('Library name');
+  document.querySelector('#step3 .col-type').textContent = t('Type');
+  // Step Import
+  document.getElementById('stepImportTitle').textContent = t('Import Xpedition files');
+  document.getElementById('uploadText').textContent = t('Click or drag ZIP file here');
+  // Step Results
+  document.querySelector('.rs-label-selectall').textContent = t('Select all');
+  document.querySelector('.rs-label-device').textContent = t('Device');
+  document.querySelector('.rs-label-symbol').textContent = t('Symbol');
+  document.querySelector('.rs-label-footprint').textContent = t('Footprint');
+  document.getElementById('rlColType').textContent = t('Type');
+  document.getElementById('rlColName').textContent = t('Name');
+  document.getElementById('rlColMsg').textContent = t('Message');
+  document.getElementById('resultEmptyMsg').textContent = t('No results');
+  document.getElementById('importOrgLabel').textContent = t('Ownership') + ':';
+  document.getElementById('ddImportTeamText').textContent = t('Select ownership');
+  document.getElementById('createDeviceLabel').textContent = t('Create device for single symbol');
+  // Step Progress
+  document.getElementById('progTitle').textContent = t('Exporting...');
+  document.getElementById('progDesc').textContent = t('Export description');
+  document.getElementById('progLbl').textContent = t('Preparing...');
+  // Step 4
+  document.getElementById('successTitle').textContent = t('Conversion complete!');
+  document.getElementById('saveLabel').textContent = t('File name');
+  document.getElementById('saveDesc').textContent = t('Set export file name');
+  document.getElementById('pwLabelSpan').textContent = t('Set password');
+  document.getElementById('pwInput').placeholder = t('Enter password');
+  // Footer
+  document.getElementById('btnExit').textContent = t('Exit');
+  document.getElementById('btnBack').textContent = t('Back');
+  document.getElementById('btnNext').textContent = t('Next');
+  document.getElementById('btnDone').textContent = t('Done');
+
   setStep(1);
   updateTypeSelection();
 }
@@ -1101,14 +1169,14 @@ importFileInput.addEventListener('change', function() { if (this.files[0]) handl
 // 处理选中的ZIP文件
 function handleImportFile(file) {
   if (!file.name.toLowerCase().endsWith('.zip')) {
-    eda.sys_Dialog.showInformationMessage('请选择 .zip 格式的文件');
+    eda.sys_Dialog.showInformationMessage(t('Please select a ZIP file'));
     return;
   }
   importFile = file;
   uploadZone.classList.add('has-file');
   document.getElementById('uploadFilename').textContent = file.name;
   document.getElementById('uploadFilename').style.display = '';
-  document.getElementById('uploadText').textContent = '已选择文件，点击可重新选择';
+  document.getElementById('uploadText').textContent = t('File selected, click to reselect');
   updateFooter();
 }
 
@@ -1177,7 +1245,7 @@ function renderResultRows() {
       '</div>';
   }
   var scroll = document.getElementById('resultListScroll');
-  scroll.innerHTML = allResultItems.length > 0 ? html : '<div class="empty-msg">暂无数据</div>';
+  scroll.innerHTML = allResultItems.length > 0 ? html : '<div class="empty-msg">' + t('No data') + '</div>';
 
   // 绑定复选框事件
   scroll.querySelectorAll('.rl-cb').forEach(function(cb) {
@@ -1212,7 +1280,7 @@ function syncResultSelectAll() {
 function updateResultSelInfo() {
   var checked = Object.keys(importResultSelectedUuids).length;
   var total = allResultItems.length;
-  document.getElementById('resultSelInfo').textContent = total > 0 ? '已选 ' + checked + ' / ' + total : '';
+  document.getElementById('resultSelInfo').textContent = total > 0 ? t('Selected ${1} / ${2}', checked, total) : '';
 }
 
 document.getElementById('chkResultSelectAll').addEventListener('change', function() {
@@ -1260,17 +1328,17 @@ function collectResultSelection() {
 // 开始导入：读取ZIP文件并发送给扩展进行转换
 async function startImport() {
   if (!importFile) {
-    eda.sys_Dialog.showInformationMessage('请先选择ZIP文件');
+    eda.sys_Dialog.showInformationMessage(t('Please select ZIP file first'));
     return;
   }
 
   setStep('progress');
-  document.getElementById('progTitle').textContent = '正在转换中...';
-  document.getElementById('progDesc').textContent = '请稍候，正在将Xpedition库数据转换为嘉立创EDA专业版格式文件。';
+  document.getElementById('progTitle').textContent = t('Converting progress...');
+  document.getElementById('progDesc').textContent = t('Import convert description');
   document.getElementById('progBarFill').style.width = '0%';
-  document.getElementById('progLbl').textContent = '读取文件中...';
+  document.getElementById('progLbl').textContent = t('Reading file...');
   document.getElementById('logBox').innerHTML = '';
-  addLog('开始转换...');
+  addLog(t('Start converting...'));
 
   var reader = new FileReader();
   reader.onload = async function(e) {
@@ -1293,15 +1361,15 @@ async function startImport() {
           var p = data.progress;
           var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
           document.getElementById('progBarFill').style.width = pct + '%';
-          document.getElementById('progLbl').textContent = '正在处理: ' + (p.name || '') + '... ' + p.done + '/' + p.total;
-          if (p.name) addLog('正在转换: ' + p.name);
+          document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
+          if (p.name) addLog(t('Converting item: ${1}', p.name));
         }
         // 转换完成，跳转到结果页
         if (data.cmd === 'import-convert-done') {
           clearInterval(importPollTimer);
           importPollTimer = null;
           document.getElementById('progBarFill').style.width = '100%';
-          addLog('转换完成！');
+          addLog(t('Conversion complete!'));
           importResults = data.result || {};
           var okDev = (importResults.devices || []).filter(function(x) { return x.status === 'ok'; }).length;
           var okFp = (importResults.footprints || []).filter(function(x) { return x.status === 'ok'; }).length;
@@ -1314,7 +1382,7 @@ async function startImport() {
           clearInterval(importPollTimer);
           importPollTimer = null;
           document.getElementById('progBarFill').style.width = '100%';
-          addLog('执行完成！');
+          addLog(t('Execution complete!'));
           await storeWrite({ teams: teams, cmd: 'done-wizard' });
           eda.sys_IFrame.closeIFrame('wizard');
         }
@@ -1322,9 +1390,9 @@ async function startImport() {
         if (data.cmd === 'import-error') {
           clearInterval(importPollTimer);
           importPollTimer = null;
-          document.getElementById('progTitle').textContent = '导入失败';
-          document.getElementById('progDesc').textContent = data.error || '导入过程中发生错误。';
-          addLog('错误: ' + (data.error || '未知错误'), true);
+          document.getElementById('progTitle').textContent = t('Import failed');
+          document.getElementById('progDesc').textContent = data.error || t('Import error');
+          addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
         }
       } catch (ex) { /* 继续轮询 */ }
     }, 300);
