@@ -47,26 +47,26 @@
 <div class="dialog">
   <div class="body-wrap">
     <div class="body">
-      <div class="pg-title"></div>
+      <div class="pg-title" data-i18n="Select conversion type"></div>
 
       <div class="type-table">
         <!-- Import group -->
-        <div class="group-row"><span class="group-label"></span></div>
+        <div class="group-row"><span class="group-label" data-i18n="Import"></span></div>
         <div class="divider"></div>
         <div class="type-row" data-mode="import" data-type="xpedition">
           <svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-          <span class="col-name"></span>
-          <span class="col-desc"></span>
+          <span class="col-name" data-i18n="Xpedition file"></span>
+          <span class="col-desc" data-i18n="Xpedition library file (*.zip)"></span>
         </div>
         <div class="divider"></div>
 
         <!-- Export group -->
-        <div class="group-row"><span class="group-label"></span></div>
+        <div class="group-row"><span class="group-label" data-i18n="Export"></span></div>
         <div class="divider"></div>
         <div class="type-row selected" data-mode="export" data-type="xpedition">
           <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-          <span class="col-name"></span>
-          <span class="col-desc"></span>
+          <span class="col-name" data-i18n="Xpedition file"></span>
+          <span class="col-desc" data-i18n="Xpedition library file (*.zip)"></span>
         </div>
         <div class="divider"></div>
       </div>
@@ -74,10 +74,10 @@
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit"></div>
-    <div class="btn" id="btnBack"></div>
-    <div class="btn btn-primary" id="btnNext"></div>
-    <div class="btn btn-disabled" id="btnDone"></div>
+    <div class="btn" id="btnExit" data-i18n="Exit"></div>
+    <div class="btn" id="btnBack" data-i18n="Back"></div>
+    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
+    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
   </div>
 </div>
 
@@ -139,18 +139,24 @@ document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', goBack);
 document.getElementById('btnNext').addEventListener('click', goNext);
 
-// ── i18n: set translated text ──
-document.title = t('Import/Export Wizard');
-document.querySelector('.pg-title').textContent = t('Select conversion type');
-var groupLabels = document.querySelectorAll('.group-label');
-groupLabels[0].textContent = t('Import');
-groupLabels[1].textContent = t('Export');
-document.querySelectorAll('.col-name').forEach(function(el) { el.textContent = t('Xpedition file'); });
-document.querySelectorAll('.col-desc').forEach(function(el) { el.textContent = t('Xpedition library file (*.zip)'); });
-document.getElementById('btnExit').textContent = t('Exit');
-document.getElementById('btnBack').textContent = t('Back');
-document.getElementById('btnNext').textContent = t('Next');
-document.getElementById('btnDone').textContent = t('Done');
+// ── i18n: apply translated text ──
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    els[i].textContent = t(key);
+  }
+  var titleEls = document.querySelectorAll('[data-i18n-title]');
+  for (var i = 0; i < titleEls.length; i++) {
+    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+  }
+  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var i = 0; i < phEls.length; i++) {
+    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+  }
+  document.title = t('Import/Export Wizard');
+}
+applyI18n();
 </script>
 </body>
 </html>

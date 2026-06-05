@@ -245,20 +245,20 @@
             <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
           </div>
           <div class="title-col">
-            <div class="main-title"></div>
-            <div class="sub-title"></div>
+            <div class="main-title" data-i18n="Import/Export Wizard"></div>
+            <div class="sub-title" data-i18n="File format conversion tool"></div>
           </div>
         </div>
-        <div class="desc"></div>
+        <div class="desc" data-i18n="Wizard description"></div>
         <div class="warn-row">
           <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-          <div class="warn-text"></div>
+          <div class="warn-text" data-i18n="Warning disclaimer"></div>
         </div>
       </div>
 
       <!-- ===== 步骤2：选择导入/导出类型 ===== -->
       <div class="step" id="step2">
-        <div class="pg-title" id="step2Title"></div>
+        <div class="pg-title" id="step2Title" data-i18n="Select conversion type"></div>
         <div class="type-table">
           <div class="type-row selected" data-mode="import" data-type="xpedition">
             <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
@@ -282,16 +282,16 @@
       <!-- ===== 步骤3：库列表（导出流程） ===== -->
       <div class="step" id="step3">
         <div class="aff-row">
-          <span class="aff-label"></span>
+          <span class="aff-label" data-i18n="Ownership"></span>
           <div class="dd-wrap dd-aff" id="ddAff">
-            <div class="dd-trigger" data-value=""><span class="dd-text"></span></div>
+            <div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Personal"></span></div>
             <div class="dd-panel">
-              <div class="dd-option" data-value="personal"></div>
-              <div class="dd-option" data-value="team"></div>
+              <div class="dd-option" data-value="personal" data-i18n="Personal"></div>
+              <div class="dd-option" data-value="team" data-i18n="Team"></div>
             </div>
           </div>
           <div class="dd-wrap dd-team" id="ddTeam" style="display:none">
-            <div class="dd-trigger" data-value=""><span class="dd-text"></span></div>
+            <div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team"></span></div>
             <div class="dd-panel" id="ddTeamPanel"></div>
           </div>
         </div>
@@ -413,10 +413,10 @@
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit"></div>
-    <div class="btn btn-back-disabled" id="btnBack"></div>
-    <div class="btn btn-primary" id="btnNext"></div>
-    <div class="btn btn-disabled" id="btnDone"></div>
+    <div class="btn" id="btnExit" data-i18n="Exit"></div>
+    <div class="btn btn-back-disabled" id="btnBack" data-i18n="Back"></div>
+    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
+    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
   </div>
 </div>
 
@@ -426,6 +426,23 @@ function t(tag) {
   var args = Array.prototype.slice.call(arguments, 1);
   if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, args[0], args[1], args[2], args[3], args[4]);
   return tag;
+}
+
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    els[i].textContent = t(key);
+  }
+  var titleEls = document.querySelectorAll('[data-i18n-title]');
+  for (var i = 0; i < titleEls.length; i++) {
+    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+  }
+  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var i = 0; i < phEls.length; i++) {
+    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+  }
+  document.title = t('Import/Export Wizard');
 }
 
 var STORE_KEY = 'libReaderData';
@@ -1081,8 +1098,8 @@ async function init() {
     }
   });
 
-  // ── i18n: set translated text ──
-  document.title = t('Import/Export Wizard');
+  // ── i18n: apply translated text ──
+  applyI18n();
   // Step 1
   document.querySelector('#step1 .main-title').textContent = t('Import/Export Wizard');
   document.querySelector('#step1 .sub-title').textContent = t('File format conversion tool');

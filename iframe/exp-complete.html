@@ -52,31 +52,31 @@
         <div class="success-circle">
           <svg viewBox="0 0 24 24" fill="#34A853"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
-        <div class="success-title"></div>
+        <div class="success-title" data-i18n="Conversion complete!"></div>
       </div>
 
       <div class="divider"></div>
 
       <div class="save-sec">
-        <div class="save-title"></div>
-        <div class="save-desc"></div>
+        <div class="save-title" data-i18n="Save locally"></div>
+        <div class="save-desc" data-i18n="Save conversion result as ZIP"></div>
         <div class="path-row">
           <div class="path-input" id="pathInput">
             <svg class="folder-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-            <span class="path-text" id="pathText"></span>
+            <span class="path-text" id="pathText" data-i18n="Click browse to select save path"></span>
           </div>
-          <button class="browse-btn" id="btnBrowse"></button>
+          <button class="browse-btn" id="btnBrowse" data-i18n="Browse"></button>
         </div>
-        <div class="path-hint"></div>
+        <div class="path-hint" data-i18n="Default path: browser download"></div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit"></div>
-    <div class="btn" id="btnBack"></div>
-    <div class="btn btn-disabled" id="btnNext"></div>
-    <div class="btn btn-primary" id="btnDone"></div>
+    <div class="btn" id="btnExit" data-i18n="Exit"></div>
+    <div class="btn" id="btnBack" data-i18n="Back"></div>
+    <div class="btn btn-disabled" id="btnNext" data-i18n="Next"></div>
+    <div class="btn btn-primary" id="btnDone" data-i18n="Done"></div>
   </div>
 </div>
 
@@ -146,18 +146,24 @@ document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', goBack);
 document.getElementById('btnDone').addEventListener('click', doSave);
 
-// ── i18n: set translated text ──
-document.title = t('Import/Export Wizard');
-document.querySelector('.success-title').textContent = t('Conversion complete!');
-document.querySelector('.save-title').textContent = t('Save locally');
-document.querySelector('.save-desc').textContent = t('Save conversion result as ZIP');
-document.getElementById('pathText').textContent = t('Click browse to select save path');
-document.getElementById('btnBrowse').textContent = t('Browse');
-document.querySelector('.path-hint').textContent = t('Default path: browser download');
-document.getElementById('btnExit').textContent = t('Exit');
-document.getElementById('btnBack').textContent = t('Back');
-document.getElementById('btnNext').textContent = t('Next');
-document.getElementById('btnDone').textContent = t('Done');
+// ── i18n: apply translated text ──
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    els[i].textContent = t(key);
+  }
+  var titleEls = document.querySelectorAll('[data-i18n-title]');
+  for (var i = 0; i < titleEls.length; i++) {
+    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+  }
+  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var i = 0; i < phEls.length; i++) {
+    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+  }
+  document.title = t('Import/Export Wizard');
+}
+applyI18n();
 </script>
 </body>
 </html>

@@ -47,25 +47,25 @@
           <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
         </div>
         <div class="title-col">
-          <div class="main-title"></div>
-          <div class="sub-title"></div>
+          <div class="main-title" data-i18n="Import/Export Wizard"></div>
+          <div class="sub-title" data-i18n="File format conversion tool"></div>
         </div>
       </div>
 
-      <div class="desc"></div>
+      <div class="desc" data-i18n="Wizard description"></div>
 
       <div class="warn-row">
         <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-        <div class="warn-text"></div>
+        <div class="warn-text" data-i18n="Warning disclaimer"></div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <div class="btn" id="btnExit"></div>
-    <div class="btn btn-back-disabled" id="btnBack"></div>
-    <div class="btn btn-primary" id="btnNext"></div>
-    <div class="btn btn-disabled" id="btnDone"></div>
+    <div class="btn" id="btnExit" data-i18n="Exit"></div>
+    <div class="btn btn-back-disabled" id="btnBack" data-i18n="Back"></div>
+    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
+    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
   </div>
 </div>
 
@@ -101,16 +101,24 @@ document.getElementById('btnExit').addEventListener('click', closeDialog);
 document.getElementById('btnBack').addEventListener('click', closeDialog);
 document.getElementById('btnNext').addEventListener('click', goNext);
 
-// ── i18n: set translated text ──
-document.title = t('Import/Export Wizard');
-document.querySelector('.main-title').textContent = t('Import/Export Wizard');
-document.querySelector('.sub-title').textContent = t('File format conversion tool');
-document.querySelector('.desc').textContent = t('Wizard description');
-document.querySelector('.warn-text').textContent = t('Warning disclaimer');
-document.getElementById('btnExit').textContent = t('Exit');
-document.getElementById('btnBack').textContent = t('Back');
-document.getElementById('btnNext').textContent = t('Next');
-document.getElementById('btnDone').textContent = t('Done');
+// ── i18n: apply translated text ──
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    els[i].textContent = t(key);
+  }
+  var titleEls = document.querySelectorAll('[data-i18n-title]');
+  for (var i = 0; i < titleEls.length; i++) {
+    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+  }
+  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var i = 0; i < phEls.length; i++) {
+    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+  }
+  document.title = t('Import/Export Wizard');
+}
+applyI18n();
 </script>
 </body>
 </html>
