@@ -1,169 +1,351 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title></title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title></title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				font-family:
+					'Inter',
+					-apple-system,
+					BlinkMacSystemFont,
+					'Segoe UI',
+					sans-serif;
+				background: #fff;
+				color: #1a1a1a;
+			}
 
-  .dialog { display: flex; flex-direction: column; width: 100%; height: 100%; }
+			.dialog {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+			}
 
-  .body-wrap { flex: 1; display: flex; flex-direction: column; padding: 21px 24px 4px 24px; overflow: hidden; }
-  .body { flex: 1; display: flex; flex-direction: column; gap: 14px; border: 1px solid #D1D1D1; border-radius: 5px; padding: 14px 16px; overflow: hidden; justify-content: center; }
+			.body-wrap {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 21px 24px 4px 24px;
+				overflow: hidden;
+			}
+			.body {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 14px;
+				border: 1px solid #d1d1d1;
+				border-radius: 5px;
+				padding: 14px 16px;
+				overflow: hidden;
+				justify-content: center;
+			}
 
-  /* ── success section ── */
-  .success-row { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .success-circle { width: 72px; height: 72px; border-radius: 36px; background: #E8F5E9; display: flex; align-items: center; justify-content: center; }
-  .success-circle svg { width: 44px; height: 44px; }
-  .success-title { font-size: 18px; font-weight: 700; color: #1A1A1A; }
+			/* ── success section ── */
+			.success-row {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 12px;
+			}
+			.success-circle {
+				width: 72px;
+				height: 72px;
+				border-radius: 36px;
+				background: #e8f5e9;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.success-circle svg {
+				width: 44px;
+				height: 44px;
+			}
+			.success-title {
+				font-size: 18px;
+				font-weight: 700;
+				color: #1a1a1a;
+			}
 
-  .divider { height: 1px; background: #E8E8E8; }
+			.divider {
+				height: 1px;
+				background: #e8e8e8;
+			}
 
-  /* ── save section ── */
-  .save-sec { display: flex; flex-direction: column; gap: 8px; }
-  .save-title { font-size: 12px; font-weight: 600; color: #444; }
-  .save-desc { font-size: 12px; color: #888; }
-  .path-row { display: flex; align-items: center; gap: 8px; height: 32px; }
-  .path-input { flex: 1; height: 32px; border: 1px solid #D0D0D0; border-radius: 3px; padding: 0 10px; font-size: 12px; font-family: inherit; color: #333; background: #FAFAFA; display: flex; align-items: center; gap: 6px; overflow: hidden; cursor: default; }
-  .path-input.active { border-color: #1890FF; background: #fff; }
-  .path-input .folder-icon { width: 16px; height: 16px; flex-shrink: 0; fill: #F59E0B; }
-  .path-input .path-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .path-input .clear-btn { width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #E0E0E0; font-size: 10px; color: #888; line-height: 1; }
-  .path-input .clear-btn:hover { background: #D0D0D0; color: #555; }
-  .browse-btn { height: 32px; width: 80px; border-radius: 3px; border: 1px solid #D0D0D0; background: #F0F0F0; font-size: 12px; font-family: inherit; color: #555; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-  .browse-btn:hover { background: #E5E5E5; }
-  .path-hint { font-size: 11px; color: #AAA; }
+			/* ── save section ── */
+			.save-sec {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.save-title {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+			}
+			.save-desc {
+				font-size: 12px;
+				color: #888;
+			}
+			.path-row {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				height: 32px;
+			}
+			.path-input {
+				flex: 1;
+				height: 32px;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				padding: 0 10px;
+				font-size: 12px;
+				font-family: inherit;
+				color: #333;
+				background: #fafafa;
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				overflow: hidden;
+				cursor: default;
+			}
+			.path-input.active {
+				border-color: #1890ff;
+				background: #fff;
+			}
+			.path-input .folder-icon {
+				width: 16px;
+				height: 16px;
+				flex-shrink: 0;
+				fill: #f59e0b;
+			}
+			.path-input .path-text {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.path-input .clear-btn {
+				width: 16px;
+				height: 16px;
+				flex-shrink: 0;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 8px;
+				background: #e0e0e0;
+				font-size: 10px;
+				color: #888;
+				line-height: 1;
+			}
+			.path-input .clear-btn:hover {
+				background: #d0d0d0;
+				color: #555;
+			}
+			.browse-btn {
+				height: 32px;
+				width: 80px;
+				border-radius: 3px;
+				border: 1px solid #d0d0d0;
+				background: #f0f0f0;
+				font-size: 12px;
+				font-family: inherit;
+				color: #555;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 4px;
+			}
+			.browse-btn:hover {
+				background: #e5e5e5;
+			}
+			.path-hint {
+				font-size: 11px;
+				color: #aaa;
+			}
 
-  .footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 58px; padding: 0 24px 0 24px; flex-shrink: 0; margin-top: -3px; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; width: 86px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #D0D0D0; background: #fff; color: #333; user-select: none; }
-  .btn:hover { background: #F5F5F5; }
-  .btn-primary { background: #1890FF; border-color: #1890FF; color: #fff; }
-  .btn-primary:hover { background: #0D7DE8; }
-  .btn-disabled { background: #E8E8E8; border-color: #E8E8E8; color: #aaa; cursor: default; pointer-events: none; }
-</style>
-</head>
-<body>
-<div class="dialog">
-  <div class="body-wrap">
-    <div class="body">
-      <div class="success-row">
-        <div class="success-circle">
-          <svg viewBox="0 0 24 24" fill="#34A853"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        </div>
-        <div class="success-title" data-i18n="Conversion complete!"></div>
-      </div>
+			.footer {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: 8px;
+				height: 58px;
+				padding: 0 24px 0 24px;
+				flex-shrink: 0;
+				margin-top: -3px;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				height: 32px;
+				width: 86px;
+				border-radius: 4px;
+				font-size: 12px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				background: #fff;
+				color: #333;
+				user-select: none;
+			}
+			.btn:hover {
+				background: #f5f5f5;
+			}
+			.btn-primary {
+				background: #1890ff;
+				border-color: #1890ff;
+				color: #fff;
+			}
+			.btn-primary:hover {
+				background: #0d7de8;
+			}
+			.btn-disabled {
+				background: #e8e8e8;
+				border-color: #e8e8e8;
+				color: #aaa;
+				cursor: default;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="dialog">
+			<div class="body-wrap">
+				<div class="body">
+					<div class="success-row">
+						<div class="success-circle">
+							<svg viewBox="0 0 24 24" fill="#34A853">
+								<path
+									d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+								/>
+							</svg>
+						</div>
+						<div class="success-title" data-i18n="Conversion complete!">转换完成！</div>
+					</div>
 
-      <div class="divider"></div>
+					<div class="divider"></div>
 
-      <div class="save-sec">
-        <div class="save-title" data-i18n="Save locally"></div>
-        <div class="save-desc" data-i18n="Save conversion result as ZIP"></div>
-        <div class="path-row">
-          <div class="path-input" id="pathInput">
-            <svg class="folder-icon" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-            <span class="path-text" id="pathText" data-i18n="Click browse to select save path"></span>
-          </div>
-          <button class="browse-btn" id="btnBrowse" data-i18n="Browse"></button>
-        </div>
-        <div class="path-hint" data-i18n="Default path: browser download"></div>
-      </div>
-    </div>
-  </div>
+					<div class="save-sec">
+						<div class="save-title" data-i18n="Save locally">保存到本地</div>
+						<div class="save-desc" data-i18n="Save conversion result as ZIP">选择本地路径将转换结果保存为 ZIP 文件</div>
+						<div class="path-row">
+							<div class="path-input" id="pathInput">
+								<svg class="folder-icon" viewBox="0 0 24 24">
+									<path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+								</svg>
+								<span class="path-text" id="pathText" data-i18n="Click browse to select save path">点击浏览选择保存路径</span>
+							</div>
+							<button class="browse-btn" id="btnBrowse" data-i18n="Browse">浏览</button>
+						</div>
+						<div class="path-hint" data-i18n="Default path: browser download">默认路径：浏览器下载路径</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="footer">
-    <div class="btn" id="btnExit" data-i18n="Exit"></div>
-    <div class="btn" id="btnBack" data-i18n="Back"></div>
-    <div class="btn btn-disabled" id="btnNext" data-i18n="Next"></div>
-    <div class="btn btn-primary" id="btnDone" data-i18n="Done"></div>
-  </div>
-</div>
+			<div class="footer">
+				<div class="btn" id="btnExit" data-i18n="Exit">退出</div>
+				<div class="btn" id="btnBack" data-i18n="Back">返回</div>
+				<div class="btn btn-disabled" id="btnNext" data-i18n="Next">下一步</div>
+				<div class="btn btn-primary" id="btnDone" data-i18n="Done">完成</div>
+			</div>
+		</div>
 
-<script>
-var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
-function t(tag, ...args) {
-  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
-  return tag;
-}
+		<script>
+			var edaObj = typeof eda !== 'undefined' ? eda : window.parent && window.parent.eda;
+			function t(tag, ...args) {
+				if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+				return tag;
+			}
 
-var STORE_KEY = 'expWizardData';
-var savePath = '';
+			var STORE_KEY = 'expWizardData';
+			var savePath = '';
 
-async function storeRead() {
-  var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-  return raw ? JSON.parse(raw) : {};
-}
+			async function storeRead() {
+				var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+				return raw ? JSON.parse(raw) : {};
+			}
 
-async function storeWrite(obj) {
-  await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
-}
+			async function storeWrite(obj) {
+				await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
+			}
 
-function updatePathDisplay() {
-  var el = document.getElementById('pathText');
-  var input = document.getElementById('pathInput');
-  if (savePath) {
-    el.textContent = savePath;
-    input.classList.add('active');
-  } else {
-    el.textContent = t('Click browse to select save path');
-    input.classList.remove('active');
-  }
-}
+			function updatePathDisplay() {
+				var el = document.getElementById('pathText');
+				var input = document.getElementById('pathInput');
+				if (savePath) {
+					el.textContent = savePath;
+					input.classList.add('active');
+				} else {
+					el.textContent = t('Click browse to select save path');
+					input.classList.remove('active');
+				}
+			}
 
-document.getElementById('btnBrowse').addEventListener('click', async function() {
-  try {
-    var result = await eda.sys_Dialog.showOpenFileDialog({ title: t('Select save path'), filters: [] });
-    if (result) {
-      savePath = result;
-      updatePathDisplay();
-    }
-  } catch (e) {
-    console.warn('browse dialog failed:', e);
-  }
-});
+			document.getElementById('btnBrowse').addEventListener('click', async function () {
+				try {
+					var result = await eda.sys_Dialog.showOpenFileDialog({ title: t('Select save path'), filters: [] });
+					if (result) {
+						savePath = result;
+						updatePathDisplay();
+					}
+				} catch (e) {
+					console.warn('browse dialog failed:', e);
+				}
+			});
 
-document.getElementById('pathInput').addEventListener('click', function() {
-  document.getElementById('btnBrowse').click();
-});
+			document.getElementById('pathInput').addEventListener('click', function () {
+				document.getElementById('btnBrowse').click();
+			});
 
-async function closeDialog() {
-  await storeWrite({ cmd: 'exit' });
-  eda.sys_IFrame.closeIFrame('exp-complete');
-}
+			async function closeDialog() {
+				await storeWrite({ cmd: 'exit' });
+				eda.sys_IFrame.closeIFrame('exp-complete');
+			}
 
-async function goBack() {
-  await storeWrite({ cmd: 'back', step: 4 });
-  eda.sys_IFrame.closeIFrame('exp-complete');
-}
+			async function goBack() {
+				await storeWrite({ cmd: 'back', step: 4 });
+				eda.sys_IFrame.closeIFrame('exp-complete');
+			}
 
-async function doSave() {
-  await storeWrite({ cmd: 'save', path: savePath });
-  eda.sys_IFrame.closeIFrame('exp-complete');
-}
+			async function doSave() {
+				await storeWrite({ cmd: 'save', path: savePath });
+				eda.sys_IFrame.closeIFrame('exp-complete');
+			}
 
-document.getElementById('btnExit').addEventListener('click', closeDialog);
-document.getElementById('btnBack').addEventListener('click', goBack);
-document.getElementById('btnDone').addEventListener('click', doSave);
+			document.getElementById('btnExit').addEventListener('click', closeDialog);
+			document.getElementById('btnBack').addEventListener('click', goBack);
+			document.getElementById('btnDone').addEventListener('click', doSave);
 
-// ── i18n: apply translated text ──
-function applyI18n() {
-  var els = document.querySelectorAll('[data-i18n]');
-  for (var i = 0; i < els.length; i++) {
-    var key = els[i].getAttribute('data-i18n');
-    els[i].textContent = t(key);
-  }
-  var titleEls = document.querySelectorAll('[data-i18n-title]');
-  for (var i = 0; i < titleEls.length; i++) {
-    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
-  }
-  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
-  for (var i = 0; i < phEls.length; i++) {
-    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
-  }
-  document.title = t('Import/Export Wizard');
-}
-applyI18n();
-</script>
-</body>
+			// ── i18n: apply translated text ──
+			function applyI18n() {
+				var els = document.querySelectorAll('[data-i18n]');
+				for (var i = 0; i < els.length; i++) {
+					var key = els[i].getAttribute('data-i18n');
+					els[i].textContent = t(key);
+				}
+				var titleEls = document.querySelectorAll('[data-i18n-title]');
+				for (var i = 0; i < titleEls.length; i++) {
+					titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+				}
+				var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+				for (var i = 0; i < phEls.length; i++) {
+					phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+				}
+				document.title = t('Import/Export Wizard');
+			}
+			applyI18n();
+		</script>
+	</body>
 </html>

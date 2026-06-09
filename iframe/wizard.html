@@ -1,1423 +1,2545 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title></title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
-
-  .dialog { display: flex; flex-direction: column; width: 100%; height: 100%; }
-
-  .body-wrap { flex: 1; display: flex; flex-direction: column; padding: 21px 24px 4px 24px; overflow: hidden; }
-  .body { flex: 1; display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 5px; overflow: hidden; min-height: 0; position: relative; }
-
-  /* ── 页签容器 ── */
-  .step { display: none; flex-direction: column; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
-  .step.active { display: flex; }
-
-  /* ── 步骤1：欢迎页 ── */
-  #step1 { gap: 0; }
-  .hero { display: flex; align-items: center; gap: 16px; position: absolute; top: 144px; left: 62px; right: 37px; }
-  .icon-box { width: 48px; height: 48px; border-radius: 24px; background: #EBF2FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .icon-box svg { width: 28px; height: 28px; }
-  .title-col { display: flex; flex-direction: column; gap: 4px; }
-  .main-title { font-size: 28px; font-weight: 600; color: #1A1A1A; }
-  .sub-title { font-size: 12px; color: #888; }
-  .desc { font-size: 12px; color: #333; line-height: 1.6; position: absolute; top: 240px; left: 86px; right: 62px; }
-  .warn-row { display: flex; align-items: flex-start; gap: 6px; position: absolute; top: 262px; left: 62px; right: 62px; }
-  .warn-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: -1px; }
-  .warn-text { font-size: 12px; color: #7A5C00; line-height: 1.5; }
-
-  /* ── 步骤2：选择类型 ── */
-  #step2 { padding: 12px 14px; gap: 12px; }
-  .pg-title { font-size: 13px; font-weight: 600; color: #1A1A1A; flex-shrink: 0; }
-  .type-table { display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
-  .type-row { display: flex; align-items: center; height: 44px; padding: 0 12px; cursor: pointer; gap: 8px; border: 1px solid #E8E8E8; }
-  .type-row:hover { background: #F5F9FF; }
-  .type-row.selected { background: #EBF2FF; border-color: #1890FF; }
-  .type-row svg.radio { width: 16px; height: 16px; flex-shrink: 0; }
-  .type-row svg.row-icon { width: 14px; height: 14px; flex-shrink: 0; }
-  .radio-checked { fill: #1890FF; }
-  .radio-unchecked { fill: #AAA; }
-  .row-icon { fill: #555; }
-  .type-texts { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-  .type-main { font-size: 12px; font-weight: 500; color: #1A1A1A; }
-  .type-sub { font-size: 11px; color: #888; }
-
-  /* ── 步骤3：库列表 ── */
-  #step3 { padding: 12px 14px; gap: 10px; }
-  .aff-row { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .aff-label { font-size: 12px; font-weight: 600; color: #444; white-space: nowrap; }
-
-  .dd-wrap { position: relative; display: inline-block; }
-  .dd-trigger {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 28px; padding: 0 26px 0 10px; cursor: pointer;
-    border: 1px solid #D0D0D0; border-radius: 3px; background: #fff;
-    font-family: inherit; font-size: 12px; color: #1A1A1A; user-select: none;
-  }
-  .dd-trigger::after {
-    content: ''; width: 0; height: 0;
-    border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #888;
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .dd-trigger:hover { border-color: #B0B0B0; }
-  .dd-trigger.open { border-color: #1890FF; background: #E6F7FF; }
-  .dd-panel {
-    display: none; position: absolute; top: 100%; left: 0; z-index: 100;
-    min-width: 100%; max-height: 200px; overflow-y: auto;
-    border: 1px solid #D0D0D0; border-radius: 3px; background: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12); margin-top: 2px;
-  }
-  .dd-panel.show { display: block; }
-  .dd-panel::-webkit-scrollbar { width: 6px; }
-  .dd-panel::-webkit-scrollbar-track { background: #F0F0F0; border-radius: 3px; }
-  .dd-panel::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 3px; }
-  .dd-option { padding: 0 10px; height: 28px; display: flex; align-items: center; font-size: 12px; color: #1A1A1A; cursor: pointer; white-space: nowrap; }
-  .dd-option:hover { background: #E6F7FF; }
-  .dd-option.active { color: #1890FF; font-weight: 600; }
-  .dd-aff { width: 160px; }
-  .dd-team { width: 200px; }
-
-  .filter-row { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
-  .lib-label-icon { width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; }
-  .filter-row .lib-label { font-size: 12px; font-weight: 600; color: #444; white-space: nowrap; }
-  .filter-row .sel-info { font-size: 12px; color: #888; }
-  .type-filter { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; font-size: 12px; color: #444; }
-  .type-filter input { accent-color: #1890FF; width: 14px; height: 14px; cursor: pointer; }
-  .type-filter img { width: 16px; height: 16px; }
-  .type-filter .count { color: #888; }
-
-  .lib-table { flex: 1; display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 4px; overflow: hidden; min-height: 0; }
-  .lib-head { display: flex; align-items: center; height: 28px; padding: 0 10px; background: #F0F0F0; border-bottom: 1px solid #E0E0E0; flex-shrink: 0; gap: 6px; font-size: 12px; color: #666; }
-  .lib-head span { font-size: 12px; color: #666; }
-  .col-check { width: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  #checkAll { margin: 0; }
-  .col-icon-hd { width: 14px; flex-shrink: 0; }
-  .col-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .col-type { width: 60px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-  .lib-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; }
-  .lib-scroll::-webkit-scrollbar { width: 8px; }
-  .lib-scroll::-webkit-scrollbar-track { background: #F0F0F0; border-radius: 4px; }
-  .lib-scroll::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 4px; }
-  .lib-scroll::-webkit-scrollbar-thumb:hover { background: #aaa; }
-
-  .lib-row { display: flex; align-items: center; height: 32px; padding: 0 10px; gap: 6px; cursor: pointer; }
-  .lib-row:hover { background: #E6F7FF; }
-  .lib-row:nth-child(even) { background: #F8F8F8; }
-  .lib-row:nth-child(even):hover { background: #E6F7FF; }
-  .lib-row .cb { width: 14px; height: 14px; flex-shrink: 0; accent-color: #1890FF; cursor: pointer; margin: 0; }
-  .lib-row .cb-wrap { width: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .lib-row .type-icon { width: 14px; height: 14px; flex-shrink: 0; }
-  .lib-row .name { font-size: 12px; color: #1A1A1A; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .lib-row .type-text { font-size: 12px; color: #555; width: 60px; flex-shrink: 0; }
-
-  .empty-msg { padding: 40px; text-align: center; color: #aaa; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #D0D0D0; border-top-color: #1890FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── 步骤4：导出完成 ── */
-  #step4 { padding: 14px 16px; gap: 14px; justify-content: center; }
-  .success-row { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .success-circle { width: 72px; height: 72px; border-radius: 36px; background: #E8F5E9; display: flex; align-items: center; justify-content: center; }
-  .success-circle svg { width: 44px; height: 44px; }
-  .success-title { font-size: 18px; font-weight: 700; color: #1A1A1A; }
-  .save-sec { display: flex; flex-direction: column; gap: 8px; }
-  .save-label { font-size: 12px; font-weight: 600; color: #444; }
-  .save-desc { font-size: 12px; color: #888; }
-  .filename-row { display: flex; align-items: center; gap: 0; height: 32px; }
-  .filename-input { flex: 1; height: 32px; border: 1px solid #D0D0D0; border-radius: 3px 0 0 3px; padding: 0 10px; font-size: 12px; font-family: inherit; color: #333; background: #fff; outline: none; }
-  .filename-input:focus { border-color: #1890FF; }
-  .filename-suffix { height: 32px; line-height: 30px; padding: 0 10px; border: 1px solid #D0D0D0; border-left: none; border-radius: 0 3px 3px 0; background: #F5F5F5; font-size: 12px; font-family: inherit; color: #666; user-select: none; white-space: nowrap; }
-  .pw-section { display: flex; flex-direction: column; gap: 8px; }
-  .pw-check-row { display: flex; align-items: center; gap: 6px; height: 20px; }
-  .pw-check-row label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; cursor: pointer; user-select: none; }
-  .pw-check-row label.checked { color: #444; }
-  .pw-check-row input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1890FF; cursor: pointer; }
-  .pw-input-row { display: flex; align-items: center; gap: 4px; height: 32px; }
-  .pw-input { flex: 1; height: 32px; border: 1px solid #D0D0D0; border-radius: 3px; padding: 0 10px; font-size: 12px; font-family: inherit; color: #333; background: #F0F0F0; outline: none; }
-  .pw-input:disabled { background: #F0F0F0; color: #bbb; cursor: not-allowed; }
-  .pw-input:not(:disabled) { background: #fff; }
-  .pw-input:not(:disabled):focus { border-color: #1890FF; }
-  .eye-btn { width: 32px; height: 32px; border: 1px solid #D0D0D0; border-radius: 3px; background: #F0F0F0; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .eye-btn:hover { background: #E5E5E5; }
-  .eye-btn svg { width: 16px; height: 16px; fill: #888; }
-  .sep { height: 1px; background: #E8E8E8; }
-
-  /* ── 进度条页签 ── */
-  #stepProgress { padding: 16px 24px; gap: 0; justify-content: center; align-items: center; }
-  .spinner-ring { width: 72px; height: 72px; border-radius: 36px; background: #EBF2FF; display: flex; align-items: center; justify-content: center; animation: spin 1.5s linear infinite; flex-shrink: 0; }
-  .spinner-ring svg { width: 40px; height: 40px; fill: #2D6EE8; }
-  .prog-title { font-size: 18px; font-weight: 700; color: #1A1A1A; margin-top: 16px; }
-  .prog-desc { font-size: 12px; color: #555; text-align: center; line-height: 1.6; width: 100%; margin-top: 8px; }
-  .prog-bar-bg { width: 100%; height: 8px; background: #E8E8E8; border-radius: 4px; margin-top: 20px; overflow: hidden; flex-shrink: 0; }
-  .prog-bar-fill { height: 8px; background: #2D6EE8; border-radius: 4px; transition: width 0.3s ease; width: 0; }
-  .prog-lbl { font-size: 12px; color: #888; margin-top: 8px; flex-shrink: 0; }
-  .log-box { width: 100%; height: 80px; background: #F5F7FA; border: 1px solid #E0E0E0; border-radius: 4px; padding: 8px 10px; overflow-y: auto; margin-top: 16px; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-  .log-box::-webkit-scrollbar { width: 4px; }
-  .log-box::-webkit-scrollbar-track { background: transparent; }
-  .log-box::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 2px; }
-  .log-entry { font-size: 11px; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .log-entry.active { color: #2D6EE8; }
-  .log-entry.error { color: #E53E3E; }
-
-  /* ── 底部栏 ── */
-  .footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 58px; padding: 0 24px 0 24px; flex-shrink: 0; margin-top: -3px; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; width: 86px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #D0D0D0; background: #fff; color: #333; user-select: none; }
-  .btn:hover { background: #F5F5F5; }
-  .btn-primary { background: #1890FF; border-color: #1890FF; color: #fff; }
-  .btn-primary:hover { background: #0D7DE8; }
-  .btn-disabled { background: #E8E8E8; border-color: #E8E8E8; color: #aaa; cursor: default; pointer-events: none; }
-  .btn-back-disabled { background: #F5F5F5; border-color: #D0D0D0; color: #999; cursor: default; pointer-events: none; }
-
-  /* ── 导入上传页签 ── */
-  #stepImport { padding: 16px 20px; gap: 14px; }
-
-  /* ── 导入操作区（归属+创建器件） ── */
-  .import-action-sec { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-  .import-action-in-results { margin-top: 8px; padding-top: 8px; border-top: 1px solid #E8E8E8; }
-  .import-org-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; position: relative; }
-  .import-org-row.disabled { opacity: 0.4; pointer-events: none; }
-  .import-sub-check { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #333; cursor: pointer; user-select: none; }
-  .import-sub-check input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1890FF; cursor: pointer; }
-  .import-org-label { font-size: 12px; color: #666; white-space: nowrap; }
-  .dd-import-team { width: 220px; }
-  .dd-import-team .dd-text { display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
-  .dd-import-team .dd-panel { position: fixed; z-index: 9999; min-width: 0; }
-  .upload-zone { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; border: 2px dashed #C0C0C0; border-radius: 8px; padding: 30px 20px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
-  .upload-zone:hover { border-color: #1890FF; background: #F5F9FF; }
-  .upload-zone.has-file { border-color: #34A853; background: #F0FFF0; }
-  .upload-icon { width: 40px; height: 40px; fill: #999; }
-  .upload-zone.has-file .upload-icon { fill: #34A853; }
-  .upload-text { font-size: 13px; color: #555; text-align: center; }
-  .upload-hint { font-size: 11px; color: #aaa; }
-  .upload-filename { font-size: 12px; color: #1890FF; font-weight: 600; }
-  #importFileInput { display: none; }
-
-
-	  /* ── 导入结果页签 ── */
-	  #stepResults { padding: 12px 14px; gap: 8px; }
-	  .result-stats { display: flex; align-items: center; gap: 14px; flex-shrink: 0; font-size: 12px; color: #666; padding: 8px 0; border-bottom: 1px solid #F0F0F0; }
-	  .result-stats b { color: #1890FF; font-weight: 600; }
-	  .rs-check { display: flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; color: #444; }
-	  .rs-check input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1890FF; cursor: pointer; }
-  .rs-type-icon { width: 14px; height: 14px; vertical-align: middle; }
-	  .rs-info { color: #888; margin-left: auto; }
-	  .result-list { flex: 1; display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 4px; overflow: hidden; min-height: 0; }
-	  .result-list-head { display: flex; align-items: center; height: 28px; padding: 0 10px; background: #F0F0F0; border-bottom: 1px solid #E0E0E0; flex-shrink: 0; gap: 8px; }
-	  .result-list-head span { font-size: 12px; color: #666; }
-	  .rl-col-check { width: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-	  .rl-col-type { width: 54px; flex-shrink: 0; }
-	  .rl-col-icon { width: 14px; flex-shrink: 0; }
-	  .rl-col-name { flex: 1; }
-	  .rl-col-status { width: 24px; flex-shrink: 0; }
-	  .rl-col-msg { width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	  .result-list-scroll { flex: 1; overflow-y: auto; }
-	  .result-list-scroll::-webkit-scrollbar { width: 6px; }
-	  .result-list-scroll::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 3px; }
-	  .result-lr { display: flex; align-items: center; height: 28px; padding: 0 10px; gap: 8px; font-size: 12px; }
-	  .result-lr:nth-child(even) { background: #F8F8F8; }
-	  .result-lr .rl-cb { width: 14px; height: 14px; flex-shrink: 0; accent-color: #1890FF; cursor: pointer; margin: 0; }
-	  .result-lr .rl-cb-wrap { width: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-	  .type-badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; line-height: 18px; width: 42px; text-align: center; }
-	  .type-badge.device { background: #EBF2FF; color: #2D6EE8; }
-	  .type-badge.symbol { background: #E8F5E9; color: #34A853; }
-	  .type-badge.footprint { background: #FFF3E0; color: #E67E22; }
-	  .result-type-icon { width: 14px; height: 14px; vertical-align: middle; margin-left: 6px; }
-	  .result-lr .rl-name { flex: 1; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	  .result-lr .rl-status { width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-	  .result-lr .rl-msg { width: 160px; color: #888; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-</style>
-</head>
-<body>
-<div class="dialog">
-  <div class="body-wrap">
-    <div class="body">
-
-      <!-- ===== 步骤1：欢迎页 ===== -->
-      <div class="step active" id="step1">
-        <div class="hero">
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
-          </div>
-          <div class="title-col">
-            <div class="main-title" data-i18n="Import/Export Wizard"></div>
-            <div class="sub-title" data-i18n="File format conversion tool"></div>
-          </div>
-        </div>
-        <div class="desc" data-i18n="Wizard description"></div>
-        <div class="warn-row">
-          <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-          <div class="warn-text" data-i18n="Warning disclaimer"></div>
-        </div>
-      </div>
-
-      <!-- ===== 步骤2：选择导入/导出类型 ===== -->
-      <div class="step" id="step2">
-        <div class="pg-title" id="step2Title" data-i18n="Select conversion type"></div>
-        <div class="type-table">
-          <div class="type-row selected" data-mode="import" data-type="xpedition">
-            <svg class="radio radio-checked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-            <svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <div class="type-texts">
-              <span class="type-main"></span>
-              <span class="type-sub"></span>
-            </div>
-          </div>
-          <div class="type-row" data-mode="export" style="display:none" data-type="xpedition">
-            <svg class="radio radio-unchecked" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            <svg class="row-icon" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
-            <div class="type-texts">
-              <span class="type-main"></span>
-              <span class="type-sub"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== 步骤3：库列表（导出流程） ===== -->
-      <div class="step" id="step3">
-        <div class="aff-row">
-          <span class="aff-label" data-i18n="Ownership"></span>
-          <div class="dd-wrap dd-aff" id="ddAff">
-            <div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Personal"></span></div>
-            <div class="dd-panel">
-              <div class="dd-option" data-value="personal" data-i18n="Personal"></div>
-              <div class="dd-option" data-value="team" data-i18n="Team"></div>
-            </div>
-          </div>
-          <div class="dd-wrap dd-team" id="ddTeam" style="display:none">
-            <div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team"></span></div>
-            <div class="dd-panel" id="ddTeamPanel"></div>
-          </div>
-        </div>
-
-        <div class="filter-row">
-          <img class="lib-label-icon" src="data:image/png;base64,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" /><span class="lib-label"></span>
-          <span class="sel-info" id="selInfo"></span>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" /><span class="type-label-text"></span>(<span class="count" id="cntSymbol">0</span>)</label>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" /><span class="type-label-text"></span>(<span class="count" id="cntFootprint">0</span>)</label>
-          <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/png;base64,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" /><span class="type-label-text"></span>(<span class="count" id="cntDevice">0</span>)</label>
-        </div>
-
-        <div class="lib-table">
-          <div class="lib-head">
-            <div class="col-check"><input type="checkbox" id="checkAll" /></div>
-            <span class="col-icon-hd"></span>
-            <span class="col-name"></span>
-            <span class="col-type"></span>
-          </div>
-          <div class="lib-scroll" id="libScroll">
-            <div class="empty-msg"><span class="spinner"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== 步骤：导入上传文件 ===== -->
-      <div class="step" id="stepImport">
-        <div class="pg-title" id="stepImportTitle"></div>
-        <div class="upload-zone" id="uploadZone">
-          <svg class="upload-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
-          <div class="upload-text" id="uploadText"></div>
-          <div class="upload-filename" id="uploadFilename" style="display:none"></div>
-        </div>
-        <input type="file" id="importFileInput" accept=".zip" />
-      </div>
-
-      <!-- ===== 步骤：导入转换结果 ===== -->
-      <div class="step" id="stepResults">
-        <div class="result-stats" id="resultStats">
-          <label class="rs-check"><input type="checkbox" id="chkResultSelectAll" checked /> <span class="rs-label-selectall"></span></label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="器件" checked /> <img class="rs-type-icon" src="data:image/png;base64,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" /> <span class="rs-label-device"></span> <b id="cntResultDev">0</b></label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="符号" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC" /> <span class="rs-label-symbol"></span> <b id="cntResultSym">0</b></label>
-          <label class="rs-check"><input type="checkbox" class="rs-type-cb" data-type="封装" checked /> <img class="rs-type-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==" /> <span class="rs-label-footprint"></span> <b id="cntResultFp">0</b></label>
-          <span class="rs-info" id="resultSelInfo"></span>
-        </div>
-        <div class="result-list">
-          <div class="result-list-head">
-            <div class="rl-col-check"></div>
-            <span class="rl-col-type" id="rlColType"></span>
-            <span class="rl-col-icon"></span>
-            <span class="rl-col-name" id="rlColName"></span>
-            <span class="rl-col-status"></span>
-            <span class="rl-col-msg" id="rlColMsg"></span>
-          </div>
-          <div class="result-list-scroll" id="resultListScroll">
-            <div class="empty-msg" id="resultEmptyMsg"></div>
-          </div>
-        </div>
-        <div class="import-action-sec import-action-in-results">
-          <div class="import-org-row" id="importOrgRow">
-            <span class="import-org-label" id="importOrgLabel"></span>
-            <div class="dd-wrap dd-import-team" id="ddImportTeam">
-              <div class="dd-trigger" data-value=""><span class="dd-text" id="ddImportTeamText"></span></div>
-              <div class="dd-panel" id="ddImportTeamPanel"></div>
-            </div>
-          </div>
-          <div class="import-org-row" id="createDeviceRow">
-            <label class="import-sub-check"><input type="checkbox" id="chkCreateDevice" checked /><span id="createDeviceLabel"></span></label>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== 步骤：进度条（导入/导出转换中） ===== -->
-      <div class="step" id="stepProgress">
-        <div class="spinner-ring">
-          <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
-        </div>
-        <div class="prog-title" id="progTitle"></div>
-        <div class="prog-desc" id="progDesc"></div>
-        <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBarFill"></div></div>
-        <div class="prog-lbl" id="progLbl"></div>
-        <div class="log-box" id="logBox"></div>
-      </div>
-
-      <!-- ===== 步骤4：导出完成（保存文件） ===== -->
-      <div class="step" id="step4">
-        <div class="success-row">
-          <div class="success-circle">
-            <svg viewBox="0 96 960 960" fill="#34A853"><path d="M438 670 650 458l-56-56-156 156-56-56-56 56 112 112Zm42 250q-83 0-156-31.5T197 763q-54-54-85.5-127T80 480q0-83 31.5-156T197 197q54-54 127-85.5T480 80q83 0 156 31.5T763 197q54 54 85.5 127T880 480q0 83-31.5 156T763 763q-54 54-127 85.5T480 920Zm0-80q134 0 227-93t93-227q0-134-93-227T480 160q-134 0-227 93T160 480q0 134 93 227t227 93Zm0-320Z"/></svg>
-          </div>
-          <div class="success-title" id="successTitle"></div>
-        </div>
-        <div class="sep"></div>
-        <div class="save-sec">
-          <div class="save-label" id="saveLabel"></div>
-          <div class="save-desc" id="saveDesc"></div>
-          <div class="filename-row">
-            <input type="text" class="filename-input" id="filenameInput" value="asyeda2xpedition" spellcheck="false" />
-            <span class="filename-suffix" id="filenameSuffix">.zip</span>
-          </div>
-          <div class="pw-section">
-            <div class="pw-check-row">
-              <label id="pwLabel">
-                <input type="checkbox" id="pwCheck" />
-                <span id="pwLabelSpan"></span>
-              </label>
-            </div>
-            <div class="pw-input-row">
-              <input type="password" class="pw-input" id="pwInput" disabled />
-              <button class="eye-btn" id="eyeBtn" type="button">
-                <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="footer">
-    <div class="btn" id="btnExit" data-i18n="Exit"></div>
-    <div class="btn btn-back-disabled" id="btnBack" data-i18n="Back"></div>
-    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
-    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
-  </div>
-</div>
-
-<script>
-var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
-function t(tag) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, args[0], args[1], args[2], args[3], args[4]);
-  return tag;
-}
-
-function applyI18n() {
-  var els = document.querySelectorAll('[data-i18n]');
-  for (var i = 0; i < els.length; i++) {
-    var key = els[i].getAttribute('data-i18n');
-    els[i].textContent = t(key);
-  }
-  var titleEls = document.querySelectorAll('[data-i18n-title]');
-  for (var i = 0; i < titleEls.length; i++) {
-    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
-  }
-  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
-  for (var i = 0; i < phEls.length; i++) {
-    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
-  }
-  document.title = t('Import/Export Wizard');
-}
-
-var STORE_KEY = 'libReaderData';
-var allItems = [];
-var selectedUuids = {};
-var teams = [];
-var loadSeq = 0;
-var pollTimer = null;
-var currentStep = 1;
-var currentAff = '';
-var currentTeamUuid = null;
-
-var TYPE_ICON = {
-  '符号': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC',
-  '封装': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==',
-  '器件': 'data:image/png;base64,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'
-};
-
-function escapeHtml(s) { return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
-
-// ── 页签切换 ──
-
-function setStep(n) {
-  currentStep = n;
-  document.querySelectorAll('.step').forEach(function(el) { el.classList.remove('active'); });
-  if (n === 'progress') {
-    document.getElementById('stepProgress').classList.add('active');
-  } else if (n === 'import') {
-    document.getElementById('stepImport').classList.add('active');
-  } else if (n === 'results') {
-    document.getElementById('stepResults').classList.add('active');
-  } else {
-    document.getElementById('step' + n).classList.add('active');
-  }
-  updateFooter();
-
-  // 步骤3：首次显示时触发库加载（仅当已选择归属时）
-  if (n === 3 && allItems.length === 0 && !pollTimer) {
-    if (currentAff) {
-      requestLoad(currentAff, currentTeamUuid);
-    } else {
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select ownership first') + '</div>';
-    }
-  }
-}
-
-function updateFooter() {
-  var exitBtn = document.getElementById('btnExit');
-  var backBtn = document.getElementById('btnBack');
-  var nextBtn = document.getElementById('btnNext');
-  var doneBtn = document.getElementById('btnDone');
-
-  exitBtn.className = 'btn';
-  nextBtn.className = 'btn btn-primary';
-  doneBtn.className = 'btn btn-disabled';
-
-  if (currentStep === 1 || currentStep === 'progress') {
-    backBtn.className = 'btn btn-back-disabled';
-  } else {
-    backBtn.className = 'btn';
-  }
-
-  if (currentStep === 4 || currentStep === 'results') {
-    nextBtn.className = 'btn btn-disabled';
-    doneBtn.className = importTeamUuid ? 'btn btn-primary' : 'btn btn-disabled';
-  }
-
-  if (currentStep === 'progress') {
-    backBtn.className = 'btn btn-back-disabled';
-    nextBtn.className = 'btn btn-disabled';
-    doneBtn.className = 'btn btn-disabled';
-  }
-
-  // 步骤3：未选择归属时禁用下一步
-  if (currentStep === 3 && !currentAff) {
-    nextBtn.className = 'btn btn-disabled';
-  }
-
-  if (currentStep === 'import') {
-    backBtn.className = 'btn';
-    nextBtn.className = importFile ? 'btn btn-primary' : 'btn btn-disabled';
-  }
-}
-
-// ── 底部按钮 ──
-
-document.getElementById('btnExit').addEventListener('click', async function() {
-  await storeWrite({ teams: teams, cmd: 'exit' });
-  eda.sys_IFrame.closeIFrame('wizard');
-});
-
-document.getElementById('btnBack').addEventListener('click', function() {
-  if (currentStep === 'import' || currentStep === 'results') {
-    setStep(2);
-  } else if (currentStep > 1 && typeof currentStep === 'number') {
-    setStep(currentStep - 1);
-  }
-});
-
-document.getElementById('btnNext').addEventListener('click', function() {
-  if (currentStep === 2 && selectedMode === 'import') {
-    setStep('import');
-  } else if (currentStep === 'import') {
-    startImport();
-  } else if (currentStep === 3) {
-    startConversion();
-  } else if (typeof currentStep === 'number' && currentStep < 4) {
-    setStep(currentStep + 1);
-  }
-
-});
-// ── 步骤2：类型选择 ──
-
-var selectedMode = 'import';
-var selectedType = 'xpedition';
-
-function updateTypeSelection() {
-  document.querySelectorAll('.type-row').forEach(function(row) {
-    var isSelected = row.dataset.mode === selectedMode && row.dataset.type === selectedType;
-    row.classList.toggle('selected', isSelected);
-    var radioEl = row.querySelector('.radio');
-    radioEl.classList.toggle('radio-checked', isSelected);
-    radioEl.classList.toggle('radio-unchecked', !isSelected);
-    radioEl.innerHTML = isSelected
-      ? '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'
-      : '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>';
-  });
-}
-
-document.querySelectorAll('.type-row').forEach(function(row) {
-  row.addEventListener('click', function() {
-    selectedMode = row.dataset.mode;
-    selectedType = row.dataset.type;
-    updateTypeSelection();
-  });
-});
-
-// ── 步骤3：自定义下拉框逻辑 ──
-
-function initDropdown(wrap, onChange) {
-  var trigger = wrap.querySelector('.dd-trigger');
-  var panel = wrap.querySelector('.dd-panel');
-  var options = panel.querySelectorAll('.dd-option');
-  var isFixed = wrap.classList.contains('dd-import-team');
-
-  trigger.addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeAllDropdowns(wrap);
-    var isOpen = panel.classList.contains('show');
-    if (isOpen) { panel.classList.remove('show'); trigger.classList.remove('open'); }
-    else {
-      if (isFixed) {
-        var rect = trigger.getBoundingClientRect();
-        panel.style.position = 'fixed';
-        panel.style.left = rect.left + 'px';
-        panel.style.top = (rect.bottom + 2) + 'px';
-        panel.style.width = rect.width + 'px';
-      }
-      panel.classList.add('show');
-      trigger.classList.add('open');
-    }
-  });
-
-  options.forEach(function(opt) {
-    opt.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var val = opt.dataset.value;
-      var text = opt.textContent;
-      trigger.dataset.value = val;
-      trigger.querySelector('.dd-text').textContent = text;
-      panel.querySelectorAll('.dd-option').forEach(function(o) { o.classList.remove('active'); });
-      opt.classList.add('active');
-      panel.classList.remove('show');
-      trigger.classList.remove('open');
-      if (onChange) onChange(val);
-    });
-  });
-}
-
-function closeAllDropdowns(except) {
-  document.querySelectorAll('.dd-wrap').forEach(function(w) {
-    if (w !== except) {
-      w.querySelector('.dd-panel').classList.remove('show');
-      w.querySelector('.dd-trigger').classList.remove('open');
-    }
-  });
-}
-
-document.addEventListener('click', function() { closeAllDropdowns(null); });
-
-// ── 存储读写 ──
-
-async function storeRead() {
-  var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-  return raw ? JSON.parse(raw) : {};
-}
-
-async function storeWrite(obj) {
-  await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
-}
-
-// ── 请求扩展读取库数据 ──
-
-async function requestLoad(aff, teamUuid) {
-  currentAff = aff;
-  currentTeamUuid = teamUuid || null;
-  loadSeq++;
-  selectedUuids = {};
-  document.getElementById('checkAll').checked = false;
-  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
-  document.getElementById('selInfo').textContent = '';
-  updateCounts([]);
-
-  await storeWrite({ teams: teams, cmd: 'load', seq: loadSeq, aff: aff, teamUuid: teamUuid || null });
-
-  if (pollTimer) clearInterval(pollTimer);
-  var expectedSeq = loadSeq;
-
-  pollTimer = setInterval(async function() {
-    try {
-      var data = await storeRead();
-      if (data.cmd === 'done' && data.seq === expectedSeq) {
-        clearInterval(pollTimer);
-        pollTimer = null;
-        allItems = data.items || [];
-        if (allItems.length === 0) {
-          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No library content in workspace') + '</div>';
-        } else {
-          selectedUuids = {};
-          allItems.forEach(function(item) { selectedUuids[item.uuid] = true; });
-          document.getElementById('checkAll').checked = true;
-          renderRows(allItems);
-          updateCounts(allItems);
-          updateSelInfo();
-          syncCheckAll();
-        }
-      }
-    } catch (e) { console.warn('poll error', e); }
-  }, 300);
-}
-
-// ── 计数 ──
-
-function updateCounts(items) {
-  var c = { '符号': 0, '封装': 0, '器件': 0 };
-  for (var i = 0; i < items.length; i++) c[items[i].type] = (c[items[i].type] || 0) + 1;
-  document.getElementById('cntSymbol').textContent = c['符号'];
-  document.getElementById('cntFootprint').textContent = c['封装'];
-  document.getElementById('cntDevice').textContent = c['器件'];
-}
-
-function updateSelInfo() {
-  var checked = Object.keys(selectedUuids).length;
-  var total = allItems.length;
-  document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
-}
-
-// ── 渲染 ──
-
-function renderRows(items) {
-  var scroll = document.getElementById('libScroll');
-  var html = '';
-  for (var i = 0; i < items.length; i++) {
-    var item = items[i];
-    var checked = selectedUuids[item.uuid] ? ' checked' : '';
-    var icon = TYPE_ICON[item.type] || '';
-    html += '<div class="lib-row" data-uuid="' + escapeHtml(item.uuid) + '" data-type="' + escapeHtml(item.type) + '">' +
-      '<div class="cb-wrap"><input type="checkbox" class="cb"' + checked + ' data-uuid="' + escapeHtml(item.uuid) + '" /></div>' +
-      (icon ? '<img class="type-icon" src="' + icon + '" />' : '') +
-      '<span class="name">' + escapeHtml(item.name) + '</span>' +
-      '<span class="type-text">' + escapeHtml(item.type) + '</span></div>';
-  }
-  scroll.innerHTML = html;
-  bindRowEvents();
-  syncCheckAll();
-}
-
-function bindRowEvents() {
-  document.querySelectorAll('.lib-row').forEach(function(row) {
-    row.addEventListener('click', function(e) {
-      if (e.target.classList.contains('cb')) return;
-      var cb = row.querySelector('.cb');
-      cb.checked = !cb.checked;
-      toggleSelect(row.dataset.uuid, cb.checked);
-    });
-  });
-  document.querySelectorAll('.lib-row .cb').forEach(function(cb) {
-    cb.addEventListener('change', function() { toggleSelect(cb.dataset.uuid, cb.checked); });
-  });
-}
-
-function toggleSelect(uuid, checked) {
-  if (checked) { selectedUuids[uuid] = true; } else { delete selectedUuids[uuid]; }
-  refreshRowStyles();
-  syncCheckAll();
-  updateSelInfo();
-}
-
-function refreshRowStyles() {
-  document.querySelectorAll('.lib-row').forEach(function(row) {
-    row.querySelector('.cb').checked = !!selectedUuids[row.dataset.uuid];
-  });
-}
-
-function syncCheckAll() {
-  var total = document.querySelectorAll('.lib-row').length;
-  var checked = Object.keys(selectedUuids).length;
-  document.getElementById('checkAll').checked = total > 0 && checked === total;
-  document.getElementById('checkAll').indeterminate = checked > 0 && checked < total;
-  var counts = { '符号': 0, '封装': 0, '器件': 0 };
-  var selCounts = { '符号': 0, '封装': 0, '器件': 0 };
-  for (var i = 0; i < allItems.length; i++) {
-    counts[allItems[i].type]++;
-    if (selectedUuids[allItems[i].uuid]) selCounts[allItems[i].type]++;
-  }
-  var typeMap = { symbol: '符号', footprint: '封装', device: '器件' };
-  document.querySelectorAll('.type-cb').forEach(function(cb) {
-    var t = typeMap[cb.dataset.type];
-    var total = counts[t] || 0;
-    var sel = selCounts[t] || 0;
-    cb.checked = total > 0 && sel === total;
-    cb.indeterminate = sel > 0 && sel < total;
-  });
-}
-
-document.getElementById('checkAll').addEventListener('change', function() {
-  var on = this.checked;
-  selectedUuids = {};
-  if (on) allItems.forEach(function(item) { selectedUuids[item.uuid] = true; });
-  refreshRowStyles();
-  syncCheckAll();
-  updateSelInfo();
-});
-
-document.querySelectorAll('.type-cb').forEach(function(cb) {
-  cb.addEventListener('change', function() {
-    var type = this.dataset.type;
-    var typeName = { symbol: '符号', footprint: '封装', device: '器件' }[type];
-    var on = this.checked;
-    allItems.forEach(function(item) {
-      if (item.type === typeName) {
-        if (on) { selectedUuids[item.uuid] = true; } else { delete selectedUuids[item.uuid]; }
-      }
-    });
-    refreshRowStyles();
-    syncCheckAll();
-    updateSelInfo();
-  });
-});
-
-// ── 归属下拉框 ──
-
-initDropdown(document.getElementById('ddAff'), function(val) {
-  var isTeam = val === 'team';
-  var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  var teamPanel = document.getElementById('ddTeamPanel');
-  if (!isTeam) {
-    document.getElementById('ddTeam').style.display = 'none';
-    requestLoad('personal', null);
-  } else {
-    document.getElementById('ddTeam').style.display = '';
-    if (teams.length > 0) {
-      var first = teams[0];
-      teamTrigger.dataset.value = first.uuid;
-      teamTrigger.querySelector('.dd-text').textContent = first.name;
-      teamPanel.querySelectorAll('.dd-option').forEach(function(o) {
-        o.classList.toggle('active', o.dataset.value === first.uuid);
-      });
-      requestLoad('team', first.uuid);
-    } else {
-      teamTrigger.dataset.value = '';
-      teamTrigger.querySelector('.dd-text').textContent = t('No team');
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
-      document.getElementById('selInfo').textContent = '';
-    }
-  }
-  updateFooter();
-});
-
-initDropdown(document.getElementById('ddTeam'), function(val) {
-  if (val) { requestLoad('team', val); }
-  else {
-    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
-    document.getElementById('selInfo').textContent = '';
-  }
-});
-
-// ── 步骤4：文件名、密码与保存 ──
-
-var filenameBase = 'asyeda2xpedition';
-
-var filenameInput = document.getElementById('filenameInput');
-var filenameSuffix = document.getElementById('filenameSuffix');
-var pwCheck = document.getElementById('pwCheck');
-var pwInput = document.getElementById('pwInput');
-var pwLabel = document.getElementById('pwLabel');
-var eyeBtn = document.getElementById('eyeBtn');
-var pwVisible = false;
-
-// 文件名后缀 .zip 始终显示
-filenameInput.addEventListener('input', function() {
-  filenameBase = filenameInput.value;
-});
-
-filenameInput.addEventListener('blur', function() {
-  var v = filenameInput.value.trim();
-  if (!v) { v = 'asyeda2xpedition'; filenameInput.value = v; filenameBase = v; }
-});
-
-// 密码勾选框切换
-pwCheck.addEventListener('change', function() {
-  var on = pwCheck.checked;
-  pwInput.disabled = !on;
-  if (on) {
-    pwLabel.classList.add('checked');
-    pwInput.focus();
-  } else {
-    pwLabel.classList.remove('checked');
-    pwInput.value = '';
-  }
-});
-
-// 密码可见性切换
-eyeBtn.addEventListener('click', function() {
-  pwVisible = !pwVisible;
-  pwInput.type = pwVisible ? 'text' : 'password';
-  eyeBtn.innerHTML = pwVisible
-    ? '<svg viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'
-    : '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
-});
-
-// ── 转换进度 ──
-
-function addLog(msg, isError) {
-  var box = document.getElementById('logBox');
-  var entries = box.querySelectorAll('.log-entry');
-  entries.forEach(function(e) { e.classList.remove('active'); });
-  var entry = document.createElement('div');
-  entry.className = 'log-entry' + (isError ? ' error' : ' active');
-  var now = new Date();
-  var ts = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
-  entry.textContent = '[' + ts + '] ' + msg;
-  box.appendChild(entry);
-  box.scrollTop = box.scrollHeight;
-}
-
-async function startConversion() {
-  var items = [];
-  for (var i = 0; i < allItems.length; i++) {
-    if (selectedUuids[allItems[i].uuid]) {
-      items.push({ uuid: allItems[i].uuid, name: allItems[i].name, type: allItems[i].type, libraryUuid: allItems[i].libraryUuid || '' });
-    }
-  }
-
-  if (items.length === 0) {
-    eda.sys_Dialog.showInformationMessage(t('Please select at least one item'));
-    return;
-  }
-
-  // 切换到进度视图
-  setStep('progress');
-  document.getElementById('progTitle').textContent = t('Exporting...');
-  document.getElementById('progDesc').textContent = t('Export description');
-  document.getElementById('progBarFill').style.width = '0%';
-  document.getElementById('progLbl').textContent = t('Preparing...');
-  document.getElementById('logBox').innerHTML = '';
-  addLog(t('Start converting ${1} items', items.length));
-
-  // 发送转换命令到扩展
-  await storeWrite({ teams: teams, cmd: 'convert', items: items, filename: 'asyeda2xpedition.zip', seq: Date.now(), aff: currentAff, teamUuid: currentTeamUuid });
-
-  // 轮询进度
-  if (convertPollTimer) clearInterval(convertPollTimer);
-  var lastLogName = '';
-  convertPollTimer = setInterval(async function() {
-    try {
-      var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-      if (!raw) return;
-      var data = JSON.parse(raw);
-      if (data.cmd === 'converting' && data.progress) {
-        var p = data.progress;
-        var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
-        document.getElementById('progBarFill').style.width = pct + '%';
-        document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
-        if (p.name && p.name !== lastLogName) {
-          addLog(t('Converting item: ${1}', p.name));
-          lastLogName = p.name;
-        }
-      }
-      if (data.cmd === 'convert-done') {
-        clearInterval(convertPollTimer);
-        convertPollTimer = null;
-        document.getElementById('progBarFill').style.width = '100%';
-        document.getElementById('progLbl').textContent = t('Conversion complete!');
-        addLog(t('Conversion complete, file saved'));
-        setTimeout(function() { setStep(4); }, 600);
-      }
-      if (data.cmd === 'convert-error') {
-        clearInterval(convertPollTimer);
-        convertPollTimer = null;
-        document.getElementById('progTitle').textContent = t('Conversion failed');
-        document.getElementById('progDesc').textContent = data.error || t('Conversion error, please retry');
-        addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
-        document.getElementById('btnBack').className = 'btn';
-        document.getElementById('btnBack').onclick = function() { setStep(3); document.getElementById('btnBack').onclick = null; };
-      }
-    } catch (e) { /* continue polling */ }
-  }, 300);
-}
-
-var convertPollTimer = null;
-
-// 完成按钮 - 处理导出完成和导入执行
-document.getElementById('btnDone').addEventListener('click', async function() {
-  if (currentStep === 'results' && !importTeamUuid) return;
-  if (currentStep === 'results') {
-    var importPro = true;
-    var createDevice = document.getElementById('chkCreateDevice').checked;
-    var personalTeam = teams.find(function(tt) { return tt.name === '个人'; });
-    var importAffVal = (personalTeam && importTeamUuid === personalTeam.uuid) ? 'personal' : 'team';
-    var selUuids = Object.keys(importResultSelectedUuids);
-    var allSelected = selUuids.length === allResultItems.length;
-    var cmdData = { teams: teams, cmd: 'import-execute', seq: Date.now(), importPro: importPro, aff: importAffVal, teamUuid: importTeamUuid, createDevice: createDevice };
-    if (!allSelected && selUuids.length > 0) cmdData.selectedUuids = selUuids;
-    await storeWrite(cmdData);
-    // 切换到进度页签并轮询完成状态
-    setStep('progress');
-    document.getElementById('progTitle').textContent = t('Executing...');
-    document.getElementById('progBarFill').style.width = '0%';
-    document.getElementById('progLbl').textContent = t('Please wait...');
-    document.getElementById('logBox').innerHTML = '';
-    addLog(t('Start importing ${1} items', selUuids.length));
-    if (importPollTimer) clearInterval(importPollTimer);
-    importPollTimer = setInterval(async function() {
-      try {
-        var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-        if (!raw) return;
-        var data = JSON.parse(raw);
-        if (data.cmd === 'import-done') {
-          clearInterval(importPollTimer);
-          importPollTimer = null;
-          document.getElementById('progBarFill').style.width = '100%';
-          addLog(t('Execution complete!'));
-          setTimeout(async function() {
-            await storeWrite({ teams: teams, cmd: 'done-wizard' });
-            eda.sys_IFrame.closeIFrame('wizard');
-          }, 600);
-        }
-        if (data.cmd === 'import-error') {
-          clearInterval(importPollTimer);
-          importPollTimer = null;
-          document.getElementById('progTitle').textContent = t('Execution failed');
-          document.getElementById('progDesc').textContent = data.error || t('Execution error');
-          addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
-        }
-      } catch (ex) { /* continue */ }
-    }, 300);
-    return;
-  }
-  await storeWrite({ teams: teams, cmd: 'done-wizard' });
-  eda.sys_IFrame.closeIFrame('wizard');
-});
-
-// ── 导入完成归属/团队下拉框 ──
-
-var importTeamUuid = '';
-
-
-// ── 初始化 ──
-
-async function init() {
-  try {
-    var data = await storeRead();
-    teams = data.teams || [];
-  } catch (e) { console.warn('Failed to read team data:', e); }
-
-  var teamPanel = document.getElementById('ddTeamPanel');
-  var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  for (var tt of teams) {
-    var opt = document.createElement('div');
-    opt.className = 'dd-option';
-    opt.dataset.value = tt.uuid;
-    opt.textContent = tt.name;
-    teamPanel.appendChild(opt);
-  }
-  teamPanel.querySelectorAll('.dd-option').forEach(function(opt) {
-    opt.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var val = opt.dataset.value;
-      var text = opt.textContent;
-      teamTrigger.dataset.value = val;
-      teamTrigger.querySelector('.dd-text').textContent = text;
-      teamPanel.querySelectorAll('.dd-option').forEach(function(o) { o.classList.remove('active'); });
-      opt.classList.add('active');
-      teamPanel.classList.remove('show');
-      teamTrigger.classList.remove('open');
-      if (val) requestLoad('team', val);
-    });
-  });
-
-    // 填充导入完成团队面板：个人优先，然后过滤团队
-  var importTeamPanel = document.getElementById('ddImportTeamPanel');
-  var importTeamTrigger = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
-  // 从团队数组中查找个人团队UUID
-  var personalTeam = teams.find(function(tt) { return tt.name === '个人'; });
-  var personalUuid = personalTeam ? personalTeam.uuid : 'personal';
-  var personalOpt = document.createElement('div');
-  personalOpt.className = 'dd-option';
-  personalOpt.dataset.value = personalUuid;
-  personalOpt.textContent = t('Personal');
-  importTeamPanel.appendChild(personalOpt);
-  var filteredTeams = teams.filter(function(tt) { return tt.name !== '1.专业版测试' && tt.name !== '个人'; });
-  for (var t2 of filteredTeams) {
-    var opt2 = document.createElement('div');
-    opt2.className = 'dd-option';
-    opt2.dataset.value = t2.uuid;
-    opt2.textContent = t2.name;
-    importTeamPanel.appendChild(opt2);
-  }
-  importTeamPanel.querySelectorAll('.dd-option').forEach(function(opt2) {
-    opt2.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var val = opt2.dataset.value;
-      var text = opt2.textContent;
-      importTeamTrigger.dataset.value = val;
-      importTeamTrigger.querySelector('.dd-text').textContent = text;
-      importTeamPanel.querySelectorAll('.dd-option').forEach(function(o) { o.classList.remove('active'); });
-      opt2.classList.add('active');
-      importTeamPanel.classList.remove('show');
-      importTeamTrigger.classList.remove('open');
-      importTeamUuid = val;
-      updateFooter();
-    });
-  });
-  var importTeamTriggerEl = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
-  var importTeamPanelEl = document.getElementById('ddImportTeam').querySelector('.dd-panel');
-  importTeamTriggerEl.addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeAllDropdowns(document.getElementById('ddImportTeam'));
-    var isOpen = importTeamPanelEl.classList.contains('show');
-    if (isOpen) { importTeamPanelEl.classList.remove('show'); importTeamTriggerEl.classList.remove('open'); }
-    else {
-      var rect = importTeamTriggerEl.getBoundingClientRect();
-      var panelTop = rect.bottom + 2;
-      var maxH = window.innerHeight - panelTop - 8;
-      importTeamPanelEl.style.position = 'fixed';
-      importTeamPanelEl.style.left = rect.left + 'px';
-      importTeamPanelEl.style.top = panelTop + 'px';
-      importTeamPanelEl.style.width = rect.width + 'px';
-      importTeamPanelEl.style.maxHeight = Math.max(80, maxH) + 'px';
-      importTeamPanelEl.classList.add('show');
-      importTeamTriggerEl.classList.add('open');
-    }
-  });
-
-  // ── i18n: apply translated text ──
-  applyI18n();
-  // Step 1
-  document.querySelector('#step1 .main-title').textContent = t('Import/Export Wizard');
-  document.querySelector('#step1 .sub-title').textContent = t('File format conversion tool');
-  document.querySelector('#step1 .desc').textContent = t('Wizard description');
-  document.querySelector('#step1 .warn-text').textContent = t('Warning disclaimer');
-  // Step 2
-  document.getElementById('step2Title').textContent = t('Select conversion type');
-  var typeRows = document.querySelectorAll('#step2 .type-row');
-  if (typeRows[0]) {
-    typeRows[0].querySelector('.type-main').textContent = t('Import Xpedition files');
-    typeRows[0].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
-  }
-  if (typeRows[1]) {
-    typeRows[1].querySelector('.type-main').textContent = t('Export Xpedition files');
-    typeRows[1].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
-  }
-  // Step 3
-  document.querySelector('#step3 .aff-label').textContent = t('Ownership') + ':';
-  document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
-  document.querySelector('#ddAff .dd-option[data-value="team"]').textContent = t('Team');
-  document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Personal');
-  document.querySelector('#step3 .lib-label').textContent = t('Library list');
-  document.querySelectorAll('#step3 .type-label-text').forEach(function(el, idx) {
-    var labels = [t('Symbol'), t('Footprint'), t('Device')];
-    el.textContent = labels[idx] || '';
-  });
-  document.querySelector('#step3 .col-name').textContent = t('Library name');
-  document.querySelector('#step3 .col-type').textContent = t('Type');
-  // Step Import
-  document.getElementById('stepImportTitle').textContent = t('Import Xpedition files');
-  document.getElementById('uploadText').textContent = t('Click or drag ZIP file here');
-  // Step Results
-  document.querySelector('.rs-label-selectall').textContent = t('Select all');
-  document.querySelector('.rs-label-device').textContent = t('Device');
-  document.querySelector('.rs-label-symbol').textContent = t('Symbol');
-  document.querySelector('.rs-label-footprint').textContent = t('Footprint');
-  document.getElementById('rlColType').textContent = t('Type');
-  document.getElementById('rlColName').textContent = t('Name');
-  document.getElementById('rlColMsg').textContent = t('Message');
-  document.getElementById('resultEmptyMsg').textContent = t('No results');
-  document.getElementById('importOrgLabel').textContent = t('Ownership') + ':';
-  document.getElementById('ddImportTeamText').textContent = t('Select ownership');
-  document.getElementById('createDeviceLabel').textContent = t('Create device for single symbol');
-  // Step Progress
-  document.getElementById('progTitle').textContent = t('Exporting...');
-  document.getElementById('progDesc').textContent = t('Export description');
-  document.getElementById('progLbl').textContent = t('Preparing...');
-  // Step 4
-  document.getElementById('successTitle').textContent = t('Conversion complete!');
-  document.getElementById('saveLabel').textContent = t('File name');
-  document.getElementById('saveDesc').textContent = t('Set export file name');
-  document.getElementById('pwLabelSpan').textContent = t('Set password');
-  document.getElementById('pwInput').placeholder = t('Enter password');
-  // Footer
-  document.getElementById('btnExit').textContent = t('Exit');
-  document.getElementById('btnBack').textContent = t('Back');
-  document.getElementById('btnNext').textContent = t('Next');
-  document.getElementById('btnDone').textContent = t('Done');
-
-  setStep(1);
-  updateTypeSelection();
-}
-
-init();
-
-// ── 导入模式逻辑 ──
-
-var importFile = null;
-var importResults = null;
-
-// 上传区域交互
-var uploadZone = document.getElementById('uploadZone');
-var importFileInput = document.getElementById('importFileInput');
-
-uploadZone.addEventListener('click', function() { importFileInput.click(); });
-uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); uploadZone.style.borderColor = '#1890FF'; });
-uploadZone.addEventListener('dragleave', function(e) { e.preventDefault(); uploadZone.style.borderColor = ''; });
-uploadZone.addEventListener('drop', function(e) {
-  e.preventDefault(); e.stopPropagation(); uploadZone.style.borderColor = '';
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) handleImportFile(e.dataTransfer.files[0]);
-});
-importFileInput.addEventListener('change', function() { if (this.files[0]) handleImportFile(this.files[0]); });
-
-// 处理选中的ZIP文件
-function handleImportFile(file) {
-  if (!file.name.toLowerCase().endsWith('.zip')) {
-    eda.sys_Dialog.showInformationMessage(t('Please select a ZIP file'));
-    return;
-  }
-  importFile = file;
-  uploadZone.classList.add('has-file');
-  document.getElementById('uploadFilename').textContent = file.name;
-  document.getElementById('uploadFilename').style.display = '';
-  document.getElementById('uploadText').textContent = t('File selected, click to reselect');
-  updateFooter();
-}
-
-
-// 结果统一列表
-var allResultItems = [];
-var importResultSelectedUuids = {};
-
-// 状态图标（成功/警告/失败/跳过）
-var statusIcons = {
-  ok: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#34A853"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
-  warn: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>',
-  fail: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#E53E3E"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>',
-  skip: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#9CA3AF"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
-};
-
-// 渲染导入结果列表
-function renderResultList() {
-  if (!importResults) return;
-  allResultItems = [];
-
-  var devItems = (importResults.deviceItems || importResults.devices || []);
-  var symItems = (importResults.symbolItems || importResults.symbols || []);
-  var fpItems = (importResults.footprintItems || importResults.footprints || []);
-
-  for (var i = 0; i < fpItems.length; i++) {
-    allResultItems.push({ uuid: fpItems[i].uuid || '', name: fpItems[i].name, type: '封装', status: fpItems[i].status, message: fpItems[i].message || '' });
-  }
-  for (var i = 0; i < symItems.length; i++) {
-    allResultItems.push({ uuid: symItems[i].uuid || '', name: symItems[i].name, type: '符号', status: symItems[i].status, message: symItems[i].message || '' });
-  }
-  for (var i = 0; i < devItems.length; i++) {
-    allResultItems.push({ uuid: devItems[i].uuid || '', name: devItems[i].name, type: '器件', status: devItems[i].status, message: devItems[i].message || '' });
-  }
-
-  // 默认全选
-  importResultSelectedUuids = {};
-  for (var i = 0; i < allResultItems.length; i++) {
-    if (allResultItems[i].uuid) importResultSelectedUuids[allResultItems[i].uuid] = true;
-  }
-
-  // 更新统计数字
-  document.getElementById('cntResultDev').textContent = devItems.length;
-  document.getElementById('cntResultSym').textContent = symItems.length;
-  document.getElementById('cntResultFp').textContent = fpItems.length;
-  document.getElementById('chkResultSelectAll').checked = true;
-
-  renderResultRows();
-  updateResultSelInfo();
-}
-
-// 渲染结果行
-function renderResultRows() {
-  var html = '';
-  for (var i = 0; i < allResultItems.length; i++) {
-    var item = allResultItems[i];
-    var checked = importResultSelectedUuids[item.uuid] ? ' checked' : '';
-    var typeClass = item.type === '器件' ? 'device' : item.type === '符号' ? 'symbol' : 'footprint';
-    html += '<div class="result-lr" data-uuid="' + escapeHtml(item.uuid) + '">' +
-      '<div class="rl-cb-wrap"><input type="checkbox" class="rl-cb"' + checked + ' data-uuid="' + escapeHtml(item.uuid) + '" /></div>' +
-      '<span class="type-badge ' + typeClass + '">' + escapeHtml(item.type) + '</span>' +
-      (TYPE_ICON[item.type] ? '<img class="result-type-icon" src="' + TYPE_ICON[item.type] + '" />' : '') +
-      '<span class="rl-name">' + escapeHtml(item.name) + '</span>' +
-      '<span class="rl-status">' + (statusIcons[item.status] || statusIcons.warn) + '</span>' +
-      '<span class="rl-msg">' + escapeHtml(item.message) + '</span>' +
-      '</div>';
-  }
-  var scroll = document.getElementById('resultListScroll');
-  scroll.innerHTML = allResultItems.length > 0 ? html : '<div class="empty-msg">' + t('No data') + '</div>';
-
-  // 绑定复选框事件
-  scroll.querySelectorAll('.rl-cb').forEach(function(cb) {
-    cb.addEventListener('change', function() {
-      if (cb.checked) { importResultSelectedUuids[cb.dataset.uuid] = true; }
-      else { delete importResultSelectedUuids[cb.dataset.uuid]; }
-      syncResultSelectAll();
-      updateResultSelInfo();
-    });
-  });
-  scroll.querySelectorAll('.result-lr').forEach(function(row) {
-    row.addEventListener('click', function(e) {
-      if (e.target.classList.contains('rl-cb')) return;
-      var cb = row.querySelector('.rl-cb');
-      cb.checked = !cb.checked;
-      if (cb.checked) { importResultSelectedUuids[cb.dataset.uuid] = true; }
-      else { delete importResultSelectedUuids[cb.dataset.uuid]; }
-      syncResultSelectAll();
-      updateResultSelInfo();
-    });
-  });
-}
-
-// 同步全选复选框状态
-function syncResultSelectAll() {
-  var total = allResultItems.length;
-  var checked = Object.keys(importResultSelectedUuids).length;
-  document.getElementById('chkResultSelectAll').checked = total > 0 && checked === total;
-}
-
-// 更新已选数量提示
-function updateResultSelInfo() {
-  var checked = Object.keys(importResultSelectedUuids).length;
-  var total = allResultItems.length;
-  document.getElementById('resultSelInfo').textContent = total > 0 ? t('Selected ${1} / ${2}', checked, total) : '';
-}
-
-document.getElementById('chkResultSelectAll').addEventListener('change', function() {
-  var on = this.checked;
-  importResultSelectedUuids = {};
-  if (on) {
-    for (var i = 0; i < allResultItems.length; i++) {
-      if (allResultItems[i].uuid) importResultSelectedUuids[allResultItems[i].uuid] = true;
-    }
-  }
-  document.querySelectorAll('#resultListScroll .rl-cb').forEach(function(cb) {
-    cb.checked = on;
-  });
-  // 同步类型勾选框
-  document.querySelectorAll('.rs-type-cb').forEach(function(cb) { cb.checked = on; });
-  updateResultSelInfo();
-});
-
-// 类型勾选框：按类型批量选择/取消
-document.querySelectorAll('.rs-type-cb').forEach(function(cb) {
-  cb.addEventListener('change', function() {
-    var typeName = this.dataset.type;
-    var on = this.checked;
-    for (var i = 0; i < allResultItems.length; i++) {
-      if (allResultItems[i].type === typeName) {
-        if (on) { importResultSelectedUuids[allResultItems[i].uuid] = true; }
-        else { delete importResultSelectedUuids[allResultItems[i].uuid]; }
-      }
-    }
-    document.querySelectorAll('#resultListScroll .rl-cb').forEach(function(rcb) {
-      var item = allResultItems.find(function(x) { return x.uuid === rcb.dataset.uuid; });
-      if (item && item.type === typeName) rcb.checked = on;
-    });
-    syncResultSelectAll();
-    updateResultSelInfo();
-  });
-});
-
-// 收集选中的UUID
-function collectResultSelection() {
-  var uuids = Object.keys(importResultSelectedUuids);
-  console.log('Selected items for import:', uuids.length);
-}
-
-// 开始导入：读取ZIP文件并发送给扩展进行转换
-async function startImport() {
-  if (!importFile) {
-    eda.sys_Dialog.showInformationMessage(t('Please select ZIP file first'));
-    return;
-  }
-
-  setStep('progress');
-  document.getElementById('progTitle').textContent = t('Converting progress...');
-  document.getElementById('progDesc').textContent = t('Import convert description');
-  document.getElementById('progBarFill').style.width = '0%';
-  document.getElementById('progLbl').textContent = t('Reading file...');
-  document.getElementById('logBox').innerHTML = '';
-  addLog(t('Start converting...'));
-
-  var reader = new FileReader();
-  reader.onload = async function(e) {
-    // 将文件转为base64发送给扩展
-    var base64 = btoa(new Uint8Array(e.target.result).reduce(function(data, byte) { return data + String.fromCharCode(byte); }, ''));
-    var filename = importFile.name.replace(/\.zip$/i, '') + '.elibz2';
-
-    await storeWrite({ teams: teams, cmd: 'import', seq: Date.now(), file: base64, filename: filename });
-
-    // 轮询导入进度
-    if (importPollTimer) clearInterval(importPollTimer);
-    importPollTimer = setInterval(async function() {
-      try {
-        var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-        if (!raw) return;
-        var data = JSON.parse(raw);
-
-        // 正在导入中，更新进度
-        if (data.cmd === 'importing' && data.progress) {
-          var p = data.progress;
-          var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
-          document.getElementById('progBarFill').style.width = pct + '%';
-          document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
-          if (p.name) addLog(t('Converting item: ${1}', p.name));
-        }
-        // 转换完成，跳转到结果页
-        if (data.cmd === 'import-convert-done') {
-          clearInterval(importPollTimer);
-          importPollTimer = null;
-          document.getElementById('progBarFill').style.width = '100%';
-          addLog(t('Conversion complete!'));
-          importResults = data.result || {};
-          var okDev = (importResults.devices || []).filter(function(x) { return x.status === 'ok'; }).length;
-          var okFp = (importResults.footprints || []).filter(function(x) { return x.status === 'ok'; }).length;
-          var okSym = (importResults.symbols || []).filter(function(x) { return x.status === 'ok'; }).length;
-          renderResultList();
-          setTimeout(function() { setStep('results'); }, 600);
-        }
-        // 导入执行完成，关闭向导
-        if (data.cmd === 'import-done') {
-          clearInterval(importPollTimer);
-          importPollTimer = null;
-          document.getElementById('progBarFill').style.width = '100%';
-          addLog(t('Execution complete!'));
-          await storeWrite({ teams: teams, cmd: 'done-wizard' });
-          eda.sys_IFrame.closeIFrame('wizard');
-        }
-        // 导入出错
-        if (data.cmd === 'import-error') {
-          clearInterval(importPollTimer);
-          importPollTimer = null;
-          document.getElementById('progTitle').textContent = t('Import failed');
-          document.getElementById('progDesc').textContent = data.error || t('Import error');
-          addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
-        }
-      } catch (ex) { /* 继续轮询 */ }
-    }, 300);
-  };
-  reader.readAsArrayBuffer(importFile);
-}
-
-var importPollTimer = null;
-</script>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title></title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				font-family:
+					'Inter',
+					-apple-system,
+					BlinkMacSystemFont,
+					'Segoe UI',
+					sans-serif;
+				background: #fff;
+				color: #1a1a1a;
+			}
+
+			.dialog {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+			}
+
+			.body-wrap {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 21px 24px 4px 24px;
+				overflow: hidden;
+			}
+			.body {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 5px;
+				overflow: hidden;
+				min-height: 0;
+				position: relative;
+			}
+
+			/* ── 页签容器 ── */
+			.step {
+				display: none;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.step.active {
+				display: flex;
+			}
+
+			/* ── 步骤1：欢迎页 ── */
+			#step1 {
+				gap: 0;
+			}
+			.hero {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				position: absolute;
+				top: 144px;
+				left: 62px;
+				right: 37px;
+			}
+			.icon-box {
+				width: 48px;
+				height: 48px;
+				border-radius: 24px;
+				background: #ebf2ff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+			}
+			.icon-box svg {
+				width: 28px;
+				height: 28px;
+			}
+			.title-col {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+			.main-title {
+				font-size: 28px;
+				font-weight: 600;
+				color: #1a1a1a;
+			}
+			.sub-title {
+				font-size: 12px;
+				color: #888;
+			}
+			.desc {
+				font-size: 12px;
+				color: #333;
+				line-height: 1.6;
+				position: absolute;
+				top: 240px;
+				left: 86px;
+				right: 62px;
+			}
+			.warn-row {
+				display: flex;
+				align-items: flex-start;
+				gap: 6px;
+				position: absolute;
+				top: 262px;
+				left: 62px;
+				right: 62px;
+			}
+			.warn-icon {
+				width: 18px;
+				height: 18px;
+				flex-shrink: 0;
+				margin-top: -1px;
+			}
+			.warn-text {
+				font-size: 12px;
+				color: #7a5c00;
+				line-height: 1.5;
+			}
+
+			/* ── 步骤2：选择类型 ── */
+			#step2 {
+				padding: 12px 14px;
+				gap: 12px;
+			}
+			.pg-title {
+				font-size: 13px;
+				font-weight: 600;
+				color: #1a1a1a;
+				flex-shrink: 0;
+			}
+			.type-table {
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 4px;
+				overflow: hidden;
+				flex-shrink: 0;
+			}
+			.type-row {
+				display: flex;
+				align-items: center;
+				height: 44px;
+				padding: 0 12px;
+				cursor: pointer;
+				gap: 8px;
+				border: 1px solid #e8e8e8;
+			}
+			.type-row:hover {
+				background: #f5f9ff;
+			}
+			.type-row.selected {
+				background: #ebf2ff;
+				border-color: #1890ff;
+			}
+			.type-row svg.radio {
+				width: 16px;
+				height: 16px;
+				flex-shrink: 0;
+			}
+			.type-row svg.row-icon {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+			}
+			.radio-checked {
+				fill: #1890ff;
+			}
+			.radio-unchecked {
+				fill: #aaa;
+			}
+			.row-icon {
+				fill: #555;
+			}
+			.type-texts {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				flex: 1;
+			}
+			.type-main {
+				font-size: 12px;
+				font-weight: 500;
+				color: #1a1a1a;
+			}
+			.type-sub {
+				font-size: 11px;
+				color: #888;
+			}
+
+			/* ── 步骤3：库列表 ── */
+			#step3 {
+				padding: 12px 14px;
+				gap: 10px;
+			}
+			.aff-row {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				flex-shrink: 0;
+			}
+			.aff-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+				white-space: nowrap;
+			}
+
+			.dd-wrap {
+				position: relative;
+				display: inline-block;
+			}
+			.dd-trigger {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				height: 28px;
+				padding: 0 26px 0 10px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				background: #fff;
+				font-family: inherit;
+				font-size: 12px;
+				color: #1a1a1a;
+				user-select: none;
+			}
+			.dd-trigger::after {
+				content: '';
+				width: 0;
+				height: 0;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 5px solid #888;
+				position: absolute;
+				right: 8px;
+				top: 50%;
+				transform: translateY(-50%);
+				pointer-events: none;
+			}
+			.dd-trigger:hover {
+				border-color: #b0b0b0;
+			}
+			.dd-trigger.open {
+				border-color: #1890ff;
+				background: #e6f7ff;
+			}
+			.dd-panel {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0;
+				z-index: 100;
+				min-width: 100%;
+				max-height: 200px;
+				overflow-y: auto;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				background: #fff;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+				margin-top: 2px;
+			}
+			.dd-panel.show {
+				display: block;
+			}
+			.dd-panel::-webkit-scrollbar {
+				width: 6px;
+			}
+			.dd-panel::-webkit-scrollbar-track {
+				background: #f0f0f0;
+				border-radius: 3px;
+			}
+			.dd-panel::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 3px;
+			}
+			.dd-option {
+				padding: 0 10px;
+				height: 28px;
+				display: flex;
+				align-items: center;
+				font-size: 12px;
+				color: #1a1a1a;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			.dd-option:hover {
+				background: #e6f7ff;
+			}
+			.dd-option.active {
+				color: #1890ff;
+				font-weight: 600;
+			}
+			.dd-aff {
+				width: 160px;
+			}
+			.dd-team {
+				width: 200px;
+			}
+
+			.filter-row {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				flex-shrink: 0;
+				flex-wrap: wrap;
+			}
+			.lib-label-icon {
+				width: 16px;
+				height: 16px;
+				vertical-align: middle;
+				margin-right: 4px;
+			}
+			.filter-row .lib-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+				white-space: nowrap;
+			}
+			.filter-row .sel-info {
+				font-size: 12px;
+				color: #888;
+			}
+			.type-filter {
+				display: inline-flex;
+				align-items: center;
+				gap: 4px;
+				cursor: pointer;
+				user-select: none;
+				font-size: 12px;
+				color: #444;
+			}
+			.type-filter input {
+				accent-color: #1890ff;
+				width: 14px;
+				height: 14px;
+				cursor: pointer;
+			}
+			.type-filter img {
+				width: 16px;
+				height: 16px;
+			}
+			.type-filter .count {
+				color: #888;
+			}
+
+			.lib-table {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 4px;
+				overflow: hidden;
+				min-height: 0;
+			}
+			.lib-head {
+				display: flex;
+				align-items: center;
+				height: 28px;
+				padding: 0 10px;
+				background: #f0f0f0;
+				border-bottom: 1px solid #e0e0e0;
+				flex-shrink: 0;
+				gap: 6px;
+				font-size: 12px;
+				color: #666;
+			}
+			.lib-head span {
+				font-size: 12px;
+				color: #666;
+			}
+			.col-check {
+				width: 20px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			#checkAll {
+				margin: 0;
+			}
+			.col-icon-hd {
+				width: 14px;
+				flex-shrink: 0;
+			}
+			.col-name {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.col-type {
+				width: 60px;
+				flex-shrink: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.lib-scroll {
+				flex: 1;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			.lib-scroll::-webkit-scrollbar {
+				width: 8px;
+			}
+			.lib-scroll::-webkit-scrollbar-track {
+				background: #f0f0f0;
+				border-radius: 4px;
+			}
+			.lib-scroll::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 4px;
+			}
+			.lib-scroll::-webkit-scrollbar-thumb:hover {
+				background: #aaa;
+			}
+
+			.lib-row {
+				display: flex;
+				align-items: center;
+				height: 32px;
+				padding: 0 10px;
+				gap: 6px;
+				cursor: pointer;
+			}
+			.lib-row:hover {
+				background: #e6f7ff;
+			}
+			.lib-row:nth-child(even) {
+				background: #f8f8f8;
+			}
+			.lib-row:nth-child(even):hover {
+				background: #e6f7ff;
+			}
+			.lib-row .cb {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+				accent-color: #1890ff;
+				cursor: pointer;
+				margin: 0;
+			}
+			.lib-row .cb-wrap {
+				width: 20px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.lib-row .type-icon {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+			}
+			.lib-row .name {
+				font-size: 12px;
+				color: #1a1a1a;
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.lib-row .type-text {
+				font-size: 12px;
+				color: #555;
+				width: 60px;
+				flex-shrink: 0;
+			}
+
+			.empty-msg {
+				padding: 40px;
+				text-align: center;
+				color: #aaa;
+				font-size: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 6px;
+			}
+			.spinner {
+				display: inline-block;
+				width: 14px;
+				height: 14px;
+				border: 2px solid #d0d0d0;
+				border-top-color: #1890ff;
+				border-radius: 50%;
+				animation: spin 0.8s linear infinite;
+			}
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			/* ── 步骤4：导出完成 ── */
+			#step4 {
+				padding: 14px 16px;
+				gap: 14px;
+				justify-content: center;
+			}
+			.success-row {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 12px;
+			}
+			.success-circle {
+				width: 72px;
+				height: 72px;
+				border-radius: 36px;
+				background: #e8f5e9;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.success-circle svg {
+				width: 44px;
+				height: 44px;
+			}
+			.success-title {
+				font-size: 18px;
+				font-weight: 700;
+				color: #1a1a1a;
+			}
+			.save-sec {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.save-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+			}
+			.save-desc {
+				font-size: 12px;
+				color: #888;
+			}
+			.filename-row {
+				display: flex;
+				align-items: center;
+				gap: 0;
+				height: 32px;
+			}
+			.filename-input {
+				flex: 1;
+				height: 32px;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px 0 0 3px;
+				padding: 0 10px;
+				font-size: 12px;
+				font-family: inherit;
+				color: #333;
+				background: #fff;
+				outline: none;
+			}
+			.filename-input:focus {
+				border-color: #1890ff;
+			}
+			.filename-suffix {
+				height: 32px;
+				line-height: 30px;
+				padding: 0 10px;
+				border: 1px solid #d0d0d0;
+				border-left: none;
+				border-radius: 0 3px 3px 0;
+				background: #f5f5f5;
+				font-size: 12px;
+				font-family: inherit;
+				color: #666;
+				user-select: none;
+				white-space: nowrap;
+			}
+			.pw-section {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.pw-check-row {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				height: 20px;
+			}
+			.pw-check-row label {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				font-size: 12px;
+				color: #888;
+				cursor: pointer;
+				user-select: none;
+			}
+			.pw-check-row label.checked {
+				color: #444;
+			}
+			.pw-check-row input[type='checkbox'] {
+				width: 14px;
+				height: 14px;
+				accent-color: #1890ff;
+				cursor: pointer;
+			}
+			.pw-input-row {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				height: 32px;
+			}
+			.pw-input {
+				flex: 1;
+				height: 32px;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				padding: 0 10px;
+				font-size: 12px;
+				font-family: inherit;
+				color: #333;
+				background: #f0f0f0;
+				outline: none;
+			}
+			.pw-input:disabled {
+				background: #f0f0f0;
+				color: #bbb;
+				cursor: not-allowed;
+			}
+			.pw-input:not(:disabled) {
+				background: #fff;
+			}
+			.pw-input:not(:disabled):focus {
+				border-color: #1890ff;
+			}
+			.eye-btn {
+				width: 32px;
+				height: 32px;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				background: #f0f0f0;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+			}
+			.eye-btn:hover {
+				background: #e5e5e5;
+			}
+			.eye-btn svg {
+				width: 16px;
+				height: 16px;
+				fill: #888;
+			}
+			.sep {
+				height: 1px;
+				background: #e8e8e8;
+			}
+
+			/* ── 进度条页签 ── */
+			#stepProgress {
+				padding: 16px 24px;
+				gap: 0;
+				justify-content: center;
+				align-items: center;
+			}
+			.spinner-ring {
+				width: 72px;
+				height: 72px;
+				border-radius: 36px;
+				background: #ebf2ff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				animation: spin 1.5s linear infinite;
+				flex-shrink: 0;
+			}
+			.spinner-ring svg {
+				width: 40px;
+				height: 40px;
+				fill: #2d6ee8;
+			}
+			.prog-title {
+				font-size: 18px;
+				font-weight: 700;
+				color: #1a1a1a;
+				margin-top: 16px;
+			}
+			.prog-desc {
+				font-size: 12px;
+				color: #555;
+				text-align: center;
+				line-height: 1.6;
+				width: 100%;
+				margin-top: 8px;
+			}
+			.prog-bar-bg {
+				width: 100%;
+				height: 8px;
+				background: #e8e8e8;
+				border-radius: 4px;
+				margin-top: 20px;
+				overflow: hidden;
+				flex-shrink: 0;
+			}
+			.prog-bar-fill {
+				height: 8px;
+				background: #2d6ee8;
+				border-radius: 4px;
+				transition: width 0.3s ease;
+				width: 0;
+			}
+			.prog-lbl {
+				font-size: 12px;
+				color: #888;
+				margin-top: 8px;
+				flex-shrink: 0;
+			}
+			.log-box {
+				width: 100%;
+				height: 80px;
+				background: #f5f7fa;
+				border: 1px solid #e0e0e0;
+				border-radius: 4px;
+				padding: 8px 10px;
+				overflow-y: auto;
+				margin-top: 16px;
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				flex-shrink: 0;
+			}
+			.log-box::-webkit-scrollbar {
+				width: 4px;
+			}
+			.log-box::-webkit-scrollbar-track {
+				background: transparent;
+			}
+			.log-box::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 2px;
+			}
+			.log-entry {
+				font-size: 11px;
+				color: #666;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.log-entry.active {
+				color: #2d6ee8;
+			}
+			.log-entry.error {
+				color: #e53e3e;
+			}
+
+			/* ── 底部栏 ── */
+			.footer {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: 8px;
+				height: 58px;
+				padding: 0 24px 0 24px;
+				flex-shrink: 0;
+				margin-top: -3px;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				height: 32px;
+				width: 86px;
+				border-radius: 4px;
+				font-size: 12px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				background: #fff;
+				color: #333;
+				user-select: none;
+			}
+			.btn:hover {
+				background: #f5f5f5;
+			}
+			.btn-primary {
+				background: #1890ff;
+				border-color: #1890ff;
+				color: #fff;
+			}
+			.btn-primary:hover {
+				background: #0d7de8;
+			}
+			.btn-disabled {
+				background: #e8e8e8;
+				border-color: #e8e8e8;
+				color: #aaa;
+				cursor: default;
+				pointer-events: none;
+			}
+			.btn-back-disabled {
+				background: #f5f5f5;
+				border-color: #d0d0d0;
+				color: #999;
+				cursor: default;
+				pointer-events: none;
+			}
+
+			/* ── 导入上传页签 ── */
+			#stepImport {
+				padding: 16px 20px;
+				gap: 14px;
+			}
+
+			/* ── 导入操作区（归属+创建器件） ── */
+			.import-action-sec {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				width: 100%;
+			}
+			.import-action-in-results {
+				margin-top: 8px;
+				padding-top: 8px;
+				border-top: 1px solid #e8e8e8;
+			}
+			.import-org-row {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin-top: 8px;
+				position: relative;
+			}
+			.import-org-row.disabled {
+				opacity: 0.4;
+				pointer-events: none;
+			}
+			.import-sub-check {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				font-size: 12px;
+				color: #333;
+				cursor: pointer;
+				user-select: none;
+			}
+			.import-sub-check input[type='checkbox'] {
+				width: 14px;
+				height: 14px;
+				accent-color: #1890ff;
+				cursor: pointer;
+			}
+			.import-org-label {
+				font-size: 12px;
+				color: #666;
+				white-space: nowrap;
+			}
+			.dd-import-team {
+				width: 220px;
+			}
+			.dd-import-team .dd-text {
+				display: inline-block;
+				max-width: 200px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				vertical-align: middle;
+			}
+			.dd-import-team .dd-panel {
+				position: fixed;
+				z-index: 9999;
+				min-width: 0;
+			}
+			.upload-zone {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 10px;
+				border: 2px dashed #c0c0c0;
+				border-radius: 8px;
+				padding: 30px 20px;
+				cursor: pointer;
+				transition:
+					border-color 0.2s,
+					background 0.2s;
+			}
+			.upload-zone:hover {
+				border-color: #1890ff;
+				background: #f5f9ff;
+			}
+			.upload-zone.has-file {
+				border-color: #34a853;
+				background: #f0fff0;
+			}
+			.upload-icon {
+				width: 40px;
+				height: 40px;
+				fill: #999;
+			}
+			.upload-zone.has-file .upload-icon {
+				fill: #34a853;
+			}
+			.upload-text {
+				font-size: 13px;
+				color: #555;
+				text-align: center;
+			}
+			.upload-hint {
+				font-size: 11px;
+				color: #aaa;
+			}
+			.upload-filename {
+				font-size: 12px;
+				color: #1890ff;
+				font-weight: 600;
+			}
+			#importFileInput {
+				display: none;
+			}
+
+			/* ── 导入结果页签 ── */
+			#stepResults {
+				padding: 12px 14px;
+				gap: 8px;
+			}
+			.result-stats {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				flex-shrink: 0;
+				font-size: 12px;
+				color: #666;
+				padding: 8px 0;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			.result-stats b {
+				color: #1890ff;
+				font-weight: 600;
+			}
+			.rs-check {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				cursor: pointer;
+				user-select: none;
+				color: #444;
+			}
+			.rs-check input[type='checkbox'] {
+				width: 14px;
+				height: 14px;
+				accent-color: #1890ff;
+				cursor: pointer;
+			}
+			.rs-type-icon {
+				width: 14px;
+				height: 14px;
+				vertical-align: middle;
+			}
+			.rs-info {
+				color: #888;
+				margin-left: auto;
+			}
+			.result-list {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 4px;
+				overflow: hidden;
+				min-height: 0;
+			}
+			.result-list-head {
+				display: flex;
+				align-items: center;
+				height: 28px;
+				padding: 0 10px;
+				background: #f0f0f0;
+				border-bottom: 1px solid #e0e0e0;
+				flex-shrink: 0;
+				gap: 8px;
+			}
+			.result-list-head span {
+				font-size: 12px;
+				color: #666;
+			}
+			.rl-col-check {
+				width: 20px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.rl-col-type {
+				width: 54px;
+				flex-shrink: 0;
+			}
+			.rl-col-icon {
+				width: 14px;
+				flex-shrink: 0;
+			}
+			.rl-col-name {
+				flex: 1;
+			}
+			.rl-col-status {
+				width: 24px;
+				flex-shrink: 0;
+			}
+			.rl-col-msg {
+				width: 160px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.result-list-scroll {
+				flex: 1;
+				overflow-y: auto;
+			}
+			.result-list-scroll::-webkit-scrollbar {
+				width: 6px;
+			}
+			.result-list-scroll::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 3px;
+			}
+			.result-lr {
+				display: flex;
+				align-items: center;
+				height: 28px;
+				padding: 0 10px;
+				gap: 8px;
+				font-size: 12px;
+			}
+			.result-lr:nth-child(even) {
+				background: #f8f8f8;
+			}
+			.result-lr .rl-cb {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+				accent-color: #1890ff;
+				cursor: pointer;
+				margin: 0;
+			}
+			.result-lr .rl-cb-wrap {
+				width: 20px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.type-badge {
+				display: inline-block;
+				padding: 1px 6px;
+				border-radius: 3px;
+				font-size: 11px;
+				font-weight: 500;
+				line-height: 18px;
+				width: 42px;
+				text-align: center;
+			}
+			.type-badge.device {
+				background: #ebf2ff;
+				color: #2d6ee8;
+			}
+			.type-badge.symbol {
+				background: #e8f5e9;
+				color: #34a853;
+			}
+			.type-badge.footprint {
+				background: #fff3e0;
+				color: #e67e22;
+			}
+			.result-type-icon {
+				width: 14px;
+				height: 14px;
+				vertical-align: middle;
+				margin-left: 6px;
+			}
+			.result-lr .rl-name {
+				flex: 1;
+				color: #333;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.result-lr .rl-status {
+				width: 24px;
+				height: 24px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.result-lr .rl-msg {
+				width: 160px;
+				color: #888;
+				font-size: 11px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="dialog">
+			<div class="body-wrap">
+				<div class="body">
+					<!-- ===== 步骤1：欢迎页 ===== -->
+					<div class="step active" id="step1">
+						<div class="hero">
+							<div class="icon-box">
+								<svg viewBox="0 0 24 24" fill="#2D6EE8">
+									<path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" />
+								</svg>
+							</div>
+							<div class="title-col">
+								<div class="main-title" data-i18n="Import/Export Wizard">导入导出向导</div>
+								<div class="sub-title" data-i18n="File format conversion tool">文件格式互转工具</div>
+							</div>
+						</div>
+						<div class="desc" data-i18n="Wizard description">该向导将帮助您将其他供应商文件与嘉立创EDA专业版文件互转。</div>
+						<div class="warn-row">
+							<svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B">
+								<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
+							</svg>
+							<div class="warn-text" data-i18n="Warning disclaimer">
+								嘉立创EDA不承担任何因格式转换差异产生的损失，如不同意请不要进行转换。
+							</div>
+						</div>
+					</div>
+
+					<!-- ===== 步骤2：选择导入/导出类型 ===== -->
+					<div class="step" id="step2">
+						<div class="pg-title" id="step2Title" data-i18n="Select conversion type">选择您希望的转换类型</div>
+						<div class="type-table">
+							<div class="type-row selected" data-mode="import" data-type="xpedition">
+								<svg class="radio radio-checked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="export" style="display: none" data-type="xpedition">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- ===== 步骤3：库列表（导出流程） ===== -->
+					<div class="step" id="step3">
+						<div class="aff-row">
+							<span class="aff-label" data-i18n="Ownership">归属</span>
+							<div class="dd-wrap dd-aff" id="ddAff">
+								<div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Personal">个人</span></div>
+								<div class="dd-panel">
+									<div class="dd-option" data-value="personal" data-i18n="Personal">个人</div>
+									<div class="dd-option" data-value="team" data-i18n="Team">团队</div>
+								</div>
+							</div>
+							<div class="dd-wrap dd-team" id="ddTeam" style="display: none">
+								<div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team">请选择团队</span></div>
+								<div class="dd-panel" id="ddTeamPanel"></div>
+							</div>
+						</div>
+
+						<div class="filter-row">
+							<img
+								class="lib-label-icon"
+								src="data:image/png;base64,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"
+							/><span class="lib-label"></span>
+							<span class="sel-info" id="selInfo"></span>
+							<label class="type-filter"
+								><input type="checkbox" class="type-cb" data-type="symbol" checked /><img
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC"
+								/><span class="type-label-text"></span>(<span class="count" id="cntSymbol">0</span>)</label
+							>
+							<label class="type-filter"
+								><input type="checkbox" class="type-cb" data-type="footprint" checked /><img
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg=="
+								/><span class="type-label-text"></span>(<span class="count" id="cntFootprint">0</span>)</label
+							>
+							<label class="type-filter"
+								><input type="checkbox" class="type-cb" data-type="device" checked /><img
+									src="data:image/png;base64,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"
+								/><span class="type-label-text"></span>(<span class="count" id="cntDevice">0</span>)</label
+							>
+						</div>
+
+						<div class="lib-table">
+							<div class="lib-head">
+								<div class="col-check"><input type="checkbox" id="checkAll" /></div>
+								<span class="col-icon-hd"></span>
+								<span class="col-name"></span>
+								<span class="col-type"></span>
+							</div>
+							<div class="lib-scroll" id="libScroll">
+								<div class="empty-msg"><span class="spinner"></span></div>
+							</div>
+						</div>
+					</div>
+
+					<!-- ===== 步骤：导入上传文件 ===== -->
+					<div class="step" id="stepImport">
+						<div class="pg-title" id="stepImportTitle"></div>
+						<div class="upload-zone" id="uploadZone">
+							<svg class="upload-icon" viewBox="0 0 24 24">
+								<path
+									d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+								/>
+							</svg>
+							<div class="upload-text" id="uploadText"></div>
+							<div class="upload-filename" id="uploadFilename" style="display: none"></div>
+						</div>
+						<input type="file" id="importFileInput" accept=".zip" />
+					</div>
+
+					<!-- ===== 步骤：导入转换结果 ===== -->
+					<div class="step" id="stepResults">
+						<div class="result-stats" id="resultStats">
+							<label class="rs-check"
+								><input type="checkbox" id="chkResultSelectAll" checked /> <span class="rs-label-selectall"></span
+							></label>
+							<label class="rs-check"
+								><input type="checkbox" class="rs-type-cb" data-type="器件" checked />
+								<img
+									class="rs-type-icon"
+									src="data:image/png;base64,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"
+								/>
+								<span class="rs-label-device"></span> <b id="cntResultDev">0</b></label
+							>
+							<label class="rs-check"
+								><input type="checkbox" class="rs-type-cb" data-type="符号" checked />
+								<img
+									class="rs-type-icon"
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC"
+								/>
+								<span class="rs-label-symbol"></span> <b id="cntResultSym">0</b></label
+							>
+							<label class="rs-check"
+								><input type="checkbox" class="rs-type-cb" data-type="封装" checked />
+								<img
+									class="rs-type-icon"
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg=="
+								/>
+								<span class="rs-label-footprint"></span> <b id="cntResultFp">0</b></label
+							>
+							<span class="rs-info" id="resultSelInfo"></span>
+						</div>
+						<div class="result-list">
+							<div class="result-list-head">
+								<div class="rl-col-check"></div>
+								<span class="rl-col-type" id="rlColType"></span>
+								<span class="rl-col-icon"></span>
+								<span class="rl-col-name" id="rlColName"></span>
+								<span class="rl-col-status"></span>
+								<span class="rl-col-msg" id="rlColMsg"></span>
+							</div>
+							<div class="result-list-scroll" id="resultListScroll">
+								<div class="empty-msg" id="resultEmptyMsg"></div>
+							</div>
+						</div>
+						<div class="import-action-sec import-action-in-results">
+							<div class="import-org-row" id="importOrgRow">
+								<span class="import-org-label" id="importOrgLabel"></span>
+								<div class="dd-wrap dd-import-team" id="ddImportTeam">
+									<div class="dd-trigger" data-value=""><span class="dd-text" id="ddImportTeamText"></span></div>
+									<div class="dd-panel" id="ddImportTeamPanel"></div>
+								</div>
+							</div>
+							<div class="import-org-row" id="createDeviceRow">
+								<label class="import-sub-check"
+									><input type="checkbox" id="chkCreateDevice" checked /><span id="createDeviceLabel"></span
+								></label>
+							</div>
+						</div>
+					</div>
+
+					<!-- ===== 步骤：进度条（导入/导出转换中） ===== -->
+					<div class="step" id="stepProgress">
+						<div class="spinner-ring">
+							<svg viewBox="0 0 24 24">
+								<path
+									d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
+								/>
+							</svg>
+						</div>
+						<div class="prog-title" id="progTitle"></div>
+						<div class="prog-desc" id="progDesc"></div>
+						<div class="prog-bar-bg"><div class="prog-bar-fill" id="progBarFill"></div></div>
+						<div class="prog-lbl" id="progLbl"></div>
+						<div class="log-box" id="logBox"></div>
+					</div>
+
+					<!-- ===== 步骤4：导出完成（保存文件） ===== -->
+					<div class="step" id="step4">
+						<div class="success-row">
+							<div class="success-circle">
+								<svg viewBox="0 96 960 960" fill="#34A853">
+									<path
+										d="M438 670 650 458l-56-56-156 156-56-56-56 56 112 112Zm42 250q-83 0-156-31.5T197 763q-54-54-85.5-127T80 480q0-83 31.5-156T197 197q54-54 127-85.5T480 80q83 0 156 31.5T763 197q54 54 85.5 127T880 480q0 83-31.5 156T763 763q-54 54-127 85.5T480 920Zm0-80q134 0 227-93t93-227q0-134-93-227T480 160q-134 0-227 93T160 480q0 134 93 227t227 93Zm0-320Z"
+									/>
+								</svg>
+							</div>
+							<div class="success-title" id="successTitle"></div>
+						</div>
+						<div class="sep"></div>
+						<div class="save-sec">
+							<div class="save-label" id="saveLabel"></div>
+							<div class="save-desc" id="saveDesc"></div>
+							<div class="filename-row">
+								<input type="text" class="filename-input" id="filenameInput" value="asyeda2xpedition" spellcheck="false" />
+								<span class="filename-suffix" id="filenameSuffix">.zip</span>
+							</div>
+							<div class="pw-section">
+								<div class="pw-check-row">
+									<label id="pwLabel">
+										<input type="checkbox" id="pwCheck" />
+										<span id="pwLabelSpan"></span>
+									</label>
+								</div>
+								<div class="pw-input-row">
+									<input type="password" class="pw-input" id="pwInput" disabled />
+									<button class="eye-btn" id="eyeBtn" type="button">
+										<svg viewBox="0 0 24 24">
+											<path
+												d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+											/>
+										</svg>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer">
+				<div class="btn" id="btnExit" data-i18n="Exit">退出</div>
+				<div class="btn btn-back-disabled" id="btnBack" data-i18n="Back">返回</div>
+				<div class="btn btn-primary" id="btnNext" data-i18n="Next">下一步</div>
+				<div class="btn btn-disabled" id="btnDone" data-i18n="Done">完成</div>
+			</div>
+		</div>
+
+		<script>
+			var edaObj = typeof eda !== 'undefined' ? eda : window.parent && window.parent.eda;
+			function t(tag) {
+				var args = Array.prototype.slice.call(arguments, 1);
+				if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, args[0], args[1], args[2], args[3], args[4]);
+				return tag;
+			}
+
+			function applyI18n() {
+				var els = document.querySelectorAll('[data-i18n]');
+				for (var i = 0; i < els.length; i++) {
+					var key = els[i].getAttribute('data-i18n');
+					els[i].textContent = t(key);
+				}
+				var titleEls = document.querySelectorAll('[data-i18n-title]');
+				for (var i = 0; i < titleEls.length; i++) {
+					titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+				}
+				var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+				for (var i = 0; i < phEls.length; i++) {
+					phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+				}
+				document.title = t('Import/Export Wizard');
+			}
+
+			var STORE_KEY = 'libReaderData';
+			var allItems = [];
+			var selectedUuids = {};
+			var teams = [];
+			var loadSeq = 0;
+			var pollTimer = null;
+			var currentStep = 1;
+			var currentAff = '';
+			var currentTeamUuid = null;
+
+			var TYPE_ICON = {
+				'符号': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAD/0lEQVRYhc2Yy28PURTHv3cyqlKiLYk+QlSrXkGqEiQiHlFEYm0jwqIbm4Z/wErsSIgVi0YiwcYrLEQ3BPUOoQ+6QNsIbSUebUn6O3Jnfr/+zn3N7/5+RX4nnd6ZO2fOfHrOPeeeqTh+eaIcwEki7AcAkgfFIyh7DW3U5636PjqW+fR1OwFtYZHCyZ+IKShSuLSO2B8UMVx0HlgV8oXDv4GTvwIbnM1gIpyvdx3zLjg5hvnCVVUApdOE4jmbtyejwO6P/SYMDDmgLXDyXugLN7sMOLg9QHkZpiACgyPA6espjP3ODTe5Bn0817RITBEulppKYOVC4QUH7sEkOC4dLwl3XlBBa+7Q7gD11UDFrGQ4sOvQZnBeObBsvlDgFs4TyoPyXsVMYOR7ngkBoKFaYFeznM/a7HhFGB03nw1tnjuwPUDpNHuIMjrVlUDrjgCvPxAu3fX06CRgDMllVZ3AsUtkPBvqBqXcekLRmuNGpbf4Gty3JUBpCdDcIND3CXjcS15wUqTXR36o5eVhjwlHGQ/qk8/7CM/61Ae2rhbYtlpMQpzvSKF1Z+xBHzge4s5e4Obj3F436qBuUK/wYDoDw8CJq6nIG/nAwaaTsLsEPnD6CzL384GT2cr4vLe+0GawqV5gTb26iPn6S3qBXSdbSqSsXwIsrlHt3+8i3O8ybYU2z+1eK6IEsEkuOLOOCkOnclZ8cJlRIiJI3VZoC+upGylUlAnlRc0NccZiinCIMhZ40J2Fkfr9Q/rWp4WYG/oqy8B3UjxVV8XWUAFwfB0PfwN6+x3R0JPEaHkSMowNBcOxx9W17/jjjUItR7mLVFcKxYAs1IYH84DjkHL9La5R7X0cAn6OexZqWYDlVmaVAuG4EzcslYeaxRLw6AUynrW2W4Mjlpiw0BQK57YK3H5uwpGr3bp4l6IjMp6eb1kj0NKU3eqsRTgJji2064+Aa52k6jieDZIMurYrG5wJbbelRMMjMYNihjOzOH2+YoFAzRwWGrD+rUA4zthYC+xZx9o5QtQ9vf+sQYNnMTO4d5N7q0uE05LI5nUpS2rjg8vG5QKHz5ECB8q0W9pfe+ZmKvIif4H0oOyE4zad7HBazbPpSOkZALr7WTQAPH1nwqkhZspyX+wfUhvWnc3ZMBcExzwo4a48cGQxPyc9xAmLNfOBs67R/J7gnlZP1MsFc+NxdNwPDs6O2sgwgc4ewuaVwtoq5SNjv4B7b8wC7uIQR85OUC64zHzpdKBW2wJd4dVfnJl4/4XtuR7lxvpdbIOjKDTA28Fkgy5bXN8Xzl6oHXBKJv4nODkGPnA8nD5wwN+BI9v/B21wuQy6SsxU4ZBuFtqLFY4I7fK7uE1CFiMcAW1/AKobQYrwyjcsAAAAAElFTkSuQmCC',
+				'封装': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsSAAALEgHS3X78AAAFYklEQVRYhc1YW2tcVRRemTmSziRpJ7UxNTV20qTWtqgJ4uUPSL2AbwUrgheqLy0SlELFBxGL0gdFxAdRUPLmD/BFrFKvmKLpJZ026WTapI1pE3Oba2AyZsm3z9ln9tl7n2lnnmYPw7nss/f6zrp8a63T8u70XIKZP2Xml5mZmIkYP7b8iez35ZoN1tbi+Y0ae3r7GXPi/ggzDztNCo4kppZ3rs5yE4Lz5yPNDA7HSDODw9+pBa7TuUGdd81itb9J6b8OurH2IO1obaVYNCLuTeYLFItE6b5Yq3jueqlExUqF9nS0iWuczxRKdH98kmJODuh9IAtr99LC2nYrOKx1wsD1tF6ioztfpFgkT+pIFx+jT9IjdHBHNz3QHhczr/99UYA7tmeXuD45MUWXs3k6vne3uJ7I5enE+CS91Pcx7d0yFtivVGmn985+TtfyAxZr+D5oas4GTgzPfOJE3vLMWr1296peyzXmiDsFen/oKHVtumk1uaODwxFmleCgsXThCVcAEy2WewLCJYAgYLI8w/Tz/HOUWh3yn9mfGKN9ibMCZNemObpVusfwR0cHx+4T/sYA9938ESMgVIV4MwHEGj6x5vStZwMADiZZAKy+VBjNGNGqCbdFqyY8YFLSNWiPVpvW9WBxwqhElWajkm+vz7lR7M3NFEv0UeqKEDldKIr7J8YnxByi2Aog+AqWSA6JYlAJfE/1OZ3nZkqlwJrieoUulfMBAanVbE2eW1jrptTKoLgultsMcDi2vJlKcyMkfKi3h3rjMcWopPmdpyF2NfpN+pqV5+wEHRbFnnCQMHjO9xHP52BWaA7gntreFYyCGmNfYrPY/+v0VUq2x+m13f3VV/BEfDlxhTLZfI0oVjSHDCFJWB0yc0jNfTU1LfZ/YyB5W5DJDteE8ahD+zu3GPO4b2iU9WJBMatt6HMa/dUevvDwp8ykITRogkNuRfoKS/wS1Z1oLgiAaHx5hZ7//nSoz1loxgwINfH7NOxRCaK10eGaOEp9MLfClThmsjnKl9eNQHJs0aomfnWA51wqqR+hlAFwHz4+ZMwf++MvOr+4ZGCJhFGJXYiZY+tA6KfUGq9gUJBjA4d6DiWT79TexjJDNDqwNpPL0fHRMS2tMk1lc1Z+dGwkjNR0OZs3F/hR3BhIrC2UK3R+cTmEoLWA8aNYi1ZUwrLYVAdyq0hfjYAjV/hDWxN08slHjfm3fhulc/8uBUFvCB60UUm4BlgvZeoBqRciwTcwwAV5UE38lYoo0/XcKqsS+CLSVz0j47lMobxOF5aWq6C8TfLlsgEOslpePXNOKxZMn7P5xysDSZG+9MLVuPbAfZGavCOfU8FZigV3At0XGhwMlOl6JSwTfz1ViQ3cgd5TdGDnD+KlPrtwmNLLfQFwFoDuBFpD2X2hh7ABQFUiEzzSl5ohQCWIVgSENKugEU1z3fF5emTbRSGnPVo0wFl4kA0zkZ7EPSEomWRVgtyqZgjwHKhERit87u3fz1hdSHWH2tWMpv4qODLA6ZGoZ4jQZzSza0FsugP7PKg5riIOrSG6L+nyKNN//OcZy9uzAUaVLn0OZpVrB7eN263k45A9iRat+ByBjh/9KtpC2RoKn1wZpFOzTwej1dInBwB79xAQ0ufUUViP081ClwHONbGFSvCtBJ8jAFIftoLWbNT1no1CCR7gjvz0Ac2pABWNthz6dZTZ4h/443MEOn6/qfa6r0yun/o2t4koxkBAtDmI4g4/8YN4H757qwCF8/RqlvoTmWq0eiCguTBwAuALv/zJNnD1dl+3XWchYZvP1Y7iJgPH/gfMJgXH3reZkWYFx0wjADgsQDYhOGYe/h/nlah4NWARCQAAAABJRU5ErkJggg==',
+				'器件': 'data:image/png;base64,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',
+			};
+
+			function escapeHtml(s) {
+				return s ? String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+			}
+
+			// ── 页签切换 ──
+
+			function setStep(n) {
+				currentStep = n;
+				document.querySelectorAll('.step').forEach(function (el) {
+					el.classList.remove('active');
+				});
+				if (n === 'progress') {
+					document.getElementById('stepProgress').classList.add('active');
+				} else if (n === 'import') {
+					document.getElementById('stepImport').classList.add('active');
+				} else if (n === 'results') {
+					document.getElementById('stepResults').classList.add('active');
+				} else {
+					document.getElementById('step' + n).classList.add('active');
+				}
+				updateFooter();
+
+				// 步骤3：首次显示时触发库加载（仅当已选择归属时）
+				if (n === 3 && allItems.length === 0 && !pollTimer) {
+					if (currentAff) {
+						requestLoad(currentAff, currentTeamUuid);
+					} else {
+						document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select ownership first') + '</div>';
+					}
+				}
+			}
+
+			function updateFooter() {
+				var exitBtn = document.getElementById('btnExit');
+				var backBtn = document.getElementById('btnBack');
+				var nextBtn = document.getElementById('btnNext');
+				var doneBtn = document.getElementById('btnDone');
+
+				exitBtn.className = 'btn';
+				nextBtn.className = 'btn btn-primary';
+				doneBtn.className = 'btn btn-disabled';
+
+				if (currentStep === 1 || currentStep === 'progress') {
+					backBtn.className = 'btn btn-back-disabled';
+				} else {
+					backBtn.className = 'btn';
+				}
+
+				if (currentStep === 4 || currentStep === 'results') {
+					nextBtn.className = 'btn btn-disabled';
+					doneBtn.className = importTeamUuid ? 'btn btn-primary' : 'btn btn-disabled';
+				}
+
+				if (currentStep === 'progress') {
+					backBtn.className = 'btn btn-back-disabled';
+					nextBtn.className = 'btn btn-disabled';
+					doneBtn.className = 'btn btn-disabled';
+				}
+
+				// 步骤3：未选择归属时禁用下一步
+				if (currentStep === 3 && !currentAff) {
+					nextBtn.className = 'btn btn-disabled';
+				}
+
+				if (currentStep === 'import') {
+					backBtn.className = 'btn';
+					nextBtn.className = importFile ? 'btn btn-primary' : 'btn btn-disabled';
+				}
+			}
+
+			// ── 底部按钮 ──
+
+			document.getElementById('btnExit').addEventListener('click', async function () {
+				await storeWrite({ teams: teams, cmd: 'exit' });
+				eda.sys_IFrame.closeIFrame('wizard');
+			});
+
+			document.getElementById('btnBack').addEventListener('click', function () {
+				if (currentStep === 'import' || currentStep === 'results') {
+					setStep(2);
+				} else if (currentStep > 1 && typeof currentStep === 'number') {
+					setStep(currentStep - 1);
+				}
+			});
+
+			document.getElementById('btnNext').addEventListener('click', function () {
+				if (currentStep === 2 && selectedMode === 'import') {
+					setStep('import');
+				} else if (currentStep === 'import') {
+					startImport();
+				} else if (currentStep === 3) {
+					startConversion();
+				} else if (typeof currentStep === 'number' && currentStep < 4) {
+					setStep(currentStep + 1);
+				}
+			});
+			// ── 步骤2：类型选择 ──
+
+			var selectedMode = 'import';
+			var selectedType = 'xpedition';
+
+			function updateTypeSelection() {
+				document.querySelectorAll('.type-row').forEach(function (row) {
+					var isSelected = row.dataset.mode === selectedMode && row.dataset.type === selectedType;
+					row.classList.toggle('selected', isSelected);
+					var radioEl = row.querySelector('.radio');
+					radioEl.classList.toggle('radio-checked', isSelected);
+					radioEl.classList.toggle('radio-unchecked', !isSelected);
+					radioEl.innerHTML = isSelected
+						? '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'
+						: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>';
+				});
+			}
+
+			document.querySelectorAll('.type-row').forEach(function (row) {
+				row.addEventListener('click', function () {
+					selectedMode = row.dataset.mode;
+					selectedType = row.dataset.type;
+					updateTypeSelection();
+				});
+			});
+
+			// ── 步骤3：自定义下拉框逻辑 ──
+
+			function initDropdown(wrap, onChange) {
+				var trigger = wrap.querySelector('.dd-trigger');
+				var panel = wrap.querySelector('.dd-panel');
+				var options = panel.querySelectorAll('.dd-option');
+				var isFixed = wrap.classList.contains('dd-import-team');
+
+				trigger.addEventListener('click', function (e) {
+					e.stopPropagation();
+					closeAllDropdowns(wrap);
+					var isOpen = panel.classList.contains('show');
+					if (isOpen) {
+						panel.classList.remove('show');
+						trigger.classList.remove('open');
+					} else {
+						if (isFixed) {
+							var rect = trigger.getBoundingClientRect();
+							panel.style.position = 'fixed';
+							panel.style.left = rect.left + 'px';
+							panel.style.top = rect.bottom + 2 + 'px';
+							panel.style.width = rect.width + 'px';
+						}
+						panel.classList.add('show');
+						trigger.classList.add('open');
+					}
+				});
+
+				options.forEach(function (opt) {
+					opt.addEventListener('click', function (e) {
+						e.stopPropagation();
+						var val = opt.dataset.value;
+						var text = opt.textContent;
+						trigger.dataset.value = val;
+						trigger.querySelector('.dd-text').textContent = text;
+						panel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.remove('active');
+						});
+						opt.classList.add('active');
+						panel.classList.remove('show');
+						trigger.classList.remove('open');
+						if (onChange) onChange(val);
+					});
+				});
+			}
+
+			function closeAllDropdowns(except) {
+				document.querySelectorAll('.dd-wrap').forEach(function (w) {
+					if (w !== except) {
+						w.querySelector('.dd-panel').classList.remove('show');
+						w.querySelector('.dd-trigger').classList.remove('open');
+					}
+				});
+			}
+
+			document.addEventListener('click', function () {
+				closeAllDropdowns(null);
+			});
+
+			// ── 存储读写 ──
+
+			async function storeRead() {
+				var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+				return raw ? JSON.parse(raw) : {};
+			}
+
+			async function storeWrite(obj) {
+				await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
+			}
+
+			// ── 请求扩展读取库数据 ──
+
+			async function requestLoad(aff, teamUuid) {
+				currentAff = aff;
+				currentTeamUuid = teamUuid || null;
+				loadSeq++;
+				selectedUuids = {};
+				document.getElementById('checkAll').checked = false;
+				document.getElementById('libScroll').innerHTML =
+					'<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
+				document.getElementById('selInfo').textContent = '';
+				updateCounts([]);
+
+				await storeWrite({ teams: teams, cmd: 'load', seq: loadSeq, aff: aff, teamUuid: teamUuid || null });
+
+				if (pollTimer) clearInterval(pollTimer);
+				var expectedSeq = loadSeq;
+
+				pollTimer = setInterval(async function () {
+					try {
+						var data = await storeRead();
+						if (data.cmd === 'done' && data.seq === expectedSeq) {
+							clearInterval(pollTimer);
+							pollTimer = null;
+							allItems = data.items || [];
+							if (allItems.length === 0) {
+								document.getElementById('libScroll').innerHTML =
+									'<div class="empty-msg">' + t('No library content in workspace') + '</div>';
+							} else {
+								selectedUuids = {};
+								allItems.forEach(function (item) {
+									selectedUuids[item.uuid] = true;
+								});
+								document.getElementById('checkAll').checked = true;
+								renderRows(allItems);
+								updateCounts(allItems);
+								updateSelInfo();
+								syncCheckAll();
+							}
+						}
+					} catch (e) {
+						console.warn('poll error', e);
+					}
+				}, 300);
+			}
+
+			// ── 计数 ──
+
+			function updateCounts(items) {
+				var c = { '符号': 0, '封装': 0, '器件': 0 };
+				for (var i = 0; i < items.length; i++) c[items[i].type] = (c[items[i].type] || 0) + 1;
+				document.getElementById('cntSymbol').textContent = c['符号'];
+				document.getElementById('cntFootprint').textContent = c['封装'];
+				document.getElementById('cntDevice').textContent = c['器件'];
+			}
+
+			function updateSelInfo() {
+				var checked = Object.keys(selectedUuids).length;
+				var total = allItems.length;
+				document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
+			}
+
+			// ── 渲染 ──
+
+			function renderRows(items) {
+				var scroll = document.getElementById('libScroll');
+				var html = '';
+				for (var i = 0; i < items.length; i++) {
+					var item = items[i];
+					var checked = selectedUuids[item.uuid] ? ' checked' : '';
+					var icon = TYPE_ICON[item.type] || '';
+					html +=
+						'<div class="lib-row" data-uuid="' +
+						escapeHtml(item.uuid) +
+						'" data-type="' +
+						escapeHtml(item.type) +
+						'">' +
+						'<div class="cb-wrap"><input type="checkbox" class="cb"' +
+						checked +
+						' data-uuid="' +
+						escapeHtml(item.uuid) +
+						'" /></div>' +
+						(icon ? '<img class="type-icon" src="' + icon + '" />' : '') +
+						'<span class="name">' +
+						escapeHtml(item.name) +
+						'</span>' +
+						'<span class="type-text">' +
+						escapeHtml(item.type) +
+						'</span></div>';
+				}
+				scroll.innerHTML = html;
+				bindRowEvents();
+				syncCheckAll();
+			}
+
+			function bindRowEvents() {
+				document.querySelectorAll('.lib-row').forEach(function (row) {
+					row.addEventListener('click', function (e) {
+						if (e.target.classList.contains('cb')) return;
+						var cb = row.querySelector('.cb');
+						cb.checked = !cb.checked;
+						toggleSelect(row.dataset.uuid, cb.checked);
+					});
+				});
+				document.querySelectorAll('.lib-row .cb').forEach(function (cb) {
+					cb.addEventListener('change', function () {
+						toggleSelect(cb.dataset.uuid, cb.checked);
+					});
+				});
+			}
+
+			function toggleSelect(uuid, checked) {
+				if (checked) {
+					selectedUuids[uuid] = true;
+				} else {
+					delete selectedUuids[uuid];
+				}
+				refreshRowStyles();
+				syncCheckAll();
+				updateSelInfo();
+			}
+
+			function refreshRowStyles() {
+				document.querySelectorAll('.lib-row').forEach(function (row) {
+					row.querySelector('.cb').checked = !!selectedUuids[row.dataset.uuid];
+				});
+			}
+
+			function syncCheckAll() {
+				var total = document.querySelectorAll('.lib-row').length;
+				var checked = Object.keys(selectedUuids).length;
+				document.getElementById('checkAll').checked = total > 0 && checked === total;
+				document.getElementById('checkAll').indeterminate = checked > 0 && checked < total;
+				var counts = { '符号': 0, '封装': 0, '器件': 0 };
+				var selCounts = { '符号': 0, '封装': 0, '器件': 0 };
+				for (var i = 0; i < allItems.length; i++) {
+					counts[allItems[i].type]++;
+					if (selectedUuids[allItems[i].uuid]) selCounts[allItems[i].type]++;
+				}
+				var typeMap = { symbol: '符号', footprint: '封装', device: '器件' };
+				document.querySelectorAll('.type-cb').forEach(function (cb) {
+					var t = typeMap[cb.dataset.type];
+					var total = counts[t] || 0;
+					var sel = selCounts[t] || 0;
+					cb.checked = total > 0 && sel === total;
+					cb.indeterminate = sel > 0 && sel < total;
+				});
+			}
+
+			document.getElementById('checkAll').addEventListener('change', function () {
+				var on = this.checked;
+				selectedUuids = {};
+				if (on)
+					allItems.forEach(function (item) {
+						selectedUuids[item.uuid] = true;
+					});
+				refreshRowStyles();
+				syncCheckAll();
+				updateSelInfo();
+			});
+
+			document.querySelectorAll('.type-cb').forEach(function (cb) {
+				cb.addEventListener('change', function () {
+					var type = this.dataset.type;
+					var typeName = { symbol: '符号', footprint: '封装', device: '器件' }[type];
+					var on = this.checked;
+					allItems.forEach(function (item) {
+						if (item.type === typeName) {
+							if (on) {
+								selectedUuids[item.uuid] = true;
+							} else {
+								delete selectedUuids[item.uuid];
+							}
+						}
+					});
+					refreshRowStyles();
+					syncCheckAll();
+					updateSelInfo();
+				});
+			});
+
+			// ── 归属下拉框 ──
+
+			initDropdown(document.getElementById('ddAff'), function (val) {
+				var isTeam = val === 'team';
+				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
+				var teamPanel = document.getElementById('ddTeamPanel');
+				if (!isTeam) {
+					document.getElementById('ddTeam').style.display = 'none';
+					requestLoad('personal', null);
+				} else {
+					document.getElementById('ddTeam').style.display = '';
+					if (teams.length > 0) {
+						var first = teams[0];
+						teamTrigger.dataset.value = first.uuid;
+						teamTrigger.querySelector('.dd-text').textContent = first.name;
+						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.toggle('active', o.dataset.value === first.uuid);
+						});
+						requestLoad('team', first.uuid);
+					} else {
+						teamTrigger.dataset.value = '';
+						teamTrigger.querySelector('.dd-text').textContent = t('No team');
+						document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
+						document.getElementById('selInfo').textContent = '';
+					}
+				}
+				updateFooter();
+			});
+
+			initDropdown(document.getElementById('ddTeam'), function (val) {
+				if (val) {
+					requestLoad('team', val);
+				} else {
+					document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
+					document.getElementById('selInfo').textContent = '';
+				}
+			});
+
+			// ── 步骤4：文件名、密码与保存 ──
+
+			var filenameBase = 'asyeda2xpedition';
+
+			var filenameInput = document.getElementById('filenameInput');
+			var filenameSuffix = document.getElementById('filenameSuffix');
+			var pwCheck = document.getElementById('pwCheck');
+			var pwInput = document.getElementById('pwInput');
+			var pwLabel = document.getElementById('pwLabel');
+			var eyeBtn = document.getElementById('eyeBtn');
+			var pwVisible = false;
+
+			// 文件名后缀 .zip 始终显示
+			filenameInput.addEventListener('input', function () {
+				filenameBase = filenameInput.value;
+			});
+
+			filenameInput.addEventListener('blur', function () {
+				var v = filenameInput.value.trim();
+				if (!v) {
+					v = 'asyeda2xpedition';
+					filenameInput.value = v;
+					filenameBase = v;
+				}
+			});
+
+			// 密码勾选框切换
+			pwCheck.addEventListener('change', function () {
+				var on = pwCheck.checked;
+				pwInput.disabled = !on;
+				if (on) {
+					pwLabel.classList.add('checked');
+					pwInput.focus();
+				} else {
+					pwLabel.classList.remove('checked');
+					pwInput.value = '';
+				}
+			});
+
+			// 密码可见性切换
+			eyeBtn.addEventListener('click', function () {
+				pwVisible = !pwVisible;
+				pwInput.type = pwVisible ? 'text' : 'password';
+				eyeBtn.innerHTML = pwVisible
+					? '<svg viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'
+					: '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+			});
+
+			// ── 转换进度 ──
+
+			function addLog(msg, isError) {
+				var box = document.getElementById('logBox');
+				var entries = box.querySelectorAll('.log-entry');
+				entries.forEach(function (e) {
+					e.classList.remove('active');
+				});
+				var entry = document.createElement('div');
+				entry.className = 'log-entry' + (isError ? ' error' : ' active');
+				var now = new Date();
+				var ts =
+					String(now.getHours()).padStart(2, '0') +
+					':' +
+					String(now.getMinutes()).padStart(2, '0') +
+					':' +
+					String(now.getSeconds()).padStart(2, '0');
+				entry.textContent = '[' + ts + '] ' + msg;
+				box.appendChild(entry);
+				box.scrollTop = box.scrollHeight;
+			}
+
+			async function startConversion() {
+				var items = [];
+				for (var i = 0; i < allItems.length; i++) {
+					if (selectedUuids[allItems[i].uuid]) {
+						items.push({
+							uuid: allItems[i].uuid,
+							name: allItems[i].name,
+							type: allItems[i].type,
+							libraryUuid: allItems[i].libraryUuid || '',
+						});
+					}
+				}
+
+				if (items.length === 0) {
+					eda.sys_Dialog.showInformationMessage(t('Please select at least one item'));
+					return;
+				}
+
+				// 切换到进度视图
+				setStep('progress');
+				document.getElementById('progTitle').textContent = t('Exporting...');
+				document.getElementById('progDesc').textContent = t('Export description');
+				document.getElementById('progBarFill').style.width = '0%';
+				document.getElementById('progLbl').textContent = t('Preparing...');
+				document.getElementById('logBox').innerHTML = '';
+				addLog(t('Start converting ${1} items', items.length));
+
+				// 发送转换命令到扩展
+				await storeWrite({
+					teams: teams,
+					cmd: 'convert',
+					items: items,
+					filename: 'asyeda2xpedition.zip',
+					seq: Date.now(),
+					aff: currentAff,
+					teamUuid: currentTeamUuid,
+				});
+
+				// 轮询进度
+				if (convertPollTimer) clearInterval(convertPollTimer);
+				var lastLogName = '';
+				convertPollTimer = setInterval(async function () {
+					try {
+						var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+						if (!raw) return;
+						var data = JSON.parse(raw);
+						if (data.cmd === 'converting' && data.progress) {
+							var p = data.progress;
+							var pct = p.total > 0 ? Math.round((p.done / p.total) * 100) : 0;
+							document.getElementById('progBarFill').style.width = pct + '%';
+							document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
+							if (p.name && p.name !== lastLogName) {
+								addLog(t('Converting item: ${1}', p.name));
+								lastLogName = p.name;
+							}
+						}
+						if (data.cmd === 'convert-done') {
+							clearInterval(convertPollTimer);
+							convertPollTimer = null;
+							document.getElementById('progBarFill').style.width = '100%';
+							document.getElementById('progLbl').textContent = t('Conversion complete!');
+							addLog(t('Conversion complete, file saved'));
+							setTimeout(function () {
+								setStep(4);
+							}, 600);
+						}
+						if (data.cmd === 'convert-error') {
+							clearInterval(convertPollTimer);
+							convertPollTimer = null;
+							document.getElementById('progTitle').textContent = t('Conversion failed');
+							document.getElementById('progDesc').textContent = data.error || t('Conversion error, please retry');
+							addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
+							document.getElementById('btnBack').className = 'btn';
+							document.getElementById('btnBack').onclick = function () {
+								setStep(3);
+								document.getElementById('btnBack').onclick = null;
+							};
+						}
+					} catch (e) {
+						/* continue polling */
+					}
+				}, 300);
+			}
+
+			var convertPollTimer = null;
+
+			// 完成按钮 - 处理导出完成和导入执行
+			document.getElementById('btnDone').addEventListener('click', async function () {
+				if (currentStep === 'results' && !importTeamUuid) return;
+				if (currentStep === 'results') {
+					var importPro = true;
+					var createDevice = document.getElementById('chkCreateDevice').checked;
+					var personalTeam = teams.find(function (tt) {
+						return tt.name === '个人';
+					});
+					var importAffVal = personalTeam && importTeamUuid === personalTeam.uuid ? 'personal' : 'team';
+					var selUuids = Object.keys(importResultSelectedUuids);
+					var allSelected = selUuids.length === allResultItems.length;
+					var cmdData = {
+						teams: teams,
+						cmd: 'import-execute',
+						seq: Date.now(),
+						importPro: importPro,
+						aff: importAffVal,
+						teamUuid: importTeamUuid,
+						createDevice: createDevice,
+					};
+					if (!allSelected && selUuids.length > 0) cmdData.selectedUuids = selUuids;
+					await storeWrite(cmdData);
+					// 切换到进度页签并轮询完成状态
+					setStep('progress');
+					document.getElementById('progTitle').textContent = t('Executing...');
+					document.getElementById('progBarFill').style.width = '0%';
+					document.getElementById('progLbl').textContent = t('Please wait...');
+					document.getElementById('logBox').innerHTML = '';
+					addLog(t('Start importing ${1} items', selUuids.length));
+					if (importPollTimer) clearInterval(importPollTimer);
+					importPollTimer = setInterval(async function () {
+						try {
+							var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+							if (!raw) return;
+							var data = JSON.parse(raw);
+							if (data.cmd === 'import-done') {
+								clearInterval(importPollTimer);
+								importPollTimer = null;
+								document.getElementById('progBarFill').style.width = '100%';
+								addLog(t('Execution complete!'));
+								setTimeout(async function () {
+									await storeWrite({ teams: teams, cmd: 'done-wizard' });
+									eda.sys_IFrame.closeIFrame('wizard');
+								}, 600);
+							}
+							if (data.cmd === 'import-error') {
+								clearInterval(importPollTimer);
+								importPollTimer = null;
+								document.getElementById('progTitle').textContent = t('Execution failed');
+								document.getElementById('progDesc').textContent = data.error || t('Execution error');
+								addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
+							}
+						} catch (ex) {
+							/* continue */
+						}
+					}, 300);
+					return;
+				}
+				await storeWrite({ teams: teams, cmd: 'done-wizard' });
+				eda.sys_IFrame.closeIFrame('wizard');
+			});
+
+			// ── 导入完成归属/团队下拉框 ──
+
+			var importTeamUuid = '';
+
+			// ── 初始化 ──
+
+			async function init() {
+				try {
+					var data = await storeRead();
+					teams = data.teams || [];
+				} catch (e) {
+					console.warn('Failed to read team data:', e);
+				}
+
+				var teamPanel = document.getElementById('ddTeamPanel');
+				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
+				for (var tt of teams) {
+					var opt = document.createElement('div');
+					opt.className = 'dd-option';
+					opt.dataset.value = tt.uuid;
+					opt.textContent = tt.name;
+					teamPanel.appendChild(opt);
+				}
+				teamPanel.querySelectorAll('.dd-option').forEach(function (opt) {
+					opt.addEventListener('click', function (e) {
+						e.stopPropagation();
+						var val = opt.dataset.value;
+						var text = opt.textContent;
+						teamTrigger.dataset.value = val;
+						teamTrigger.querySelector('.dd-text').textContent = text;
+						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.remove('active');
+						});
+						opt.classList.add('active');
+						teamPanel.classList.remove('show');
+						teamTrigger.classList.remove('open');
+						if (val) requestLoad('team', val);
+					});
+				});
+
+				// 填充导入完成团队面板：个人优先，然后过滤团队
+				var importTeamPanel = document.getElementById('ddImportTeamPanel');
+				var importTeamTrigger = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
+				// 从团队数组中查找个人团队UUID
+				var personalTeam = teams.find(function (tt) {
+					return tt.name === '个人';
+				});
+				var personalUuid = personalTeam ? personalTeam.uuid : 'personal';
+				var personalOpt = document.createElement('div');
+				personalOpt.className = 'dd-option';
+				personalOpt.dataset.value = personalUuid;
+				personalOpt.textContent = t('Personal');
+				importTeamPanel.appendChild(personalOpt);
+				var filteredTeams = teams.filter(function (tt) {
+					return tt.name !== '1.专业版测试' && tt.name !== '个人';
+				});
+				for (var t2 of filteredTeams) {
+					var opt2 = document.createElement('div');
+					opt2.className = 'dd-option';
+					opt2.dataset.value = t2.uuid;
+					opt2.textContent = t2.name;
+					importTeamPanel.appendChild(opt2);
+				}
+				importTeamPanel.querySelectorAll('.dd-option').forEach(function (opt2) {
+					opt2.addEventListener('click', function (e) {
+						e.stopPropagation();
+						var val = opt2.dataset.value;
+						var text = opt2.textContent;
+						importTeamTrigger.dataset.value = val;
+						importTeamTrigger.querySelector('.dd-text').textContent = text;
+						importTeamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.remove('active');
+						});
+						opt2.classList.add('active');
+						importTeamPanel.classList.remove('show');
+						importTeamTrigger.classList.remove('open');
+						importTeamUuid = val;
+						updateFooter();
+					});
+				});
+				var importTeamTriggerEl = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
+				var importTeamPanelEl = document.getElementById('ddImportTeam').querySelector('.dd-panel');
+				importTeamTriggerEl.addEventListener('click', function (e) {
+					e.stopPropagation();
+					closeAllDropdowns(document.getElementById('ddImportTeam'));
+					var isOpen = importTeamPanelEl.classList.contains('show');
+					if (isOpen) {
+						importTeamPanelEl.classList.remove('show');
+						importTeamTriggerEl.classList.remove('open');
+					} else {
+						var rect = importTeamTriggerEl.getBoundingClientRect();
+						var panelTop = rect.bottom + 2;
+						var maxH = window.innerHeight - panelTop - 8;
+						importTeamPanelEl.style.position = 'fixed';
+						importTeamPanelEl.style.left = rect.left + 'px';
+						importTeamPanelEl.style.top = panelTop + 'px';
+						importTeamPanelEl.style.width = rect.width + 'px';
+						importTeamPanelEl.style.maxHeight = Math.max(80, maxH) + 'px';
+						importTeamPanelEl.classList.add('show');
+						importTeamTriggerEl.classList.add('open');
+					}
+				});
+
+				// ── i18n: apply translated text ──
+				applyI18n();
+				// Step 1
+				document.querySelector('#step1 .main-title').textContent = t('Import/Export Wizard');
+				document.querySelector('#step1 .sub-title').textContent = t('File format conversion tool');
+				document.querySelector('#step1 .desc').textContent = t('Wizard description');
+				document.querySelector('#step1 .warn-text').textContent = t('Warning disclaimer');
+				// Step 2
+				document.getElementById('step2Title').textContent = t('Select conversion type');
+				var typeRows = document.querySelectorAll('#step2 .type-row');
+				if (typeRows[0]) {
+					typeRows[0].querySelector('.type-main').textContent = t('Import Xpedition files');
+					typeRows[0].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
+				}
+				if (typeRows[1]) {
+					typeRows[1].querySelector('.type-main').textContent = t('Export Xpedition files');
+					typeRows[1].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
+				}
+				// Step 3
+				document.querySelector('#step3 .aff-label').textContent = t('Ownership') + ':';
+				document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
+				document.querySelector('#ddAff .dd-option[data-value="team"]').textContent = t('Team');
+				document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Personal');
+				document.querySelector('#step3 .lib-label').textContent = t('Library list');
+				document.querySelectorAll('#step3 .type-label-text').forEach(function (el, idx) {
+					var labels = [t('Symbol'), t('Footprint'), t('Device')];
+					el.textContent = labels[idx] || '';
+				});
+				document.querySelector('#step3 .col-name').textContent = t('Library name');
+				document.querySelector('#step3 .col-type').textContent = t('Type');
+				// Step Import
+				document.getElementById('stepImportTitle').textContent = t('Import Xpedition files');
+				document.getElementById('uploadText').textContent = t('Click or drag ZIP file here');
+				// Step Results
+				document.querySelector('.rs-label-selectall').textContent = t('Select all');
+				document.querySelector('.rs-label-device').textContent = t('Device');
+				document.querySelector('.rs-label-symbol').textContent = t('Symbol');
+				document.querySelector('.rs-label-footprint').textContent = t('Footprint');
+				document.getElementById('rlColType').textContent = t('Type');
+				document.getElementById('rlColName').textContent = t('Name');
+				document.getElementById('rlColMsg').textContent = t('Message');
+				document.getElementById('resultEmptyMsg').textContent = t('No results');
+				document.getElementById('importOrgLabel').textContent = t('Ownership') + ':';
+				document.getElementById('ddImportTeamText').textContent = t('Select ownership');
+				document.getElementById('createDeviceLabel').textContent = t('Create device for single symbol');
+				// Step Progress
+				document.getElementById('progTitle').textContent = t('Exporting...');
+				document.getElementById('progDesc').textContent = t('Export description');
+				document.getElementById('progLbl').textContent = t('Preparing...');
+				// Step 4
+				document.getElementById('successTitle').textContent = t('Conversion complete!');
+				document.getElementById('saveLabel').textContent = t('File name');
+				document.getElementById('saveDesc').textContent = t('Set export file name');
+				document.getElementById('pwLabelSpan').textContent = t('Set password');
+				document.getElementById('pwInput').placeholder = t('Enter password');
+				// Footer
+				document.getElementById('btnExit').textContent = t('Exit');
+				document.getElementById('btnBack').textContent = t('Back');
+				document.getElementById('btnNext').textContent = t('Next');
+				document.getElementById('btnDone').textContent = t('Done');
+
+				setStep(1);
+				updateTypeSelection();
+			}
+
+			init();
+
+			// ── 导入模式逻辑 ──
+
+			var importFile = null;
+			var importResults = null;
+
+			// 上传区域交互
+			var uploadZone = document.getElementById('uploadZone');
+			var importFileInput = document.getElementById('importFileInput');
+
+			uploadZone.addEventListener('click', function () {
+				importFileInput.click();
+			});
+			uploadZone.addEventListener('dragover', function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				uploadZone.style.borderColor = '#1890FF';
+			});
+			uploadZone.addEventListener('dragleave', function (e) {
+				e.preventDefault();
+				uploadZone.style.borderColor = '';
+			});
+			uploadZone.addEventListener('drop', function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				uploadZone.style.borderColor = '';
+				if (e.dataTransfer.files && e.dataTransfer.files[0]) handleImportFile(e.dataTransfer.files[0]);
+			});
+			importFileInput.addEventListener('change', function () {
+				if (this.files[0]) handleImportFile(this.files[0]);
+			});
+
+			// 处理选中的ZIP文件
+			function handleImportFile(file) {
+				if (!file.name.toLowerCase().endsWith('.zip')) {
+					eda.sys_Dialog.showInformationMessage(t('Please select a ZIP file'));
+					return;
+				}
+				importFile = file;
+				uploadZone.classList.add('has-file');
+				document.getElementById('uploadFilename').textContent = file.name;
+				document.getElementById('uploadFilename').style.display = '';
+				document.getElementById('uploadText').textContent = t('File selected, click to reselect');
+				updateFooter();
+			}
+
+			// 结果统一列表
+			var allResultItems = [];
+			var importResultSelectedUuids = {};
+
+			// 状态图标（成功/警告/失败/跳过）
+			var statusIcons = {
+				ok: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#34A853"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+				warn: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>',
+				fail: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#E53E3E"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>',
+				skip: '<svg viewBox="0 0 24 24" width="14" height="14" style="fill:#9CA3AF"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+			};
+
+			// 渲染导入结果列表
+			function renderResultList() {
+				if (!importResults) return;
+				allResultItems = [];
+
+				var devItems = importResults.deviceItems || importResults.devices || [];
+				var symItems = importResults.symbolItems || importResults.symbols || [];
+				var fpItems = importResults.footprintItems || importResults.footprints || [];
+
+				for (var i = 0; i < fpItems.length; i++) {
+					allResultItems.push({
+						uuid: fpItems[i].uuid || '',
+						name: fpItems[i].name,
+						type: '封装',
+						status: fpItems[i].status,
+						message: fpItems[i].message || '',
+					});
+				}
+				for (var i = 0; i < symItems.length; i++) {
+					allResultItems.push({
+						uuid: symItems[i].uuid || '',
+						name: symItems[i].name,
+						type: '符号',
+						status: symItems[i].status,
+						message: symItems[i].message || '',
+					});
+				}
+				for (var i = 0; i < devItems.length; i++) {
+					allResultItems.push({
+						uuid: devItems[i].uuid || '',
+						name: devItems[i].name,
+						type: '器件',
+						status: devItems[i].status,
+						message: devItems[i].message || '',
+					});
+				}
+
+				// 默认全选
+				importResultSelectedUuids = {};
+				for (var i = 0; i < allResultItems.length; i++) {
+					if (allResultItems[i].uuid) importResultSelectedUuids[allResultItems[i].uuid] = true;
+				}
+
+				// 更新统计数字
+				document.getElementById('cntResultDev').textContent = devItems.length;
+				document.getElementById('cntResultSym').textContent = symItems.length;
+				document.getElementById('cntResultFp').textContent = fpItems.length;
+				document.getElementById('chkResultSelectAll').checked = true;
+
+				renderResultRows();
+				updateResultSelInfo();
+			}
+
+			// 渲染结果行
+			function renderResultRows() {
+				var html = '';
+				for (var i = 0; i < allResultItems.length; i++) {
+					var item = allResultItems[i];
+					var checked = importResultSelectedUuids[item.uuid] ? ' checked' : '';
+					var typeClass = item.type === '器件' ? 'device' : item.type === '符号' ? 'symbol' : 'footprint';
+					html +=
+						'<div class="result-lr" data-uuid="' +
+						escapeHtml(item.uuid) +
+						'">' +
+						'<div class="rl-cb-wrap"><input type="checkbox" class="rl-cb"' +
+						checked +
+						' data-uuid="' +
+						escapeHtml(item.uuid) +
+						'" /></div>' +
+						'<span class="type-badge ' +
+						typeClass +
+						'">' +
+						escapeHtml(item.type) +
+						'</span>' +
+						(TYPE_ICON[item.type] ? '<img class="result-type-icon" src="' + TYPE_ICON[item.type] + '" />' : '') +
+						'<span class="rl-name">' +
+						escapeHtml(item.name) +
+						'</span>' +
+						'<span class="rl-status">' +
+						(statusIcons[item.status] || statusIcons.warn) +
+						'</span>' +
+						'<span class="rl-msg">' +
+						escapeHtml(item.message) +
+						'</span>' +
+						'</div>';
+				}
+				var scroll = document.getElementById('resultListScroll');
+				scroll.innerHTML = allResultItems.length > 0 ? html : '<div class="empty-msg">' + t('No data') + '</div>';
+
+				// 绑定复选框事件
+				scroll.querySelectorAll('.rl-cb').forEach(function (cb) {
+					cb.addEventListener('change', function () {
+						if (cb.checked) {
+							importResultSelectedUuids[cb.dataset.uuid] = true;
+						} else {
+							delete importResultSelectedUuids[cb.dataset.uuid];
+						}
+						syncResultSelectAll();
+						updateResultSelInfo();
+					});
+				});
+				scroll.querySelectorAll('.result-lr').forEach(function (row) {
+					row.addEventListener('click', function (e) {
+						if (e.target.classList.contains('rl-cb')) return;
+						var cb = row.querySelector('.rl-cb');
+						cb.checked = !cb.checked;
+						if (cb.checked) {
+							importResultSelectedUuids[cb.dataset.uuid] = true;
+						} else {
+							delete importResultSelectedUuids[cb.dataset.uuid];
+						}
+						syncResultSelectAll();
+						updateResultSelInfo();
+					});
+				});
+			}
+
+			// 同步全选复选框状态
+			function syncResultSelectAll() {
+				var total = allResultItems.length;
+				var checked = Object.keys(importResultSelectedUuids).length;
+				document.getElementById('chkResultSelectAll').checked = total > 0 && checked === total;
+			}
+
+			// 更新已选数量提示
+			function updateResultSelInfo() {
+				var checked = Object.keys(importResultSelectedUuids).length;
+				var total = allResultItems.length;
+				document.getElementById('resultSelInfo').textContent = total > 0 ? t('Selected ${1} / ${2}', checked, total) : '';
+			}
+
+			document.getElementById('chkResultSelectAll').addEventListener('change', function () {
+				var on = this.checked;
+				importResultSelectedUuids = {};
+				if (on) {
+					for (var i = 0; i < allResultItems.length; i++) {
+						if (allResultItems[i].uuid) importResultSelectedUuids[allResultItems[i].uuid] = true;
+					}
+				}
+				document.querySelectorAll('#resultListScroll .rl-cb').forEach(function (cb) {
+					cb.checked = on;
+				});
+				// 同步类型勾选框
+				document.querySelectorAll('.rs-type-cb').forEach(function (cb) {
+					cb.checked = on;
+				});
+				updateResultSelInfo();
+			});
+
+			// 类型勾选框：按类型批量选择/取消
+			document.querySelectorAll('.rs-type-cb').forEach(function (cb) {
+				cb.addEventListener('change', function () {
+					var typeName = this.dataset.type;
+					var on = this.checked;
+					for (var i = 0; i < allResultItems.length; i++) {
+						if (allResultItems[i].type === typeName) {
+							if (on) {
+								importResultSelectedUuids[allResultItems[i].uuid] = true;
+							} else {
+								delete importResultSelectedUuids[allResultItems[i].uuid];
+							}
+						}
+					}
+					document.querySelectorAll('#resultListScroll .rl-cb').forEach(function (rcb) {
+						var item = allResultItems.find(function (x) {
+							return x.uuid === rcb.dataset.uuid;
+						});
+						if (item && item.type === typeName) rcb.checked = on;
+					});
+					syncResultSelectAll();
+					updateResultSelInfo();
+				});
+			});
+
+			// 收集选中的UUID
+			function collectResultSelection() {
+				var uuids = Object.keys(importResultSelectedUuids);
+				console.log('Selected items for import:', uuids.length);
+			}
+
+			// 开始导入：读取ZIP文件并发送给扩展进行转换
+			async function startImport() {
+				if (!importFile) {
+					eda.sys_Dialog.showInformationMessage(t('Please select ZIP file first'));
+					return;
+				}
+
+				setStep('progress');
+				document.getElementById('progTitle').textContent = t('Converting progress...');
+				document.getElementById('progDesc').textContent = t('Import convert description');
+				document.getElementById('progBarFill').style.width = '0%';
+				document.getElementById('progLbl').textContent = t('Reading file...');
+				document.getElementById('logBox').innerHTML = '';
+				addLog(t('Start converting...'));
+
+				var reader = new FileReader();
+				reader.onload = async function (e) {
+					// 将文件转为base64发送给扩展
+					var base64 = btoa(
+						new Uint8Array(e.target.result).reduce(function (data, byte) {
+							return data + String.fromCharCode(byte);
+						}, ''),
+					);
+					var filename = importFile.name.replace(/\.zip$/i, '') + '.elibz2';
+
+					await storeWrite({ teams: teams, cmd: 'import', seq: Date.now(), file: base64, filename: filename });
+
+					// 轮询导入进度
+					if (importPollTimer) clearInterval(importPollTimer);
+					importPollTimer = setInterval(async function () {
+						try {
+							var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+							if (!raw) return;
+							var data = JSON.parse(raw);
+
+							// 正在导入中，更新进度
+							if (data.cmd === 'importing' && data.progress) {
+								var p = data.progress;
+								var pct = p.total > 0 ? Math.round((p.done / p.total) * 100) : 0;
+								document.getElementById('progBarFill').style.width = pct + '%';
+								document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
+								if (p.name) addLog(t('Converting item: ${1}', p.name));
+							}
+							// 转换完成，跳转到结果页
+							if (data.cmd === 'import-convert-done') {
+								clearInterval(importPollTimer);
+								importPollTimer = null;
+								document.getElementById('progBarFill').style.width = '100%';
+								addLog(t('Conversion complete!'));
+								importResults = data.result || {};
+								var okDev = (importResults.devices || []).filter(function (x) {
+									return x.status === 'ok';
+								}).length;
+								var okFp = (importResults.footprints || []).filter(function (x) {
+									return x.status === 'ok';
+								}).length;
+								var okSym = (importResults.symbols || []).filter(function (x) {
+									return x.status === 'ok';
+								}).length;
+								renderResultList();
+								setTimeout(function () {
+									setStep('results');
+								}, 600);
+							}
+							// 导入执行完成，关闭向导
+							if (data.cmd === 'import-done') {
+								clearInterval(importPollTimer);
+								importPollTimer = null;
+								document.getElementById('progBarFill').style.width = '100%';
+								addLog(t('Execution complete!'));
+								await storeWrite({ teams: teams, cmd: 'done-wizard' });
+								eda.sys_IFrame.closeIFrame('wizard');
+							}
+							// 导入出错
+							if (data.cmd === 'import-error') {
+								clearInterval(importPollTimer);
+								importPollTimer = null;
+								document.getElementById('progTitle').textContent = t('Import failed');
+								document.getElementById('progDesc').textContent = data.error || t('Import error');
+								addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
+							}
+						} catch (ex) {
+							/* 继续轮询 */
+						}
+					}, 300);
+				};
+				reader.readAsArrayBuffer(importFile);
+			}
+
+			var importPollTimer = null;
+		</script>
+	</body>
 </html>

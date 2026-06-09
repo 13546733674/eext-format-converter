@@ -88,5 +88,6 @@
 	"Import failed": "导入失败",
 	"Import error": "导入过程中发生错误。",
 	"Please select ownership first": "请先选择归属",
-	"Read team data failed": "读取团队数据失败"
+	"Read team data failed": "读取团队数据失败",
+	"Initialization failed: ${1}": "初始化失败：${1}"
 }

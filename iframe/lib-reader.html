@@ -1,517 +1,852 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title></title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title></title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				font-family:
+					'Inter',
+					-apple-system,
+					BlinkMacSystemFont,
+					'Segoe UI',
+					sans-serif;
+				background: #fff;
+				color: #1a1a1a;
+			}
 
-  .dialog { display: flex; flex-direction: column; width: 100%; height: 100%; }
+			.dialog {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+			}
 
-  .body-wrap { flex: 1; display: flex; flex-direction: column; padding: 21px 24px 4px 24px; overflow: hidden; }
-  .body { flex: 1; display: flex; flex-direction: column; gap: 10px; border: 1px solid #D1D1D1; border-radius: 5px; padding: 12px 14px; overflow: hidden; min-height: 0; }
+			.body-wrap {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 21px 24px 4px 24px;
+				overflow: hidden;
+			}
+			.body {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				border: 1px solid #d1d1d1;
+				border-radius: 5px;
+				padding: 12px 14px;
+				overflow: hidden;
+				min-height: 0;
+			}
 
-  /* ── affiliation row ── */
-  .aff-row { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .aff-label { font-size: 12px; font-weight: 600; color: #444; white-space: nowrap; }
+			/* ── affiliation row ── */
+			.aff-row {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				flex-shrink: 0;
+			}
+			.aff-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+				white-space: nowrap;
+			}
 
-  /* ── custom dropdown ── */
-  .dd-wrap { position: relative; display: inline-block; }
-  .dd-trigger {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 28px; padding: 0 26px 0 10px; cursor: pointer;
-    border: 1px solid #D0D0D0; border-radius: 3px; background: #fff;
-    font-family: inherit; font-size: 12px; color: #1A1A1A; user-select: none;
-  }
-  .dd-trigger::after {
-    content: ''; width: 0; height: 0;
-    border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #888;
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .dd-trigger:hover { border-color: #B0B0B0; }
-  .dd-trigger.open { border-color: #1890FF; background: #E6F7FF; }
-  .dd-panel {
-    display: none; position: absolute; top: 100%; left: 0; z-index: 100;
-    min-width: 100%; max-height: 200px; overflow-y: auto;
-    border: 1px solid #D0D0D0; border-radius: 3px; background: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12); margin-top: 2px;
-  }
-  .dd-panel.show { display: block; }
-  .dd-panel::-webkit-scrollbar { width: 6px; }
-  .dd-panel::-webkit-scrollbar-track { background: #F0F0F0; border-radius: 3px; }
-  .dd-panel::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 3px; }
-  .dd-option {
-    padding: 0 10px; height: 28px; display: flex; align-items: center;
-    font-size: 12px; color: #1A1A1A; cursor: pointer; white-space: nowrap;
-  }
-  .dd-option:hover { background: #E6F7FF; }
-  .dd-option.active { color: #1890FF; font-weight: 600; }
-  .dd-aff { width: 160px; }
-  .dd-team { width: 200px; }
+			/* ── custom dropdown ── */
+			.dd-wrap {
+				position: relative;
+				display: inline-block;
+			}
+			.dd-trigger {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				height: 28px;
+				padding: 0 26px 0 10px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				background: #fff;
+				font-family: inherit;
+				font-size: 12px;
+				color: #1a1a1a;
+				user-select: none;
+			}
+			.dd-trigger::after {
+				content: '';
+				width: 0;
+				height: 0;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 5px solid #888;
+				position: absolute;
+				right: 8px;
+				top: 50%;
+				transform: translateY(-50%);
+				pointer-events: none;
+			}
+			.dd-trigger:hover {
+				border-color: #b0b0b0;
+			}
+			.dd-trigger.open {
+				border-color: #1890ff;
+				background: #e6f7ff;
+			}
+			.dd-panel {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0;
+				z-index: 100;
+				min-width: 100%;
+				max-height: 200px;
+				overflow-y: auto;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				background: #fff;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+				margin-top: 2px;
+			}
+			.dd-panel.show {
+				display: block;
+			}
+			.dd-panel::-webkit-scrollbar {
+				width: 6px;
+			}
+			.dd-panel::-webkit-scrollbar-track {
+				background: #f0f0f0;
+				border-radius: 3px;
+			}
+			.dd-panel::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 3px;
+			}
+			.dd-option {
+				padding: 0 10px;
+				height: 28px;
+				display: flex;
+				align-items: center;
+				font-size: 12px;
+				color: #1a1a1a;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			.dd-option:hover {
+				background: #e6f7ff;
+			}
+			.dd-option.active {
+				color: #1890ff;
+				font-weight: 600;
+			}
+			.dd-aff {
+				width: 160px;
+			}
+			.dd-team {
+				width: 200px;
+			}
 
-  /* ── filter row ── */
-  .filter-row { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
-  .filter-row .lib-label { font-size: 12px; font-weight: 600; color: #444; white-space: nowrap; }
-  .filter-row .sel-info { font-size: 12px; color: #888; }
-  .type-filter { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; font-size: 12px; color: #444; }
-  .type-filter input { accent-color: #1890FF; width: 14px; height: 14px; cursor: pointer; }
-  .type-filter img { width: 16px; height: 16px; }
-  .type-filter .count { color: #888; }
+			/* ── filter row ── */
+			.filter-row {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				flex-shrink: 0;
+				flex-wrap: wrap;
+			}
+			.filter-row .lib-label {
+				font-size: 12px;
+				font-weight: 600;
+				color: #444;
+				white-space: nowrap;
+			}
+			.filter-row .sel-info {
+				font-size: 12px;
+				color: #888;
+			}
+			.type-filter {
+				display: inline-flex;
+				align-items: center;
+				gap: 4px;
+				cursor: pointer;
+				user-select: none;
+				font-size: 12px;
+				color: #444;
+			}
+			.type-filter input {
+				accent-color: #1890ff;
+				width: 14px;
+				height: 14px;
+				cursor: pointer;
+			}
+			.type-filter img {
+				width: 16px;
+				height: 16px;
+			}
+			.type-filter .count {
+				color: #888;
+			}
 
-  /* ── lib table ── */
-  .lib-table { flex: 1; display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 4px; overflow: hidden; min-height: 0; }
-  .lib-head { display: flex; align-items: center; height: 28px; padding: 0 10px; background: #F0F0F0; border-bottom: 1px solid #E0E0E0; flex-shrink: 0; gap: 6px; }
-  .lib-head span { font-size: 12px; color: #666; }
-  .col-check { width: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .col-icon { width: 14px; flex-shrink: 0; }
-  .col-name { width: 352px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .col-type { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+			/* ── lib table ── */
+			.lib-table {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 4px;
+				overflow: hidden;
+				min-height: 0;
+			}
+			.lib-head {
+				display: flex;
+				align-items: center;
+				height: 28px;
+				padding: 0 10px;
+				background: #f0f0f0;
+				border-bottom: 1px solid #e0e0e0;
+				flex-shrink: 0;
+				gap: 6px;
+			}
+			.lib-head span {
+				font-size: 12px;
+				color: #666;
+			}
+			.col-check {
+				width: 14px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.col-icon {
+				width: 14px;
+				flex-shrink: 0;
+			}
+			.col-name {
+				width: 352px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.col-type {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 
-  .lib-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; }
-  .lib-scroll::-webkit-scrollbar { width: 8px; }
-  .lib-scroll::-webkit-scrollbar-track { background: #F0F0F0; border-radius: 4px; }
-  .lib-scroll::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 4px; }
-  .lib-scroll::-webkit-scrollbar-thumb:hover { background: #aaa; }
+			.lib-scroll {
+				flex: 1;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			.lib-scroll::-webkit-scrollbar {
+				width: 8px;
+			}
+			.lib-scroll::-webkit-scrollbar-track {
+				background: #f0f0f0;
+				border-radius: 4px;
+			}
+			.lib-scroll::-webkit-scrollbar-thumb {
+				background: #c8c8c8;
+				border-radius: 4px;
+			}
+			.lib-scroll::-webkit-scrollbar-thumb:hover {
+				background: #aaa;
+			}
 
-  .lib-row { display: flex; align-items: center; height: 32px; padding: 0 10px; gap: 6px; cursor: pointer; }
-  .lib-row:hover { background: #E6F7FF; }
-  .lib-row:nth-child(even) { background: #F8F8F8; }
-  .lib-row:nth-child(even):hover { background: #E6F7FF; }
+			.lib-row {
+				display: flex;
+				align-items: center;
+				height: 32px;
+				padding: 0 10px;
+				gap: 6px;
+				cursor: pointer;
+			}
+			.lib-row:hover {
+				background: #e6f7ff;
+			}
+			.lib-row:nth-child(even) {
+				background: #f8f8f8;
+			}
+			.lib-row:nth-child(even):hover {
+				background: #e6f7ff;
+			}
 
-  .lib-row .cb, #checkAll { width: 14px; height: 14px; flex-shrink: 0; accent-color: #1890FF; cursor: pointer; }
-  .lib-row .type-icon { width: 14px; height: 14px; flex-shrink: 0; }
-  .lib-row .name { font-size: 12px; color: #1A1A1A; width: 352px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .lib-row .type-text { font-size: 12px; color: #555; flex: 1; }
+			.lib-row .cb,
+			#checkAll {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+				accent-color: #1890ff;
+				cursor: pointer;
+			}
+			.lib-row .type-icon {
+				width: 14px;
+				height: 14px;
+				flex-shrink: 0;
+			}
+			.lib-row .name {
+				font-size: 12px;
+				color: #1a1a1a;
+				width: 352px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.lib-row .type-text {
+				font-size: 12px;
+				color: #555;
+				flex: 1;
+			}
 
-  .empty-msg { padding: 40px; text-align: center; color: #aaa; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #D0D0D0; border-top-color: #1890FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+			.empty-msg {
+				padding: 40px;
+				text-align: center;
+				color: #aaa;
+				font-size: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 6px;
+			}
+			.spinner {
+				display: inline-block;
+				width: 14px;
+				height: 14px;
+				border: 2px solid #d0d0d0;
+				border-top-color: #1890ff;
+				border-radius: 50%;
+				animation: spin 0.8s linear infinite;
+			}
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
 
-  .footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 58px; padding: 0 24px 0 24px; flex-shrink: 0; margin-top: -3px; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; width: 86px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #D0D0D0; background: #fff; color: #333; user-select: none; }
-  .btn:hover { background: #F5F5F5; }
-  .btn-primary { background: #1890FF; border-color: #1890FF; color: #fff; }
-  .btn-primary:hover { background: #0D7DE8; }
-  .btn-disabled { background: #E8E8E8; border-color: #E8E8E8; color: #aaa; cursor: default; pointer-events: none; }
-</style>
-</head>
-<body>
-<div class="dialog">
-  <div class="body-wrap">
-    <div class="body">
-      <div class="aff-row">
-        <span class="aff-label" data-i18n="Ownership"></span>
-        <div class="dd-wrap dd-aff" id="ddAff">
-          <div class="dd-trigger" data-value="personal"><span class="dd-text" data-i18n="Personal"></span></div>
-          <div class="dd-panel">
-            <div class="dd-option active" data-value="personal" data-i18n="Personal"></div>
-            <div class="dd-option" data-value="team" data-i18n="Team"></div>
-          </div>
-        </div>
-        <div class="dd-wrap dd-team" id="ddTeam" style="display:none">
-          <div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team"></span></div>
-          <div class="dd-panel" id="ddTeamPanel"></div>
-        </div>
-      </div>
+			.footer {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: 8px;
+				height: 58px;
+				padding: 0 24px 0 24px;
+				flex-shrink: 0;
+				margin-top: -3px;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				height: 32px;
+				width: 86px;
+				border-radius: 4px;
+				font-size: 12px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				background: #fff;
+				color: #333;
+				user-select: none;
+			}
+			.btn:hover {
+				background: #f5f5f5;
+			}
+			.btn-primary {
+				background: #1890ff;
+				border-color: #1890ff;
+				color: #fff;
+			}
+			.btn-primary:hover {
+				background: #0d7de8;
+			}
+			.btn-disabled {
+				background: #e8e8e8;
+				border-color: #e8e8e8;
+				color: #aaa;
+				cursor: default;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="dialog">
+			<div class="body-wrap">
+				<div class="body">
+					<div class="aff-row">
+						<span class="aff-label" data-i18n="Ownership">归属</span>
+						<div class="dd-wrap dd-aff" id="ddAff">
+							<div class="dd-trigger" data-value="personal"><span class="dd-text" data-i18n="Personal">个人</span></div>
+							<div class="dd-panel">
+								<div class="dd-option active" data-value="personal" data-i18n="Personal">个人</div>
+								<div class="dd-option" data-value="team" data-i18n="Team">团队</div>
+							</div>
+						</div>
+						<div class="dd-wrap dd-team" id="ddTeam" style="display: none">
+							<div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team">请选择团队</span></div>
+							<div class="dd-panel" id="ddTeamPanel"></div>
+						</div>
+					</div>
 
-      <div class="filter-row">
-        <span class="lib-label" data-i18n="Library list"></span>
-        <span class="sel-info" id="selInfo"></span>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="symbol" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+" /><span class="type-label-text" data-i18n="Symbol"></span>(<span class="count" id="cntSymbol">0</span>)</label>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="footprint" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+" /><span class="type-label-text" data-i18n="Footprint"></span>(<span class="count" id="cntFootprint">0</span>)</label>
-        <label class="type-filter"><input type="checkbox" class="type-cb" data-type="device" checked /><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg==" /><span class="type-label-text" data-i18n="Device"></span>(<span class="count" id="cntDevice">0</span>)</label>
-      </div>
+					<div class="filter-row">
+						<span class="lib-label" data-i18n="Library list">库列表</span>
+						<span class="sel-info" id="selInfo"></span>
+						<label class="type-filter"
+							><input type="checkbox" class="type-cb" data-type="symbol" checked /><img
+								src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+"
+							/><span class="type-label-text" data-i18n="Symbol">符号</span>(<span class="count" id="cntSymbol">0</span>)</label
+						>
+						<label class="type-filter"
+							><input type="checkbox" class="type-cb" data-type="footprint" checked /><img
+								src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+"
+							/><span class="type-label-text" data-i18n="Footprint">封装</span>(<span class="count" id="cntFootprint">0</span>)</label
+						>
+						<label class="type-filter"
+							><input type="checkbox" class="type-cb" data-type="device" checked /><img
+								src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg=="
+							/><span class="type-label-text" data-i18n="Device">器件</span>(<span class="count" id="cntDevice">0</span>)</label
+						>
+					</div>
 
-      <div class="lib-table">
-        <div class="lib-head">
-          <div class="col-check"><input type="checkbox" id="checkAll" /></div>
-          <span class="col-icon"></span>
-          <span class="col-name" data-i18n="Library name"></span>
-          <span class="col-type" data-i18n="Type"></span>
-        </div>
-        <div class="lib-scroll" id="libScroll">
-          <div class="empty-msg"><span class="spinner"></span><span data-i18n="Loading..."></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
+					<div class="lib-table">
+						<div class="lib-head">
+							<div class="col-check"><input type="checkbox" id="checkAll" /></div>
+							<span class="col-icon"></span>
+							<span class="col-name" data-i18n="Library name">库名称</span>
+							<span class="col-type" data-i18n="Type">类型</span>
+						</div>
+						<div class="lib-scroll" id="libScroll">
+							<div class="empty-msg"><span class="spinner"></span><span data-i18n="Loading...">正在加载...</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="footer">
-    <div class="btn" id="btnExit" data-i18n="Exit"></div>
-    <div class="btn" id="btnBack" data-i18n="Back"></div>
-    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
-    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
-  </div>
-</div>
+			<div class="footer">
+				<div class="btn" id="btnExit" data-i18n="Exit">退出</div>
+				<div class="btn" id="btnBack" data-i18n="Back">返回</div>
+				<div class="btn btn-primary" id="btnNext" data-i18n="Next">下一步</div>
+				<div class="btn btn-disabled" id="btnDone" data-i18n="Done">完成</div>
+			</div>
+		</div>
 
-<script>
-var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
-function t(tag, ...args) {
-  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
-  return tag;
-}
+		<script>
+			var edaObj = typeof eda !== 'undefined' ? eda : window.parent && window.parent.eda;
+			function t(tag, ...args) {
+				if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+				return tag;
+			}
 
-var STORE_KEY = 'libReaderData';
-var WIZARD_KEY = 'expWizardData';
-var allItems = [];
-var selectedUuids = {};
-var teams = [];
-var loadSeq = 0;
-var pollTimer = null;
+			var STORE_KEY = 'libReaderData';
+			var WIZARD_KEY = 'expWizardData';
+			var allItems = [];
+			var selectedUuids = {};
+			var teams = [];
+			var loadSeq = 0;
+			var pollTimer = null;
 
-var TYPE_ICON = {
-  '符号': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+',
-  '封装': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+',
-  '器件': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg==',
-};
+			var TYPE_ICON = {
+				'符号': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8Y2lyY2xlIGN4PSI2IiBjeT0iNCIgcj0iMSIvPg0KCTxwYXRoIGQ9Ik0xNS41LDdDMTUuNzc2LDcsMTYsNi43NzYsMTYsNi41QzE2LDYuMjI0LDE1Ljc3Niw2LDE1LjUsNkgxM1Y0aDIuNUMxNS43NzYsNCwxNiwzLjc3NiwxNiwzLjVDMTYsMy4yMjQsMTUuNzc2LDMsMTUuNSwzDQoJCUgxM1YyYzAtMC41NTItMC40NDgtMS0xLTFINEMzLjQ0OCwxLDMsMS40NDgsMywydjFIMC41QzAuMjI0LDMsMCwzLjIyNCwwLDMuNUMwLDMuNzc2LDAuMjI0LDQsMC41LDRIM3YySDAuNQ0KCQlDMC4yMjQsNiwwLDYuMjI0LDAsNi41QzAsNi43NzYsMC4yMjQsNywwLjUsN0gzdjJIMC41QzAuMjI0LDksMCw5LjIyNCwwLDkuNUMwLDkuNzc2LDAuMjI0LDEwLDAuNSwxMEgzdjJIMC41DQoJCUMwLjIyNCwxMiwwLDEyLjIyNCwwLDEyLjVDMCwxMi43NzYsMC4yMjQsMTMsMC41LDEzSDN2MWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDhjMC41NTIsMCwxLTAuNDQ4LDEtMXYtMWgyLjUNCgkJYzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVjMC0wLjI3Ni0wLjIyNC0wLjUtMC41LTAuNUgxM3YtMmgyLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTNWN0gxNS41eg0KCQkgTTEyLDE0SDRWMmg4VjE0eiIvPg0KPC9nPg0KPC9zdmc+',
+				'封装': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNNC41LDJoN0MxMS43NzYsMiwxMiwxLjc3NiwxMiwxLjVDMTIsMS4yMjQsMTEuNzc2LDEsMTEuNSwxaC03QzQuMjI0LDEsNCwxLjIyNCw0LDEuNUM0LDEuNzc2LDQuMjI0LDIsNC41LDJ6Ii8+DQoJPHBhdGggZD0iTTExLjUsMTRoLTdDNC4yMjQsMTQsNCwxNC4yMjQsNCwxNC41QzQsMTQuNzc2LDQuMjI0LDE1LDQuNSwxNWg3YzAuMjc2LDAsMC41LTAuMjI0LDAuNS0wLjVDMTIsMTQuMjI0LDExLjc3NiwxNCwxMS41LDE0eg0KCQkiLz4NCgk8cGF0aCBkPSJNMSw1aDNjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsMywwLDMuNDQ4LDAsNEMwLDQuNTUyLDAuNDQ4LDUsMSw1eiIvPg0KCTxwYXRoIGQ9Ik0xLDloM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFIMUMwLjQ0OCw3LDAsNy40NDgsMCw4QzAsOC41NTIsMC40NDgsOSwxLDl6Ii8+DQoJPHBhdGggZD0iTTUsMTJjMC0wLjU1Mi0wLjQ0OC0xLTEtMUgxYy0wLjU1MiwwLTEsMC40NDgtMSwxYzAsMC41NTIsMC40NDgsMSwxLDFoM0M0LjU1MiwxMyw1LDEyLjU1Miw1LDEyeiIvPg0KCTxwYXRoIGQ9Ik0xMSw0YzAsMC41NTIsMC40NDgsMSwxLDFoM2MwLjU1MiwwLDEtMC40NDgsMS0xYzAtMC41NTItMC40NDgtMS0xLTFoLTNDMTEuNDQ4LDMsMTEsMy40NDgsMTEsNHoiLz4NCgk8cGF0aCBkPSJNMTUsN2gtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiw3LjQ0OCwxNS41NTIsNywxNSw3eiIvPg0KCTxwYXRoIGQ9Ik0xNSwxMWgtM2MtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDNjMC41NTIsMCwxLTAuNDQ4LDEtMUMxNiwxMS40NDgsMTUuNTUyLDExLDE1LDExeiIvPg0KCTxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMC43NSIvPg0KPC9nPg0KPC9zdmc+',
+				'器件': 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSImI3g1NkZFOyYjeDVDNDI7XzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCINCgkgeT0iMHB4IiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2IDE2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cmVjdCBzdHlsZT0iZmlsbDpub25lOyIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQo8Zz4NCgk8cGF0aCBkPSJNMiw0LjVDMiw0Ljc3NiwyLjIyNCw1LDIuNSw1UzMsNC43NzYsMyw0LjVWM2gxLjVDNC43NzYsMyw1LDIuNzc2LDUsMi41QzUsMi4yMjQsNC43NzYsMiw0LjUsMmgtMkMyLjIyNCwyLDIsMi4yMjQsMiwyLjUNCgkJVjQuNXoiLz4NCgk8cGF0aCBkPSJNNC41LDE0SDN2LTEuNUMzLDEyLjIyNCwyLjc3NiwxMiwyLjUsMTJTMiwxMi4yMjQsMiwxMi41djJDMiwxNC43NzYsMi4yMjQsMTUsMi41LDE1aDJDNC43NzYsMTUsNSwxNC43NzYsNSwxNC41DQoJCUM1LDE0LjIyNCw0Ljc3NiwxNCw0LjUsMTR6Ii8+DQoJPHBhdGggZD0iTTEyLjUsM0gxNHYxLjVDMTQsNC43NzYsMTQuMjI0LDUsMTQuNSw1UzE1LDQuNzc2LDE1LDQuNXYtMkMxNSwyLjIyNCwxNC43NzYsMiwxNC41LDJoLTJDMTIuMjI0LDIsMTIsMi4yMjQsMTIsMi41DQoJCUMxMiwyLjc3NiwxMi4yMjQsMywxMi41LDN6Ii8+DQoJPGNpcmNsZSBjeD0iMS4yNSIgY3k9IjEuMjUiIHI9IjAuNzUiLz4NCgk8cGF0aCBkPSJNNyw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzYuNDQ4LDAsNiwwLjQ0OCw2LDF2MkM2LDMuNTUyLDYuNDQ4LDQsNyw0eiIvPg0KCTxwYXRoIGQ9Ik0xMCw0YzAuNTUyLDAsMS0wLjQ0OCwxLTFWMWMwLTAuNTUyLTAuNDQ4LTEtMS0xQzkuNDQ4LDAsOSwwLjQ0OCw5LDF2MkM5LDMuNTUyLDkuNDQ4LDQsMTAsNHoiLz4NCgk8cGF0aCBkPSJNMSw4aDJjMC41NTIsMCwxLTAuNDQ4LDEtMWMwLTAuNTUyLTAuNDQ4LTEtMS0xSDFDMC40NDgsNiwwLDYuNDQ4LDAsN0MwLDcuNTUyLDAuNDQ4LDgsMSw4eiIvPg0KCTxwYXRoIGQ9Ik00LDEwYzAtMC41NTItMC40NDgtMS0xLTFIMWMtMC41NTIsMC0xLDAuNDQ4LTEsMWMwLDAuNTUyLDAuNDQ4LDEsMSwxaDJDMy41NTIsMTEsNCwxMC41NTIsNCwxMHoiLz4NCgk8cGF0aCBkPSJNMTUuNSwxMkgxNHYtMmgxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNUMxNiw5LjIyNCwxNS43NzYsOSwxNS41LDlIMTRWNy41MDRjMC0wLjI5Mi0wLjI0LTAuNTAxLTAuNTAxLTAuNTAxDQoJCWMtMC4wODQsMC0wLjE3LDAuMDIyLTAuMjUxLDAuMDY5TDExLDguMzgyVjguMzhWNi41QzExLDYuMjIsMTAuNzgsNiwxMC41LDZTMTAsNi4yMiwxMCw2LjV2Mi40NjVMNy4zNjYsMTAuNUg1LjUNCgkJQzUuMjI0LDEwLjUsNSwxMC43MjQsNSwxMWMwLDAuMjc2LDAuMjI0LDAuNSwwLjUsMC41aDEuODYyTDEwLDEzLjAzOFYxNS41YzAsMC4yOCwwLjIyLDAuNSwwLjUsMC41czAuNS0wLjIyLDAuNS0wLjV2LTEuODc5DQoJCWwyLjI0OCwxLjMxMUMxMy4zMjksMTQuOTc4LDEzLjQxNSwxNSwxMy40OTksMTVDMTMuNzYsMTUsMTQsMTQuNzkxLDE0LDE0LjQ5OVYxM2gxLjVjMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNQ0KCQlDMTYsMTIuMjI0LDE1Ljc3NiwxMiwxNS41LDEyeiBNMTMsMTMuNjI5bC0yLTEuMTY2YzAtMC4wMDEsMC0wLjAwMiwwLTAuMDAzbC0wLjU4OS0wLjM0bC0xLjkxOS0xLjExOGwyLjQzMy0xLjQxOEwxMSw5LjU0DQoJCWMwLDAsMCwwLDAsMGwyLTEuMTY2VjEzLjYyOXoiLz4NCjwvZz4NCjwvc3ZnPg==',
+			};
 
-function escapeHtml(s) { return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+			function escapeHtml(s) {
+				return s ? String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+			}
 
-// ── custom dropdown logic ──
+			// ── custom dropdown logic ──
 
-function initDropdown(wrap, onChange) {
-  var trigger = wrap.querySelector('.dd-trigger');
-  var panel = wrap.querySelector('.dd-panel');
-  var options = panel.querySelectorAll('.dd-option');
+			function initDropdown(wrap, onChange) {
+				var trigger = wrap.querySelector('.dd-trigger');
+				var panel = wrap.querySelector('.dd-panel');
+				var options = panel.querySelectorAll('.dd-option');
 
-  trigger.addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeAllDropdowns(wrap);
-    var isOpen = panel.classList.contains('show');
-    if (isOpen) {
-      panel.classList.remove('show');
-      trigger.classList.remove('open');
-    } else {
-      panel.classList.add('show');
-      trigger.classList.add('open');
-    }
-  });
+				trigger.addEventListener('click', function (e) {
+					e.stopPropagation();
+					closeAllDropdowns(wrap);
+					var isOpen = panel.classList.contains('show');
+					if (isOpen) {
+						panel.classList.remove('show');
+						trigger.classList.remove('open');
+					} else {
+						panel.classList.add('show');
+						trigger.classList.add('open');
+					}
+				});
 
-  options.forEach(function(opt) {
-    opt.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var val = opt.dataset.value;
-      var text = opt.textContent;
-      trigger.dataset.value = val;
-      trigger.querySelector('.dd-text').textContent = text;
-      panel.querySelectorAll('.dd-option').forEach(function(o) { o.classList.remove('active'); });
-      opt.classList.add('active');
-      panel.classList.remove('show');
-      trigger.classList.remove('open');
-      if (onChange) onChange(val);
-    });
-  });
-}
+				options.forEach(function (opt) {
+					opt.addEventListener('click', function (e) {
+						e.stopPropagation();
+						var val = opt.dataset.value;
+						var text = opt.textContent;
+						trigger.dataset.value = val;
+						trigger.querySelector('.dd-text').textContent = text;
+						panel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.remove('active');
+						});
+						opt.classList.add('active');
+						panel.classList.remove('show');
+						trigger.classList.remove('open');
+						if (onChange) onChange(val);
+					});
+				});
+			}
 
-function closeAllDropdowns(except) {
-  document.querySelectorAll('.dd-wrap').forEach(function(w) {
-    if (w !== except) {
-      w.querySelector('.dd-panel').classList.remove('show');
-      w.querySelector('.dd-trigger').classList.remove('open');
-    }
-  });
-}
+			function closeAllDropdowns(except) {
+				document.querySelectorAll('.dd-wrap').forEach(function (w) {
+					if (w !== except) {
+						w.querySelector('.dd-panel').classList.remove('show');
+						w.querySelector('.dd-trigger').classList.remove('open');
+					}
+				});
+			}
 
-document.addEventListener('click', function() {
-  closeAllDropdowns(null);
-});
+			document.addEventListener('click', function () {
+				closeAllDropdowns(null);
+			});
 
-// ── storage helpers ──
+			// ── storage helpers ──
 
-async function storeRead() {
-  var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-  return raw ? JSON.parse(raw) : {};
-}
+			async function storeRead() {
+				var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+				return raw ? JSON.parse(raw) : {};
+			}
 
-async function storeWrite(obj) {
-  await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
-}
+			async function storeWrite(obj) {
+				await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
+			}
 
-// ── request library reading from extension ──
+			// ── request library reading from extension ──
 
-async function requestLoad(aff, teamUuid) {
-  loadSeq++;
-  selectedUuids = {};
-  document.getElementById('checkAll').checked = false;
-  document.getElementById('libScroll').innerHTML = '<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
-  document.getElementById('selInfo').textContent = '';
-  updateCounts([]);
+			async function requestLoad(aff, teamUuid) {
+				loadSeq++;
+				selectedUuids = {};
+				document.getElementById('checkAll').checked = false;
+				document.getElementById('libScroll').innerHTML =
+					'<div class="empty-msg"><span class="spinner"></span>' + t('Loading library content...') + '</div>';
+				document.getElementById('selInfo').textContent = '';
+				updateCounts([]);
 
-  await storeWrite({ teams: teams, cmd: 'load', seq: loadSeq, aff: aff, teamUuid: teamUuid || null });
+				await storeWrite({ teams: teams, cmd: 'load', seq: loadSeq, aff: aff, teamUuid: teamUuid || null });
 
-  if (pollTimer) clearInterval(pollTimer);
-  var expectedSeq = loadSeq;
+				if (pollTimer) clearInterval(pollTimer);
+				var expectedSeq = loadSeq;
 
-  pollTimer = setInterval(async function() {
-    try {
-      var data = await storeRead();
-      if (data.cmd === 'done' && data.seq === expectedSeq) {
-        clearInterval(pollTimer);
-        pollTimer = null;
-        allItems = data.items || [];
-        if (allItems.length === 0) {
-          document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No library content in workspace') + '</div>';
-        } else {
-          // default select all
-          selectedUuids = {};
-          allItems.forEach(function(item) { selectedUuids[item.uuid] = true; });
-          document.getElementById('checkAll').checked = true;
-          renderRows(allItems);
-          updateCounts(allItems);
-          updateSelInfo();
-          syncCheckAll();
-        }
-      }
-    } catch (e) { console.warn('poll error', e); }
-  }, 300);
-}
+				pollTimer = setInterval(async function () {
+					try {
+						var data = await storeRead();
+						if (data.cmd === 'done' && data.seq === expectedSeq) {
+							clearInterval(pollTimer);
+							pollTimer = null;
+							allItems = data.items || [];
+							if (allItems.length === 0) {
+								document.getElementById('libScroll').innerHTML =
+									'<div class="empty-msg">' + t('No library content in workspace') + '</div>';
+							} else {
+								// default select all
+								selectedUuids = {};
+								allItems.forEach(function (item) {
+									selectedUuids[item.uuid] = true;
+								});
+								document.getElementById('checkAll').checked = true;
+								renderRows(allItems);
+								updateCounts(allItems);
+								updateSelInfo();
+								syncCheckAll();
+							}
+						}
+					} catch (e) {
+						console.warn('poll error', e);
+					}
+				}, 300);
+			}
 
-// ── counts ──
+			// ── counts ──
 
-function updateCounts(items) {
-  var c = { '符号': 0, '封装': 0, '器件': 0 };
-  for (var i = 0; i < items.length; i++) c[items[i].type] = (c[items[i].type] || 0) + 1;
-  document.getElementById('cntSymbol').textContent = c['符号'];
-  document.getElementById('cntFootprint').textContent = c['封装'];
-  document.getElementById('cntDevice').textContent = c['器件'];
-}
+			function updateCounts(items) {
+				var c = { '符号': 0, '封装': 0, '器件': 0 };
+				for (var i = 0; i < items.length; i++) c[items[i].type] = (c[items[i].type] || 0) + 1;
+				document.getElementById('cntSymbol').textContent = c['符号'];
+				document.getElementById('cntFootprint').textContent = c['封装'];
+				document.getElementById('cntDevice').textContent = c['器件'];
+			}
 
-function updateSelInfo() {
-  var checked = Object.keys(selectedUuids).length;
-  var total = allItems.length;
-  document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
-}
+			function updateSelInfo() {
+				var checked = Object.keys(selectedUuids).length;
+				var total = allItems.length;
+				document.getElementById('selInfo').textContent = total > 0 ? t('Selected ${1} / ${2} items', checked, total) : '';
+			}
 
-// ── render ──
+			// ── render ──
 
-function renderRows(items) {
-  var scroll = document.getElementById('libScroll');
-  var html = '';
-  for (var i = 0; i < items.length; i++) {
-    var item = items[i];
-    var checked = selectedUuids[item.uuid] ? ' checked' : '';
-    var icon = TYPE_ICON[item.type] || '';
-    html += '<div class="lib-row" data-uuid="' + escapeHtml(item.uuid) + '" data-type="' + escapeHtml(item.type) + '">' +
-      '<input type="checkbox" class="cb"' + checked + ' data-uuid="' + escapeHtml(item.uuid) + '" />' +
-      (icon ? '<img class="type-icon" src="' + icon + '" />' : '') +
-      '<span class="name">' + escapeHtml(item.name) + '</span>' +
-      '<span class="type-text">' + escapeHtml(item.type) + '</span></div>';
-  }
-  scroll.innerHTML = html;
-  bindRowEvents();
-  syncCheckAll();
-}
+			function renderRows(items) {
+				var scroll = document.getElementById('libScroll');
+				var html = '';
+				for (var i = 0; i < items.length; i++) {
+					var item = items[i];
+					var checked = selectedUuids[item.uuid] ? ' checked' : '';
+					var icon = TYPE_ICON[item.type] || '';
+					html +=
+						'<div class="lib-row" data-uuid="' +
+						escapeHtml(item.uuid) +
+						'" data-type="' +
+						escapeHtml(item.type) +
+						'">' +
+						'<input type="checkbox" class="cb"' +
+						checked +
+						' data-uuid="' +
+						escapeHtml(item.uuid) +
+						'" />' +
+						(icon ? '<img class="type-icon" src="' + icon + '" />' : '') +
+						'<span class="name">' +
+						escapeHtml(item.name) +
+						'</span>' +
+						'<span class="type-text">' +
+						escapeHtml(item.type) +
+						'</span></div>';
+				}
+				scroll.innerHTML = html;
+				bindRowEvents();
+				syncCheckAll();
+			}
 
-function bindRowEvents() {
-  document.querySelectorAll('.lib-row').forEach(function(row) {
-    row.addEventListener('click', function(e) {
-      if (e.target.classList.contains('cb')) return;
-      var cb = row.querySelector('.cb');
-      cb.checked = !cb.checked;
-      toggleSelect(row.dataset.uuid, cb.checked);
-    });
-  });
-  document.querySelectorAll('.lib-row .cb').forEach(function(cb) {
-    cb.addEventListener('change', function() { toggleSelect(cb.dataset.uuid, cb.checked); });
-  });
-}
+			function bindRowEvents() {
+				document.querySelectorAll('.lib-row').forEach(function (row) {
+					row.addEventListener('click', function (e) {
+						if (e.target.classList.contains('cb')) return;
+						var cb = row.querySelector('.cb');
+						cb.checked = !cb.checked;
+						toggleSelect(row.dataset.uuid, cb.checked);
+					});
+				});
+				document.querySelectorAll('.lib-row .cb').forEach(function (cb) {
+					cb.addEventListener('change', function () {
+						toggleSelect(cb.dataset.uuid, cb.checked);
+					});
+				});
+			}
 
-function toggleSelect(uuid, checked) {
-  if (checked) { selectedUuids[uuid] = true; } else { delete selectedUuids[uuid]; }
-  refreshRowStyles();
-  syncCheckAll();
-  updateSelInfo();
-}
+			function toggleSelect(uuid, checked) {
+				if (checked) {
+					selectedUuids[uuid] = true;
+				} else {
+					delete selectedUuids[uuid];
+				}
+				refreshRowStyles();
+				syncCheckAll();
+				updateSelInfo();
+			}
 
-function refreshRowStyles() {
-  document.querySelectorAll('.lib-row').forEach(function(row) {
-    row.querySelector('.cb').checked = !!selectedUuids[row.dataset.uuid];
-  });
-}
+			function refreshRowStyles() {
+				document.querySelectorAll('.lib-row').forEach(function (row) {
+					row.querySelector('.cb').checked = !!selectedUuids[row.dataset.uuid];
+				});
+			}
 
-function syncCheckAll() {
-  var total = document.querySelectorAll('.lib-row').length;
-  var checked = Object.keys(selectedUuids).length;
-  document.getElementById('checkAll').checked = total > 0 && checked === total;
-  document.getElementById('checkAll').indeterminate = checked > 0 && checked < total;
+			function syncCheckAll() {
+				var total = document.querySelectorAll('.lib-row').length;
+				var checked = Object.keys(selectedUuids).length;
+				document.getElementById('checkAll').checked = total > 0 && checked === total;
+				document.getElementById('checkAll').indeterminate = checked > 0 && checked < total;
 
-  // sync type checkboxes
-  var counts = { '符号': 0, '封装': 0, '器件': 0 };
-  var selCounts = { '符号': 0, '封装': 0, '器件': 0 };
-  for (var i = 0; i < allItems.length; i++) {
-    counts[allItems[i].type]++;
-    if (selectedUuids[allItems[i].uuid]) selCounts[allItems[i].type]++;
-  }
-  var typeMap = { symbol: '符号', footprint: '封装', device: '器件' };
-  document.querySelectorAll('.type-cb').forEach(function(cb) {
-    var typ = typeMap[cb.dataset.type];
-    var total = counts[typ] || 0;
-    var sel = selCounts[typ] || 0;
-    cb.checked = total > 0 && sel === total;
-    cb.indeterminate = sel > 0 && sel < total;
-  });
-}
+				// sync type checkboxes
+				var counts = { '符号': 0, '封装': 0, '器件': 0 };
+				var selCounts = { '符号': 0, '封装': 0, '器件': 0 };
+				for (var i = 0; i < allItems.length; i++) {
+					counts[allItems[i].type]++;
+					if (selectedUuids[allItems[i].uuid]) selCounts[allItems[i].type]++;
+				}
+				var typeMap = { symbol: '符号', footprint: '封装', device: '器件' };
+				document.querySelectorAll('.type-cb').forEach(function (cb) {
+					var typ = typeMap[cb.dataset.type];
+					var total = counts[typ] || 0;
+					var sel = selCounts[typ] || 0;
+					cb.checked = total > 0 && sel === total;
+					cb.indeterminate = sel > 0 && sel < total;
+				});
+			}
 
-// ── checkAll ──
+			// ── checkAll ──
 
-document.getElementById('checkAll').addEventListener('change', function() {
-  var on = this.checked;
-  selectedUuids = {};
-  if (on) allItems.forEach(function(item) { selectedUuids[item.uuid] = true; });
-  refreshRowStyles();
-  syncCheckAll();
-  updateSelInfo();
-});
+			document.getElementById('checkAll').addEventListener('change', function () {
+				var on = this.checked;
+				selectedUuids = {};
+				if (on)
+					allItems.forEach(function (item) {
+						selectedUuids[item.uuid] = true;
+					});
+				refreshRowStyles();
+				syncCheckAll();
+				updateSelInfo();
+			});
 
-// ── type filter checkboxes: batch select/deselect by type ──
+			// ── type filter checkboxes: batch select/deselect by type ──
 
-document.querySelectorAll('.type-cb').forEach(function(cb) {
-  cb.addEventListener('change', function() {
-    var type = this.dataset.type;
-    var typeName = { symbol: '符号', footprint: '封装', device: '器件' }[type];
-    var on = this.checked;
-    allItems.forEach(function(item) {
-      if (item.type === typeName) {
-        if (on) { selectedUuids[item.uuid] = true; } else { delete selectedUuids[item.uuid]; }
-      }
-    });
-    refreshRowStyles();
-    syncCheckAll();
-    updateSelInfo();
-  });
-});
+			document.querySelectorAll('.type-cb').forEach(function (cb) {
+				cb.addEventListener('change', function () {
+					var type = this.dataset.type;
+					var typeName = { symbol: '符号', footprint: '封装', device: '器件' }[type];
+					var on = this.checked;
+					allItems.forEach(function (item) {
+						if (item.type === typeName) {
+							if (on) {
+								selectedUuids[item.uuid] = true;
+							} else {
+								delete selectedUuids[item.uuid];
+							}
+						}
+					});
+					refreshRowStyles();
+					syncCheckAll();
+					updateSelInfo();
+				});
+			});
 
-// ── affiliation dropdowns ──
+			// ── affiliation dropdowns ──
 
-initDropdown(document.getElementById('ddAff'), function(val) {
-  var isTeam = val === 'team';
-  var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  var teamPanel = document.getElementById('ddTeamPanel');
-  if (!isTeam) {
-    document.getElementById('ddTeam').style.display = 'none';
-    requestLoad('personal', null);
-  } else {
-    document.getElementById('ddTeam').style.display = '';
-    // switch to team: default to first team
-    if (teams.length > 0) {
-      var first = teams[0];
-      teamTrigger.dataset.value = first.uuid;
-      teamTrigger.querySelector('.dd-text').textContent = first.name;
-      teamPanel.querySelectorAll('.dd-option').forEach(function(o) {
-        o.classList.toggle('active', o.dataset.value === first.uuid);
-      });
-      requestLoad('team', first.uuid);
-    } else {
-      teamTrigger.dataset.value = '';
-      teamTrigger.querySelector('.dd-text').textContent = t('No team');
-      document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
-      document.getElementById('selInfo').textContent = '';
-    }
-  }
-});
+			initDropdown(document.getElementById('ddAff'), function (val) {
+				var isTeam = val === 'team';
+				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
+				var teamPanel = document.getElementById('ddTeamPanel');
+				if (!isTeam) {
+					document.getElementById('ddTeam').style.display = 'none';
+					requestLoad('personal', null);
+				} else {
+					document.getElementById('ddTeam').style.display = '';
+					// switch to team: default to first team
+					if (teams.length > 0) {
+						var first = teams[0];
+						teamTrigger.dataset.value = first.uuid;
+						teamTrigger.querySelector('.dd-text').textContent = first.name;
+						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.toggle('active', o.dataset.value === first.uuid);
+						});
+						requestLoad('team', first.uuid);
+					} else {
+						teamTrigger.dataset.value = '';
+						teamTrigger.querySelector('.dd-text').textContent = t('No team');
+						document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
+						document.getElementById('selInfo').textContent = '';
+					}
+				}
+			});
 
-initDropdown(document.getElementById('ddTeam'), function(val) {
-  if (val) {
-    requestLoad('team', val);
-  } else {
-    document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
-    document.getElementById('selInfo').textContent = '';
-  }
-});
+			initDropdown(document.getElementById('ddTeam'), function (val) {
+				if (val) {
+					requestLoad('team', val);
+				} else {
+					document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
+					document.getElementById('selInfo').textContent = '';
+				}
+			});
 
-// ── wizard navigation ──
+			// ── wizard navigation ──
 
-async function wizardCmd(cmd) {
-  await eda.sys_Storage.setExtensionUserConfig(WIZARD_KEY, JSON.stringify(cmd));
-}
+			async function wizardCmd(cmd) {
+				await eda.sys_Storage.setExtensionUserConfig(WIZARD_KEY, JSON.stringify(cmd));
+			}
 
-async function closeDialog() {
-  await wizardCmd({ cmd: 'exit' });
-  eda.sys_IFrame.closeIFrame('lib-reader');
-}
+			async function closeDialog() {
+				await wizardCmd({ cmd: 'exit' });
+				eda.sys_IFrame.closeIFrame('lib-reader');
+			}
 
-async function goBack() {
-  await wizardCmd({ cmd: 'back', step: 3 });
-  eda.sys_IFrame.closeIFrame('lib-reader');
-}
+			async function goBack() {
+				await wizardCmd({ cmd: 'back', step: 3 });
+				eda.sys_IFrame.closeIFrame('lib-reader');
+			}
 
-async function goNext() {
-  await wizardCmd({ cmd: 'next', step: 3 });
-  eda.sys_IFrame.closeIFrame('lib-reader');
-}
+			async function goNext() {
+				await wizardCmd({ cmd: 'next', step: 3 });
+				eda.sys_IFrame.closeIFrame('lib-reader');
+			}
 
-document.getElementById('btnExit').addEventListener('click', closeDialog);
-document.getElementById('btnBack').addEventListener('click', goBack);
-document.getElementById('btnNext').addEventListener('click', goNext);
+			document.getElementById('btnExit').addEventListener('click', closeDialog);
+			document.getElementById('btnBack').addEventListener('click', goBack);
+			document.getElementById('btnNext').addEventListener('click', goNext);
 
-// ── i18n: apply translated text ──
+			// ── i18n: apply translated text ──
 
-function applyI18n() {
-  var els = document.querySelectorAll('[data-i18n]');
-  for (var i = 0; i < els.length; i++) {
-    var key = els[i].getAttribute('data-i18n');
-    els[i].textContent = t(key);
-  }
-  var titleEls = document.querySelectorAll('[data-i18n-title]');
-  for (var i = 0; i < titleEls.length; i++) {
-    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
-  }
-  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
-  for (var i = 0; i < phEls.length; i++) {
-    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
-  }
-  document.title = t('Import/Export Wizard');
-  // Special formatting with suffix
-  var affLabel = document.querySelector('.aff-label');
-  if (affLabel) affLabel.textContent = t('Ownership') + '：';
-  var libLabel = document.querySelector('.lib-label');
-  if (libLabel) libLabel.textContent = t('Library list') + '：';
-}
-applyI18n();
+			function applyI18n() {
+				var els = document.querySelectorAll('[data-i18n]');
+				for (var i = 0; i < els.length; i++) {
+					var key = els[i].getAttribute('data-i18n');
+					els[i].textContent = t(key);
+				}
+				var titleEls = document.querySelectorAll('[data-i18n-title]');
+				for (var i = 0; i < titleEls.length; i++) {
+					titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+				}
+				var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+				for (var i = 0; i < phEls.length; i++) {
+					phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+				}
+				document.title = t('Import/Export Wizard');
+				// Special formatting with suffix
+				var affLabel = document.querySelector('.aff-label');
+				if (affLabel) affLabel.textContent = t('Ownership') + '：';
+				var libLabel = document.querySelector('.lib-label');
+				if (libLabel) libLabel.textContent = t('Library list') + '：';
+			}
+			applyI18n();
 
-// ── init ──
+			// ── init ──
 
-async function init() {
-  try {
-    var data = await storeRead();
-    teams = data.teams || [];
-  } catch (e) { console.warn(t('Read team data failed') + ':', e); }
+			async function init() {
+				try {
+					var data = await storeRead();
+					teams = data.teams || [];
+				} catch (e) {
+					console.warn(t('Read team data failed') + ':', e);
+				}
 
-  var teamPanel = document.getElementById('ddTeamPanel');
-  var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-  for (var tt of teams) {
-    var opt = document.createElement('div');
-    opt.className = 'dd-option';
-    opt.dataset.value = tt.uuid;
-    opt.textContent = tt.name;
-    teamPanel.appendChild(opt);
-  }
-  // rebind team dropdown with new options
-  teamPanel.querySelectorAll('.dd-option').forEach(function(opt) {
-    opt.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var val = opt.dataset.value;
-      var text = opt.textContent;
-      teamTrigger.dataset.value = val;
-      teamTrigger.querySelector('.dd-text').textContent = text;
-      teamPanel.querySelectorAll('.dd-option').forEach(function(o) { o.classList.remove('active'); });
-      opt.classList.add('active');
-      teamPanel.classList.remove('show');
-      teamTrigger.classList.remove('open');
-      if (val) {
-        requestLoad('team', val);
-      }
-    });
-  });
+				var teamPanel = document.getElementById('ddTeamPanel');
+				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
+				for (var tt of teams) {
+					var opt = document.createElement('div');
+					opt.className = 'dd-option';
+					opt.dataset.value = tt.uuid;
+					opt.textContent = tt.name;
+					teamPanel.appendChild(opt);
+				}
+				// rebind team dropdown with new options
+				teamPanel.querySelectorAll('.dd-option').forEach(function (opt) {
+					opt.addEventListener('click', function (e) {
+						e.stopPropagation();
+						var val = opt.dataset.value;
+						var text = opt.textContent;
+						teamTrigger.dataset.value = val;
+						teamTrigger.querySelector('.dd-text').textContent = text;
+						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+							o.classList.remove('active');
+						});
+						opt.classList.add('active');
+						teamPanel.classList.remove('show');
+						teamTrigger.classList.remove('open');
+						if (val) {
+							requestLoad('team', val);
+						}
+					});
+				});
 
-  // default: personal, second dropdown hidden
-  await requestLoad('personal', null);
-}
+				// default: personal, second dropdown hidden
+				await requestLoad('personal', null);
+			}
 
-init();
-</script>
-</body>
+			init();
+		</script>
+	</body>
 </html>

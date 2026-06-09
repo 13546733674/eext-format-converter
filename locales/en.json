@@ -88,5 +88,6 @@
 	"Import failed": "Import failed",
 	"Import error": "An error occurred during import.",
 	"Please select ownership first": "Please select ownership first",
-	"Read team data failed": "Failed to read team data"
+	"Read team data failed": "Failed to read team data",
+	"Initialization failed: ${1}": "Initialization failed: ${1}"
 }

@@ -1,12 +1,13 @@
 {
 	"About...": "About...",
-	"format convert": "Format Convert",
-	"Import/Export Wizard": "Import/Export Wizard",
-	"Format Convert (displayName)": "Format Convert",
 	"Convert Xpedition library files (PSK/CEL/PDB/Symbols) to EasyEDA Pro format and import": "Convert Xpedition library files (PSK/CEL/PDB/Symbols) to EasyEDA Pro format and import",
-	"格式转换": "Format Convert",
-	"将Xpedition库文件（PSK/CEL/PDB/符号）转换为嘉立创EDA专业版格式并导入": "Convert Xpedition library files (PSK/CEL/PDB/Symbols) to EasyEDA Pro format and import",
+	"format convert": "Format Convert",
+	"Format Convert (displayName)": "Format Convert",
+	"Import/Export Wizard": "Import/Export Wizard",
 	"Xpedition": "Xpedition",
 	"导入": "Import",
-	"库转换": "Library Conversion"
+	"导入向导": "Import Wizard",
+	"将Xpedition库文件（PSK/CEL/PDB/符号）转换为嘉立创EDA专业版格式并导入": "Convert Xpedition library files (PSK/CEL/PDB/Symbols) to EasyEDA Pro format and import",
+	"库转换": "Library Conversion",
+	"格式转换": "Format Convert"
 }

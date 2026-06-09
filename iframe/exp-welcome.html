@@ -1,124 +1,262 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title></title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1A1A1A; }
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title></title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				font-family:
+					'Inter',
+					-apple-system,
+					BlinkMacSystemFont,
+					'Segoe UI',
+					sans-serif;
+				background: #fff;
+				color: #1a1a1a;
+			}
 
-  .dialog { display: flex; flex-direction: column; width: 100%; height: 100%; }
+			.dialog {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+			}
 
-  .body-wrap { flex: 1; display: flex; flex-direction: column; padding: 21px 24px 4px 24px; overflow: hidden; }
-  .body { flex: 1; display: flex; flex-direction: column; border: 1px solid #D1D1D1; border-radius: 5px; padding: 16px; overflow: hidden; position: relative; }
+			.body-wrap {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 21px 24px 4px 24px;
+				overflow: hidden;
+			}
+			.body {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid #d1d1d1;
+				border-radius: 5px;
+				padding: 16px;
+				overflow: hidden;
+				position: relative;
+			}
 
-  /* ── hero section ── */
-  .hero { display: flex; align-items: center; gap: 16px; margin-top: 108px; margin-left: 37px; }
-  .icon-box { width: 48px; height: 48px; border-radius: 24px; background: #EBF2FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .icon-box svg { width: 28px; height: 28px; }
-  .title-col { display: flex; flex-direction: column; gap: 4px; }
-  .main-title { font-size: 28px; font-weight: 600; color: #1A1A1A; }
-  .sub-title { font-size: 12px; font-weight: normal; color: #888; }
+			/* ── hero section ── */
+			.hero {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				margin-top: 108px;
+				margin-left: 37px;
+			}
+			.icon-box {
+				width: 48px;
+				height: 48px;
+				border-radius: 24px;
+				background: #ebf2ff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+			}
+			.icon-box svg {
+				width: 28px;
+				height: 28px;
+			}
+			.title-col {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+			.main-title {
+				font-size: 28px;
+				font-weight: 600;
+				color: #1a1a1a;
+			}
+			.sub-title {
+				font-size: 12px;
+				font-weight: normal;
+				color: #888;
+			}
 
-  /* ── description ── */
-  .desc { font-size: 12px; color: #333; line-height: 1.6; margin-top: 57px; margin-left: 62px; width: 640px; }
+			/* ── description ── */
+			.desc {
+				font-size: 12px;
+				color: #333;
+				line-height: 1.6;
+				margin-top: 57px;
+				margin-left: 62px;
+				width: 640px;
+			}
 
-  /* ── warning ── */
-  .warn-row { display: flex; align-items: flex-start; gap: 6px; margin-top: 3px; margin-left: 62px; }
-  .warn-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: -1px; }
-  .warn-text { font-size: 12px; color: #7A5C00; line-height: 1.5; width: 640px; }
+			/* ── warning ── */
+			.warn-row {
+				display: flex;
+				align-items: flex-start;
+				gap: 6px;
+				margin-top: 3px;
+				margin-left: 62px;
+			}
+			.warn-icon {
+				width: 18px;
+				height: 18px;
+				flex-shrink: 0;
+				margin-top: -1px;
+			}
+			.warn-text {
+				font-size: 12px;
+				color: #7a5c00;
+				line-height: 1.5;
+				width: 640px;
+			}
 
-  .footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 58px; padding: 0 24px 0 24px; flex-shrink: 0; margin-top: -3px; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; width: 86px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #D0D0D0; background: #fff; color: #333; user-select: none; }
-  .btn:hover { background: #F5F5F5; }
-  .btn-primary { background: #1890FF; border-color: #1890FF; color: #fff; }
-  .btn-primary:hover { background: #0D7DE8; }
-  .btn-disabled { background: #E8E8E8; border-color: #E8E8E8; color: #aaa; cursor: default; pointer-events: none; }
-  .btn-back-disabled { background: #F5F5F5; border-color: #D0D0D0; color: #999; cursor: default; pointer-events: none; }
-</style>
-</head>
-<body>
-<div class="dialog">
-  <div class="body-wrap">
-    <div class="body">
-      <div class="hero">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="#2D6EE8"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
-        </div>
-        <div class="title-col">
-          <div class="main-title" data-i18n="Import/Export Wizard"></div>
-          <div class="sub-title" data-i18n="File format conversion tool"></div>
-        </div>
-      </div>
+			.footer {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: 8px;
+				height: 58px;
+				padding: 0 24px 0 24px;
+				flex-shrink: 0;
+				margin-top: -3px;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				height: 32px;
+				width: 86px;
+				border-radius: 4px;
+				font-size: 12px;
+				cursor: pointer;
+				border: 1px solid #d0d0d0;
+				background: #fff;
+				color: #333;
+				user-select: none;
+			}
+			.btn:hover {
+				background: #f5f5f5;
+			}
+			.btn-primary {
+				background: #1890ff;
+				border-color: #1890ff;
+				color: #fff;
+			}
+			.btn-primary:hover {
+				background: #0d7de8;
+			}
+			.btn-disabled {
+				background: #e8e8e8;
+				border-color: #e8e8e8;
+				color: #aaa;
+				cursor: default;
+				pointer-events: none;
+			}
+			.btn-back-disabled {
+				background: #f5f5f5;
+				border-color: #d0d0d0;
+				color: #999;
+				cursor: default;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="dialog">
+			<div class="body-wrap">
+				<div class="body">
+					<div class="hero">
+						<div class="icon-box">
+							<svg viewBox="0 0 24 24" fill="#2D6EE8">
+								<path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" />
+							</svg>
+						</div>
+						<div class="title-col">
+							<div class="main-title" data-i18n="Import/Export Wizard">导入导出向导</div>
+							<div class="sub-title" data-i18n="File format conversion tool">文件格式互转工具</div>
+						</div>
+					</div>
 
-      <div class="desc" data-i18n="Wizard description"></div>
+					<div class="desc" data-i18n="Wizard description">该向导将帮助您将其他供应商文件与嘉立创EDA专业版文件互转。</div>
 
-      <div class="warn-row">
-        <svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-        <div class="warn-text" data-i18n="Warning disclaimer"></div>
-      </div>
-    </div>
-  </div>
+					<div class="warn-row">
+						<svg class="warn-icon" viewBox="0 0 24 24" fill="#F59E0B">
+							<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
+						</svg>
+						<div class="warn-text" data-i18n="Warning disclaimer">
+							嘉立创EDA不承担任何因格式转换差异产生的损失，如不同意请不要进行转换。
+						</div>
+					</div>
+				</div>
+			</div>
 
-  <div class="footer">
-    <div class="btn" id="btnExit" data-i18n="Exit"></div>
-    <div class="btn btn-back-disabled" id="btnBack" data-i18n="Back"></div>
-    <div class="btn btn-primary" id="btnNext" data-i18n="Next"></div>
-    <div class="btn btn-disabled" id="btnDone" data-i18n="Done"></div>
-  </div>
-</div>
+			<div class="footer">
+				<div class="btn" id="btnExit" data-i18n="Exit">退出</div>
+				<div class="btn btn-back-disabled" id="btnBack" data-i18n="Back">返回</div>
+				<div class="btn btn-primary" id="btnNext" data-i18n="Next">下一步</div>
+				<div class="btn btn-disabled" id="btnDone" data-i18n="Done">完成</div>
+			</div>
+		</div>
 
-<script>
-var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
-function t(tag, ...args) {
-  if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
-  return tag;
-}
+		<script>
+			var edaObj = typeof eda !== 'undefined' ? eda : window.parent && window.parent.eda;
+			function t(tag, ...args) {
+				if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+				return tag;
+			}
 
-var STORE_KEY = 'expWizardData';
+			var STORE_KEY = 'expWizardData';
 
-async function storeRead() {
-  var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
-  return raw ? JSON.parse(raw) : {};
-}
+			async function storeRead() {
+				var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+				return raw ? JSON.parse(raw) : {};
+			}
 
-async function storeWrite(obj) {
-  await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
-}
+			async function storeWrite(obj) {
+				await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify(obj));
+			}
 
-async function closeDialog() {
-  await storeWrite({ cmd: 'exit' });
-  eda.sys_IFrame.closeIFrame('exp-welcome');
-}
+			async function closeDialog() {
+				await storeWrite({ cmd: 'exit' });
+				eda.sys_IFrame.closeIFrame('exp-welcome');
+			}
 
-async function goNext() {
-  await storeWrite({ cmd: 'next', step: 1 });
-  eda.sys_IFrame.closeIFrame('exp-welcome');
-}
+			async function goNext() {
+				await storeWrite({ cmd: 'next', step: 1 });
+				eda.sys_IFrame.closeIFrame('exp-welcome');
+			}
 
-document.getElementById('btnExit').addEventListener('click', closeDialog);
-document.getElementById('btnBack').addEventListener('click', closeDialog);
-document.getElementById('btnNext').addEventListener('click', goNext);
+			document.getElementById('btnExit').addEventListener('click', closeDialog);
+			document.getElementById('btnBack').addEventListener('click', closeDialog);
+			document.getElementById('btnNext').addEventListener('click', goNext);
 
-// ── i18n: apply translated text ──
-function applyI18n() {
-  var els = document.querySelectorAll('[data-i18n]');
-  for (var i = 0; i < els.length; i++) {
-    var key = els[i].getAttribute('data-i18n');
-    els[i].textContent = t(key);
-  }
-  var titleEls = document.querySelectorAll('[data-i18n-title]');
-  for (var i = 0; i < titleEls.length; i++) {
-    titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
-  }
-  var phEls = document.querySelectorAll('[data-i18n-placeholder]');
-  for (var i = 0; i < phEls.length; i++) {
-    phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
-  }
-  document.title = t('Import/Export Wizard');
-}
-applyI18n();
-</script>
-</body>
+			// ── i18n: apply translated text ──
+			function applyI18n() {
+				var els = document.querySelectorAll('[data-i18n]');
+				for (var i = 0; i < els.length; i++) {
+					var key = els[i].getAttribute('data-i18n');
+					els[i].textContent = t(key);
+				}
+				var titleEls = document.querySelectorAll('[data-i18n-title]');
+				for (var i = 0; i < titleEls.length; i++) {
+					titleEls[i].title = t(titleEls[i].getAttribute('data-i18n-title'));
+				}
+				var phEls = document.querySelectorAll('[data-i18n-placeholder]');
+				for (var i = 0; i < phEls.length; i++) {
+					phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
+				}
+				document.title = t('Import/Export Wizard');
+			}
+			applyI18n();
+		</script>
+	</body>
 </html>
