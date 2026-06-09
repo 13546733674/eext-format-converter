@@ -9,12 +9,17 @@
 		"eda": ">=3.0.0"
 	},
 	"license": "Apache-2.0",
-	"repository": {},
+	"repository": {
+		"type": "github",
+		"url": "https://github.com/easyeda/eext-format-convert"
+	},
 	"categories": "Other",
 	"keywords": ["Xpedition", "导入", "格式转换", "库转换"],
 	"images": {
 		"logo": "./images/logo.jpg"
 	},
+	"homepage": "https://github.com/easyeda",
+	"bugs": "https://github.com/easyeda/eext-format-convert/issues",
 	"activationEvents": {},
 	"entry": "./dist/index",
 	"dependentExtensions": {},
