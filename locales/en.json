@@ -112,5 +112,8 @@
 	"Import error": "An error occurred during import.",
 	"Please select ownership first": "Please select ownership first",
 	"Read team data failed": "Failed to read team data",
-	"Initialization failed: ${1}": "Initialization failed: ${1}"
+	"Initialization failed: ${1}": "Initialization failed: ${1}",
+	"Please open a symbol or footprint library document first.": "Please open a symbol or footprint library document first.",
+	"Failed to read document source.": "Failed to read document source.",
+	"Export KiCad failed: ${1}": "Export KiCad failed: ${1}"
 }

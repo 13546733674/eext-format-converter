@@ -112,5 +112,8 @@
 	"Import error": "导入过程中发生错误。",
 	"Please select ownership first": "请先选择归属",
 	"Read team data failed": "读取团队数据失败",
-	"Initialization failed: ${1}": "初始化失败：${1}"
+	"Initialization failed: ${1}": "初始化失败：${1}",
+	"Please open a symbol or footprint library document first.": "请先打开符号库或封装库文档。",
+	"Failed to read document source.": "读取文档源码失败。",
+	"Export KiCad failed: ${1}": "导出 KiCad 失败：${1}"
 }

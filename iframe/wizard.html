@@ -1685,9 +1685,7 @@
 				if (selectedMode === 'import') {
 					document.getElementById('stepImportTitle').textContent = t(importFormatTitles[selectedType] || 'Import');
 					document.getElementById('importFileInput').setAttribute('accept', importAcceptMap[selectedType] || '.zip');
-					if (!importFile) {
-						document.getElementById('uploadText').textContent = t(importHintMap[selectedType] || 'Click or drag ZIP file here');
-					}
+					document.getElementById('uploadText').textContent = t(importHintMap[selectedType] || 'Click or drag ZIP file here');
 				}
 			}
 
