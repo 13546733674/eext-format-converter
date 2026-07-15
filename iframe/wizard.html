@@ -2151,17 +2151,14 @@
 				if (currentStep === 'results' && !importTeamUuid) return;
 				if (currentStep === 'results') {
 					var importPro = true;
-					var personalTeam = teams.find(function (tt) {
-						return tt.name === '个人';
-					});
-					var importAffVal = personalTeam && importTeamUuid === personalTeam.uuid ? 'personal' : 'team';
+					var importAffVal = importIsPersonal ? 'personal' : 'team';
 					var cmdData = {
 						teams: teams,
 						cmd: 'import-execute',
 						seq: Date.now(),
 						importPro: importPro,
 						aff: importAffVal,
-						teamUuid: importTeamUuid,
+						teamUuid: importIsPersonal ? '' : importTeamUuid,
 					};
 					if (currentIsProjectArchive) {
 						cmdData.projectName = document.getElementById('projectNameInput').value.trim() || 'ImportedProject_' + Date.now();
@@ -2214,7 +2211,8 @@
 
 			// ── 导入完成归属/团队下拉框 ──
 
-			var importTeamUuid = '';
+			var importTeamUuid = 'personal';
+			var importIsPersonal = true;
 
 			// ── 初始化 ──
 
@@ -2255,18 +2253,19 @@
 				// 填充导入完成团队面板：个人优先，然后过滤团队
 				var importTeamPanel = document.getElementById('ddImportTeamPanel');
 				var importTeamTrigger = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
-				// 从团队数组中查找个人团队UUID
+				// 从团队数组中查找个人团队UUID（兼容中英文名称）
 				var personalTeam = teams.find(function (tt) {
-					return tt.name === '个人';
+					return tt.name === '个人' || tt.name === 'Personal';
 				});
 				var personalUuid = personalTeam ? personalTeam.uuid : 'personal';
 				var personalOpt = document.createElement('div');
 				personalOpt.className = 'dd-option';
 				personalOpt.dataset.value = personalUuid;
+				personalOpt.dataset.aff = 'personal';
 				personalOpt.textContent = t('Personal');
 				importTeamPanel.appendChild(personalOpt);
 				var filteredTeams = teams.filter(function (tt) {
-					return tt.name !== '1.专业版测试' && tt.name !== '个人';
+					return tt.name !== '1.专业版测试' && tt.name !== '个人' && tt.name !== 'Personal';
 				});
 				for (var t2 of filteredTeams) {
 					var opt2 = document.createElement('div');
@@ -2275,6 +2274,13 @@
 					opt2.textContent = t2.name;
 					importTeamPanel.appendChild(opt2);
 				}
+				// 默认选中个人
+				importTeamUuid = personalUuid;
+				importIsPersonal = true;
+				importTeamTrigger.dataset.value = personalUuid;
+				importTeamTrigger.querySelector('.dd-text').textContent = t('Personal');
+				personalOpt.classList.add('active');
+
 				importTeamPanel.querySelectorAll('.dd-option').forEach(function (opt2) {
 					opt2.addEventListener('click', function (e) {
 						e.stopPropagation();
@@ -2289,6 +2295,7 @@
 						importTeamPanel.classList.remove('show');
 						importTeamTrigger.classList.remove('open');
 						importTeamUuid = val;
+						importIsPersonal = opt2.dataset.aff === 'personal';
 						updateFooter();
 					});
 				});
