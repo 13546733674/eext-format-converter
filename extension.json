@@ -2,7 +2,7 @@
 	"name": "eext-format-convert",
 	"uuid": "d16ec4f7259c47fda39f9183547c52d5",
 	"displayName": "格式转换",
-	"description": "将Xpedition库文件（PSK/CEL/PDB/符号）转换为嘉立创EDA专业版格式并导入",
+	"description": "支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad",
 	"version": "1.0.2",
 	"publisher": "EasyEDA",
 	"engines": {
@@ -31,7 +31,7 @@
 				"menuItems": [
 					{
 						"id": "import-export-wizard",
-						"title": "导入向导",
+						"title": "导入向导...",
 						"registerFn": "readAllLibraries"
 					}
 				]
@@ -44,7 +44,20 @@
 				"menuItems": [
 					{
 						"id": "import-export-wizard",
-						"title": "导入向导",
+						"title": "导入向导...",
+						"registerFn": "readAllLibraries"
+					}
+				]
+			}
+		],
+		"pcb": [
+			{
+				"id": "format-convert",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "import-export-wizard",
+						"title": "导入向导...",
 						"registerFn": "readAllLibraries"
 					}
 				]
@@ -57,7 +70,7 @@
 				"menuItems": [
 					{
 						"id": "export-kicad",
-						"title": "导出 KiCad",
+						"title": "导出 KiCad...",
 						"registerFn": "exportCurrentDocToKicad"
 					}
 				]
@@ -70,7 +83,7 @@
 				"menuItems": [
 					{
 						"id": "export-kicad",
-						"title": "导出 KiCad",
+						"title": "导出 KiCad...",
 						"registerFn": "exportCurrentDocToKicad"
 					}
 				]

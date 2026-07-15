@@ -6,9 +6,9 @@
 	"Import/Export Wizard": "Import/Export Wizard",
 	"Xpedition": "Xpedition",
 	"导入": "Import",
-	"导入向导": "Import Wizard",
-	"导出 KiCad": "Export KiCad",
-	"将Xpedition库文件（PSK/CEL/PDB/符号）转换为嘉立创EDA专业版格式并导入": "Convert Xpedition library files (PSK/CEL/PDB/Symbols) to EasyEDA Pro format and import",
+	"导入向导...": "Import Wizard...",
+	"导出 KiCad...": "Export KiCad...",
+	"支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad": "Convert between Xpedition, Cadstar, Fabmaster, P-CAD, Allegro, gEDA, TinyCAD and EasyEDA Pro, and export to KiCad",
 	"库转换": "Library Conversion",
 	"格式转换": "Format Convert"
 }
