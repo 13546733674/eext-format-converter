@@ -1,0 +1,452 @@
+(footprint "Diode_THTD_DO-201AE_P15.24mm_Horizontal"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "R2"
+		(at 0 -1.6048 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "e2b79a6b-85ce-4b68-b363-4caad9088d99")
+		(effects
+			(font
+				(size 0.762 0.762)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Diode_THTD_DO-201AE_P15.24mm_Horizontal"
+		(at 0 0.6048 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "b3ff9585-a555-4688-bb69-870545b657fa")
+		(effects
+			(font
+				(size 0.762 0.762)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "http://file.elecfans.com/web2/M00/19/D1/poYBAGF3peCAUkGhAAHDRTJZ3Ko552.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e46c1ef6-ae76-443a-9894-c74808c8faf5")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Chip SMD Resistors, 160 Ω, 63 mW, 0.1 %, Thin Film, 0603"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9b739d63-fdf7-4be6-9d09-d99b139991e1")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "MPN" "RN731JTTD1600B25"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "466a01d2-1732-4a6d-8c59-8b8bb1abffc2")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "KOA"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "73ca5b77-7c8a-46f8-9705-7f53291be9a9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "MFG" "KOA"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b338d594-6b0a-4123-8e0b-09a636ee5455")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "body_length" "1.6 mm"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c1899fd8-b98b-43fe-9001-976fb872fe39")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "body_width" "800 µm"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3e6a2f8f-243d-40bb-935a-bac347ec760d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "case_code_imperial" "0603"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3886e61f-09fd-48ab-8bdf-817034cef5e1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "characteristic" "Moisture Resistant"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0fb68307-51c4-421c-b505-4661c4a8235d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "composition" "Thin Film"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "da4b4e7f-a28b-4a63-a8e7-dbf5ee0e5fa6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "height" "450 µm"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0944cd11-6434-4166-88e5-454b7631f00d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "material" "Thin Film"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "00e702b1-f63d-4e2c-a453-5b543a42cc9f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "operating_temperature" "-55 °C"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e5692f20-b5cd-4fa7-ba63-8f9f9c2abfc3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "overload_voltage" "75 V"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "48bdcd0b-7376-4cdb-a120-41569704be47")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "package" "0603"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "190806e2-864b-4105-ac8f-389a7ab0d566")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "packaging" "Tape and Reel"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a7291090-fc76-45e6-9082-b09bfbd4c856")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "power_rating" "63 mW"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cc4b4e6f-1c92-47c6-83c8-f972079cbc7e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "resistance" "160 Ω"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ed298b89-52d5-4d99-9223-3222c0176228")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "temperature_coefficient" "25 ppm/°C"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "fb9bf7df-39bf-4c55-8dbb-3a8552b4c9d1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "terminal_pitch" "1.3 mm"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "6cb5c85d-4344-4c3a-a61f-cb79ccfc35cc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "termination" "SMD"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2a331490-f369-4527-8afd-9e032d6e06f0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "tolerance" "0.1 %"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "aebafaff-dd9d-40cb-8f50-f26dc38a6ff0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "type" "薄膜电阻"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f1cde3f5-47c2-4ab4-a6aa-1f2a9782fea9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "voltage_rating" "50 V"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7e01dbd6-4501-4454-8349-02f4b83e8aaa")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_line
+		(start -1.02 -0.62)
+		(end -1.02 -0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "2b1af43d-2143-4f8d-8975-f4c0b6290660")
+	)
+	(fp_line
+		(start -1.02 -0.62)
+		(end 1.02 -0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "f5eaf8ec-bf71-466a-88f9-4ebaf888a988")
+	)
+	(fp_line
+		(start -1.02 0.62)
+		(end -1.02 0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "c58cf1e7-5b15-4e24-b5a0-3ca5eb4ccfd1")
+	)
+	(fp_line
+		(start 1.02 -0.62)
+		(end 1.02 -0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "6d894af3-1a68-4fb2-bf9a-270cd5db048c")
+	)
+	(fp_line
+		(start 1.02 0.62)
+		(end -1.02 0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "2d30ad8f-319e-48f0-a190-6a2542201890")
+	)
+	(fp_line
+		(start 1.02 0.62)
+		(end 1.02 0.62)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "745bb531-4ac8-45fa-a21a-ded60d269420")
+	)
+	(fp_circle
+		(center -1.556 0)
+		(end -1.356 0)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "8aa767f5-dd4c-4646-a318-f92c9f3c35f8")
+	)
+	(fp_poly
+		(pts
+			(xy -0.799 0.4) (xy 0.799 0.4) (xy 0.8 0.4) (xy 0.8 0.399) (xy 0.8 -0.399) (xy 0.8 -0.4) (xy 0.799 -0.4)
+			(xy -0.799 -0.4) (xy -0.8 -0.4) (xy -0.8 -0.399) (xy -0.8 0.399) (xy -0.8 0.4)
+		)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e63f69a2-f1d7-478c-8eea-b3879f14cbea")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "79179f0c-4e83-4098-b542-93a7bea53de5")
+		(effects
+			(font
+				(size 0.762 0.762)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -0.753 0)
+		(size 0.806 0.864)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 45)
+		(uuid "f9304b61-0729-4689-9614-401283d19e77")
+	)
+	(pad "2" smd rect
+		(at 0.753 0)
+		(size 0.806 0.864)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 45)
+		(uuid "4f22f541-03ff-47df-a683-86a4eeb68056")
+	)
+	(embedded_fonts no)
+)
