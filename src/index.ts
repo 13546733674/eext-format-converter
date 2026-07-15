@@ -4,7 +4,7 @@
  * 入口文件
  */
 import type { ConvertItem, ImportResult } from './converter';
-import { convertFromProEditor, filterImportResult, importXpeditionZip } from './converter';
+import { exportFromProEditor, filterImportResult, importArchive } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function activate(status?: 'onStartupFinished', arg?: string): void {}
@@ -229,7 +229,8 @@ async function _handleLoadCmd(data: any, teams: Array<{ name: string; uuid: stri
 /** 处理 convert 命令：导出转换 */
 async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: string }>) {
 	const convertItems: ConvertItem[] = data.items || [];
-	const filename: string = data.filename || 'asyeda2xpedition.zip';
+	const format: string = data.format || 'xpedition';
+	const filename: string = data.filename || (format === 'kicad' ? 'asyeda2kicad.zip' : 'asyeda2xpedition.zip');
 
 	// Toggle workspace before conversion (same as load command)
 	const convTeamUuid: string | undefined = data.teamUuid || undefined;
@@ -250,7 +251,8 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 	await _sleep(300);
 
 	try {
-		const blob = await convertFromProEditor(
+		const blob = await exportFromProEditor(
+			format,
 			convertItems,
 			async (type, uuid, libraryUuid) => {
 				console.log(TAG, 'fetchFn:', type, 'uuid=' + uuid, 'libUuid=' + libraryUuid);
@@ -333,7 +335,8 @@ async function _handleImportCmd(data: any, teams: Array<{ name: string; uuid: st
 		for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
 		const importBlob = new Blob([bytes], { type: 'application/zip' });
 
-		const importResult = await importXpeditionZip(importBlob, (done, total, name) => {
+		const format: string = data.format || 'xpedition';
+		const importResult = await importArchive(format, importBlob, (done, total, name) => {
 			eda.sys_Storage.setExtensionUserConfig(
 				STORE_KEY,
 				JSON.stringify({
@@ -346,7 +349,10 @@ async function _handleImportCmd(data: any, teams: Array<{ name: string; uuid: st
 		});
 
 		// Store blob for later use (import-execute)
-		const filename = data.filename || 'imported.elibz2';
+		let filename = data.filename || 'imported.elibz2';
+		if (importResult.isProjectArchive) {
+			filename = data.filename ? data.filename.replace(/\.(zip|elibz2)$/i, '.epro2') : 'imported.epro2';
+		}
 		_lastImportBlob = importResult.blob;
 		_lastImportFilename = filename;
 		_lastImportResult = importResult;
@@ -357,6 +363,7 @@ async function _handleImportCmd(data: any, teams: Array<{ name: string; uuid: st
 				teams,
 				cmd: 'import-convert-done',
 				seq: importSeq,
+				isProjectArchive: !!importResult.isProjectArchive,
 				result: {
 					devices: importResult.devices,
 					footprints: importResult.footprints,
@@ -396,6 +403,84 @@ async function _handleImportCmd(data: any, teams: Array<{ name: string; uuid: st
 	}
 }
 
+async function _importProjectArchive(data: any, teams: Array<{ name: string; uuid: string }>, importBlob: Blob, importSeq: number): Promise<void> {
+	const aff: string = data.aff || 'personal';
+	const teamUuid: string = data.teamUuid || '';
+	const isPersonal = aff === 'personal';
+	const targetTeamUuid = isPersonal ? undefined : teamUuid || undefined;
+	const projectName = data.projectName || _lastImportFilename.replace(/\.(elibz2|zip|epro2)$/i, '') + '_' + Date.now();
+	const folderUuid = data.folderUuid || (targetTeamUuid ? await _getFirstFolder(targetTeamUuid) : undefined);
+	const ext = _lastImportFilename.toLowerCase().endsWith('.epro2') ? '.epro2' : '.zip';
+	const importFilename = _lastImportFilename.replace(/\.(elibz2|zip|epro2)$/i, ext) || `import${ext}`;
+	const importFile = new File([importBlob], importFilename, { type: 'application/zip' });
+
+	const saveTo: any = {
+		operation: 'New Project',
+		newProjectOwnerTeamUuid: targetTeamUuid,
+		newProjectOwnerFolderUuid: folderUuid,
+		newProjectFriendlyName: projectName,
+		newProjectDescription: '',
+		newProjectCollaborationMode: 1,
+	};
+
+	console.log(TAG, 'importProjectByProjectFile (project):', importFilename, 'team:', targetTeamUuid, 'folder:', folderUuid);
+
+	await eda.sys_FileManager.importProjectByProjectFile(importFile, 'JLCEDA Pro', { importOption: 'ImportDocument' } as any, saveTo);
+	if (data.download) {
+		await eda.sys_FileSystem.saveFile(importBlob, importFilename);
+	}
+	await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'import-done', seq: importSeq }));
+}
+
+async function _importLibraryArchive(data: any, teams: Array<{ name: string; uuid: string }>, importBlob: Blob, importSeq: number): Promise<void> {
+	const aff: string = data.aff || 'personal';
+	const teamUuid: string = data.teamUuid || '';
+	const createDevice: boolean = data.createDevice !== false;
+	const isPersonal = aff === 'personal';
+	const targetTeamUuid = isPersonal ? undefined : teamUuid || undefined;
+	console.log(TAG, 'import target - aff:', aff, 'teamUuid:', teamUuid, 'isPersonal:', isPersonal);
+
+	const zipName = _lastImportFilename.replace(/.elibz2$/i, '.zip');
+	const importFile = new File([importBlob], zipName, { type: 'application/zip' });
+	const projectName = _lastImportFilename.replace(/.elibz2$/i, '') + '_' + Date.now();
+
+	const folderUuid = targetTeamUuid ? await _getFirstFolder(targetTeamUuid) : undefined;
+
+	const saveTo: any = {
+		operation: 'New Project',
+		newProjectOwnerTeamUuid: targetTeamUuid,
+		newProjectOwnerFolderUuid: folderUuid,
+		newProjectFriendlyName: projectName,
+		newProjectDescription: '',
+		newProjectCollaborationMode: 1,
+	};
+
+	const librariesImportSetting: any = {
+		ownerTeamUuid: targetTeamUuid,
+		createDeviceForSingleSymbol: createDevice,
+	};
+
+	console.log(TAG, 'importProjectByProjectFile:', zipName, 'team:', targetTeamUuid, 'folder:', folderUuid);
+
+	await eda.sys_FileManager.importProjectByProjectFile(
+		importFile,
+		'JLCEDA Pro',
+		{ importOption: 'ExtractLibraries' } as any,
+		saveTo,
+		librariesImportSetting,
+	);
+	await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'import-done', seq: importSeq }));
+}
+
+async function _importPcbDocumentSource(teams: Array<{ name: string; uuid: string }>, importSeq: number): Promise<void> {
+	const pcbUuid = await eda.dmt_Pcb.createPcb();
+	if (!pcbUuid) throw new Error('Failed to create PCB document');
+	const tabId = await eda.dmt_EditorControl.openDocument(pcbUuid);
+	if (!tabId) throw new Error('Failed to open PCB document');
+	await eda.sys_FileManager.setDocumentSource(_lastImportResult!.pcbSource);
+	await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'import-done', seq: importSeq }));
+}
+
 /** 处理 import-execute 命令：执行实际导入 */
 async function _handleImportExecuteCmd(data: any, teams: Array<{ name: string; uuid: string }>) {
 	// Clear command immediately to prevent re-execution on next poll
@@ -403,52 +488,29 @@ async function _handleImportExecuteCmd(data: any, teams: Array<{ name: string; u
 	const importSeq: number = data.seq;
 	const importPro: boolean = data.importPro !== false;
 	const download = !!data.download;
-	const aff: string = data.aff || 'personal';
-	const teamUuid: string = data.teamUuid || '';
-	const createDevice: boolean = data.createDevice !== false;
 	const selectedUuids: string[] | undefined = data.selectedUuids;
 
 	try {
 		let importBlob = _lastImportBlob;
-		if (selectedUuids && selectedUuids.length > 0 && _lastImportResult) {
+		if (selectedUuids && selectedUuids.length > 0 && _lastImportResult && !_lastImportResult.isProjectArchive) {
 			console.log(TAG, 'Filtering import to', selectedUuids.length, 'items');
 			importBlob = await filterImportResult(_lastImportResult, new Set(selectedUuids));
 		}
 
+		// Project archive imports (epro2): create a new EasyEDA Pro project.
+		if (_lastImportResult?.isProjectArchive && importPro && importBlob) {
+			await _importProjectArchive(data, teams, importBlob, importSeq);
+			return;
+		}
+
+		// Legacy PCB document source imports: create a blank PCB and inject it.
+		if (_lastImportResult?.pcbSource) {
+			await _importPcbDocumentSource(teams, importSeq);
+			return;
+		}
+
 		if (importPro && importBlob) {
-			const isPersonal = aff === 'personal';
-			const targetTeamUuid = isPersonal ? undefined : teamUuid || undefined;
-			console.log(TAG, 'import target - aff:', aff, 'teamUuid:', teamUuid, 'isPersonal:', isPersonal);
-
-			const zipName = _lastImportFilename.replace(/.elibz2$/i, '.zip');
-			const importFile = new File([importBlob], zipName, { type: 'application/zip' });
-			const projectName = _lastImportFilename.replace(/.elibz2$/i, '') + '_' + Date.now();
-
-			const folderUuid = targetTeamUuid ? await _getFirstFolder(targetTeamUuid) : undefined;
-
-			const saveTo: any = {
-				operation: 'New Project',
-				newProjectOwnerTeamUuid: targetTeamUuid,
-				newProjectOwnerFolderUuid: folderUuid,
-				newProjectFriendlyName: projectName,
-				newProjectDescription: '',
-				newProjectCollaborationMode: 1,
-			};
-
-			const librariesImportSetting: any = {
-				ownerTeamUuid: targetTeamUuid,
-				createDeviceForSingleSymbol: createDevice,
-			};
-
-			console.log(TAG, 'importProjectByProjectFile:', zipName, 'team:', targetTeamUuid, 'folder:', folderUuid);
-
-			await eda.sys_FileManager.importProjectByProjectFile(
-				importFile,
-				'JLCEDA Pro',
-				{ importOption: 'ExtractLibraries' } as any,
-				saveTo,
-				librariesImportSetting,
-			);
+			await _importLibraryArchive(data, teams, importBlob, importSeq);
 		}
 		if (download && importBlob) {
 			await eda.sys_FileSystem.saveFile(importBlob, _lastImportFilename);

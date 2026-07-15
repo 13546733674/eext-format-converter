@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { generateSymbolDocument } from '../../src/converter/pro-writer-symbol';
 import { parseSymbolFile } from '../../src/converter/symbol-text-parser';
 
 async function main() {

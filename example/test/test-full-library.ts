@@ -7,7 +7,7 @@ import JSZip from 'jszip';
 import * as path from 'path';
 
 import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
-import type { XpedCell, XpedHole, XpedPad, XpedPadstack } from '../../src/converter/hkp-parser';
+import type { XpedCell } from '../../src/converter/hkp-parser';
 import { parsePartsFile } from '../../src/converter/parts-parser';
 import type { XpedPart } from '../../src/converter/parts-parser';
 import { generateFootprintSource } from '../../src/converter/pro-writer-footprint';
@@ -24,6 +24,7 @@ function genUUID(): string {
 	return `${s.substring(0, 8)}${s.substring(8, 12)}4${s.substring(13, 16)}${s.substring(16, 20)}${s.substring(20)}`;
 }
 
+// eslint-disable-next-line complexity
 async function main() {
 	console.log('=== Full Xpedition Library Conversion Test ===\n');
 
@@ -85,12 +86,12 @@ async function main() {
 	const libLines: string[] = [];
 	const deviceData: any = { devices: {}, symbols: {}, footprints: {}, panelLibs: {} };
 
-	let fpOk = 0,
-		fpFail = 0,
-		fpSkip = 0;
-	let symOk = 0,
-		symFail = 0,
-		symSkip = 0;
+	let fpOk = 0;
+	let fpFail = 0;
+	let fpSkip = 0;
+	let symOk = 0;
+	let symFail = 0;
+	let symSkip = 0;
 
 	// 5a. Footprints — build name→uuid map
 	const cellNameToUuid = new Map<string, string>();

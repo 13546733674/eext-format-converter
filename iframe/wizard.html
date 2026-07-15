@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title></title>
+		<title>Format Convert Wizard</title>
 		<style>
 			* {
 				box-sizing: border-box;
@@ -1115,6 +1115,42 @@
 				text-overflow: ellipsis;
 				white-space: nowrap;
 			}
+
+			.project-archive-sec {
+				display: none;
+				flex-direction: column;
+				gap: 10px;
+				padding: 10px 0;
+			}
+			.project-archive-sec.active {
+				display: flex;
+			}
+			.pa-row {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				height: 32px;
+			}
+			.pa-label {
+				font-size: 12px;
+				color: #666;
+				white-space: nowrap;
+			}
+			.pa-input {
+				flex: 1;
+				height: 32px;
+				border: 1px solid #d0d0d0;
+				border-radius: 3px;
+				padding: 0 10px;
+				font-size: 12px;
+				font-family: inherit;
+				color: #333;
+				background: #fff;
+				outline: none;
+			}
+			.pa-input:focus {
+				border-color: #1890ff;
+			}
 		</style>
 	</head>
 	<body>
@@ -1161,7 +1197,79 @@
 									<span class="type-sub"></span>
 								</div>
 							</div>
-							<div class="type-row" data-mode="export" style="display: none" data-type="xpedition">
+							<div class="type-row" data-mode="import" data-type="cadstar-pcb">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="import" data-type="fabmaster-pcb">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="import" data-type="pcad-pcb">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="import" data-type="geda">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="import" data-type="tinycad">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="export" data-type="xpedition">
+								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
+									<path
+										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+									/>
+								</svg>
+								<svg class="row-icon" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" /></svg>
+								<div class="type-texts">
+									<span class="type-main"></span>
+									<span class="type-sub"></span>
+								</div>
+							</div>
+							<div class="type-row" data-mode="export" data-type="kicad">
 								<svg class="radio radio-unchecked" viewBox="0 0 24 24">
 									<path
 										d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
@@ -1287,6 +1395,13 @@
 							</div>
 							<div class="result-list-scroll" id="resultListScroll">
 								<div class="empty-msg" id="resultEmptyMsg"></div>
+							</div>
+						</div>
+
+						<div class="project-archive-sec" id="projectArchiveSec">
+							<div class="pa-row">
+								<span class="pa-label" id="projectNameLabel"></span>
+								<input type="text" class="pa-input" id="projectNameInput" value="" spellcheck="false" />
 							</div>
 						</div>
 						<div class="import-action-sec import-action-in-results">
@@ -1514,6 +1629,38 @@
 			var selectedMode = 'import';
 			var selectedType = 'xpedition';
 
+			var exportFilenameDefaults = {
+				xpedition: 'asyeda2xpedition',
+				kicad: 'asyeda2kicad',
+			};
+
+			var importFormatTitles = {
+				xpedition: 'Import Xpedition files',
+				'cadstar-pcb': 'Import Cadstar PCB files',
+				'fabmaster-pcb': 'Import Fabmaster PCB files',
+				geda: 'Import gEDA PCB files',
+				'pcad-pcb': 'Import P-CAD PCB files',
+				tinycad: 'Import TinyCAD files',
+			};
+
+			var importAcceptMap = {
+				xpedition: '.zip',
+				'cadstar-pcb': '.zip,.cpa',
+				'fabmaster-pcb': '.zip,.txt,.fab',
+				geda: '.zip,.pcb',
+				'pcad-pcb': '.zip,.pcb',
+				tinycad: '.zip,.dsn',
+			};
+
+			var importHintMap = {
+				xpedition: 'Xpedition library file (*.zip)',
+				'cadstar-pcb': 'Cadstar PCB file (*.zip, *.cpa)',
+				'fabmaster-pcb': 'Fabmaster PCB file (*.zip, *.txt, *.fab)',
+				geda: 'gEDA PCB file (*.zip, *.pcb)',
+				'pcad-pcb': 'P-CAD PCB file (*.zip, *.pcb)',
+				tinycad: 'TinyCAD schematic file (*.zip, *.dsn)',
+			};
+
 			function updateTypeSelection() {
 				document.querySelectorAll('.type-row').forEach(function (row) {
 					var isSelected = row.dataset.mode === selectedMode && row.dataset.type === selectedType;
@@ -1527,11 +1674,29 @@
 				});
 			}
 
+			function applyTypeSideEffects() {
+				// update default export filename
+				if (selectedMode === 'export') {
+					var def = exportFilenameDefaults[selectedType] || 'asyeda2xpedition';
+					filenameInput.value = def;
+					filenameBase = def;
+				}
+				// update import page title, accept filters and hint
+				if (selectedMode === 'import') {
+					document.getElementById('stepImportTitle').textContent = t(importFormatTitles[selectedType] || 'Import');
+					document.getElementById('importFileInput').setAttribute('accept', importAcceptMap[selectedType] || '.zip');
+					if (!importFile) {
+						document.getElementById('uploadText').textContent = t(importHintMap[selectedType] || 'Click or drag ZIP file here');
+					}
+				}
+			}
+
 			document.querySelectorAll('.type-row').forEach(function (row) {
 				row.addEventListener('click', function () {
 					selectedMode = row.dataset.mode;
 					selectedType = row.dataset.type;
 					updateTypeSelection();
+					applyTypeSideEffects();
 				});
 			});
 
@@ -1915,7 +2080,7 @@
 				// 切换到进度视图
 				setStep('progress');
 				document.getElementById('progTitle').textContent = t('Exporting...');
-				document.getElementById('progDesc').textContent = t('Export description');
+				document.getElementById('progDesc').textContent = t(selectedType === 'kicad' ? 'Export KiCad description' : 'Export description');
 				document.getElementById('progBarFill').style.width = '0%';
 				document.getElementById('progLbl').textContent = t('Preparing...');
 				document.getElementById('logBox').innerHTML = '';
@@ -1925,8 +2090,9 @@
 				await storeWrite({
 					teams: teams,
 					cmd: 'convert',
+					format: selectedType,
 					items: items,
-					filename: 'asyeda2xpedition.zip',
+					filename: filenameBase + '.zip',
 					seq: Date.now(),
 					aff: currentAff,
 					teamUuid: currentTeamUuid,
@@ -1985,13 +2151,10 @@
 				if (currentStep === 'results' && !importTeamUuid) return;
 				if (currentStep === 'results') {
 					var importPro = true;
-					var createDevice = document.getElementById('chkCreateDevice').checked;
 					var personalTeam = teams.find(function (tt) {
 						return tt.name === '个人';
 					});
 					var importAffVal = personalTeam && importTeamUuid === personalTeam.uuid ? 'personal' : 'team';
-					var selUuids = Object.keys(importResultSelectedUuids);
-					var allSelected = selUuids.length === allResultItems.length;
 					var cmdData = {
 						teams: teams,
 						cmd: 'import-execute',
@@ -1999,9 +2162,15 @@
 						importPro: importPro,
 						aff: importAffVal,
 						teamUuid: importTeamUuid,
-						createDevice: createDevice,
 					};
-					if (!allSelected && selUuids.length > 0) cmdData.selectedUuids = selUuids;
+					if (currentIsProjectArchive) {
+						cmdData.projectName = document.getElementById('projectNameInput').value.trim() || 'ImportedProject_' + Date.now();
+					} else {
+						cmdData.createDevice = document.getElementById('chkCreateDevice').checked;
+						var selUuids = Object.keys(importResultSelectedUuids);
+						var allSelected = selUuids.length === allResultItems.length;
+						if (!allSelected && selUuids.length > 0) cmdData.selectedUuids = selUuids;
+					}
 					await storeWrite(cmdData);
 					// 切换到进度页签并轮询完成状态
 					setStep('progress');
@@ -2156,14 +2325,27 @@
 				// Step 2
 				document.getElementById('step2Title').textContent = t('Select conversion type');
 				var typeRows = document.querySelectorAll('#step2 .type-row');
-				if (typeRows[0]) {
-					typeRows[0].querySelector('.type-main').textContent = t('Import Xpedition files');
-					typeRows[0].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
-				}
-				if (typeRows[1]) {
-					typeRows[1].querySelector('.type-main').textContent = t('Export Xpedition files');
-					typeRows[1].querySelector('.type-sub').textContent = t('Xpedition library file (*.zip)');
-				}
+				var typeLabels = {
+					xpedition: {
+						import: ['Import Xpedition files', 'Xpedition library file (*.zip)'],
+						export: ['Export Xpedition files', 'Xpedition library file (*.zip)'],
+					},
+					'cadstar-pcb': { import: ['Import Cadstar PCB files', 'Cadstar PCB file (*.zip, *.cpa)'] },
+					'fabmaster-pcb': { import: ['Import Fabmaster PCB files', 'Fabmaster PCB file (*.zip, *.txt, *.fab)'] },
+					geda: { import: ['Import gEDA PCB files', 'gEDA PCB file (*.zip, *.pcb)'] },
+					'pcad-pcb': { import: ['Import P-CAD PCB files', 'P-CAD PCB file (*.zip, *.pcb)'] },
+					tinycad: { import: ['Import TinyCAD files', 'TinyCAD schematic file (*.zip, *.dsn)'] },
+					kicad: { export: ['Export KiCad files', 'KiCad library file (*.zip)'] },
+				};
+				typeRows.forEach(function (row) {
+					var type = row.dataset.type;
+					var mode = row.dataset.mode;
+					var labels = typeLabels[type] && typeLabels[type][mode];
+					if (labels) {
+						row.querySelector('.type-main').textContent = t(labels[0]);
+						row.querySelector('.type-sub').textContent = t(labels[1]);
+					}
+				});
 				// Step 3
 				document.querySelector('#step3 .aff-label').textContent = t('Ownership') + ':';
 				document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
@@ -2209,6 +2391,7 @@
 
 				setStep(1);
 				updateTypeSelection();
+				applyTypeSideEffects();
 			}
 
 			init();
@@ -2217,6 +2400,8 @@
 
 			var importFile = null;
 			var importResults = null;
+			var currentIsProjectArchive = false;
+			var pcbSourceAutoExecuted = false;
 
 			// 上传区域交互
 			var uploadZone = document.getElementById('uploadZone');
@@ -2246,8 +2431,10 @@
 
 			// 处理选中的ZIP文件
 			function handleImportFile(file) {
-				if (!file.name.toLowerCase().endsWith('.zip')) {
-					eda.sys_Dialog.showInformationMessage(t('Please select a ZIP file'));
+				var ext = '.' + file.name.split('.').pop().toLowerCase();
+				var allowed = (importAcceptMap[selectedType] || '.zip').split(',');
+				if (allowed.indexOf(ext) === -1) {
+					eda.sys_Dialog.showInformationMessage(t('Please select a valid file'));
 					return;
 				}
 				importFile = file;
@@ -2401,6 +2588,24 @@
 				document.getElementById('resultSelInfo').textContent = total > 0 ? t('Selected ${1} / ${2}', checked, total) : '';
 			}
 
+			function renderProjectArchiveForm(filename) {
+				document.querySelector('.result-stats').style.display = 'none';
+				document.querySelector('.result-list').style.display = 'none';
+				document.getElementById('createDeviceRow').style.display = 'none';
+				document.getElementById('projectArchiveSec').classList.add('active');
+				document.getElementById('projectNameLabel').textContent = t('Project name') + ':';
+				var base = filename ? filename.replace(/\.[^/.]+$/, '') : 'ImportedProject';
+				base = base.replace(/[\/:*?"<>|]/g, '_');
+				document.getElementById('projectNameInput').value = base + '_' + Date.now();
+			}
+
+			function resetResultListVisibility() {
+				document.querySelector('.result-stats').style.display = '';
+				document.querySelector('.result-list').style.display = '';
+				document.getElementById('createDeviceRow').style.display = '';
+				document.getElementById('projectArchiveSec').classList.remove('active');
+			}
+
 			document.getElementById('chkResultSelectAll').addEventListener('change', function () {
 				var on = this.checked;
 				importResultSelectedUuids = {};
@@ -2457,6 +2662,9 @@
 					return;
 				}
 
+				currentIsProjectArchive = false;
+				resetResultListVisibility();
+
 				setStep('progress');
 				document.getElementById('progTitle').textContent = t('Converting progress...');
 				document.getElementById('progDesc').textContent = t('Import convert description');
@@ -2473,9 +2681,9 @@
 							return data + String.fromCharCode(byte);
 						}, ''),
 					);
-					var filename = importFile.name.replace(/\.zip$/i, '') + '.elibz2';
+					var filename = importFile.name;
 
-					await storeWrite({ teams: teams, cmd: 'import', seq: Date.now(), file: base64, filename: filename });
+					await storeWrite({ teams: teams, cmd: 'import', format: selectedType, seq: Date.now(), file: base64, filename: filename });
 
 					// 轮询导入进度
 					if (importPollTimer) clearInterval(importPollTimer);
@@ -2493,26 +2701,55 @@
 								document.getElementById('progLbl').textContent = t('Processing: ${1}... ${2}/${3}', p.name || '', p.done, p.total);
 								if (p.name) addLog(t('Converting item: ${1}', p.name));
 							}
-							// 转换完成，跳转到结果页
+							// 转换完成，跳转到结果页（PCB 文档导入直接执行注入）
 							if (data.cmd === 'import-convert-done') {
+								importResults = data.result || {};
+								currentIsProjectArchive = !!data.isProjectArchive;
+								if (data.pcbSource) {
+									if (!pcbSourceAutoExecuted) {
+										pcbSourceAutoExecuted = true;
+										await storeWrite({
+											teams: teams,
+											cmd: 'import-execute',
+											seq: Date.now(),
+											importPro: true,
+											aff: 'personal',
+											teamUuid: '',
+											createDevice: false,
+										});
+										document.getElementById('progTitle').textContent = t('Executing...');
+										document.getElementById('progDesc').textContent = t('Import convert description');
+										document.getElementById('progBarFill').style.width = '0%';
+										document.getElementById('progLbl').textContent = t('Please wait...');
+										document.getElementById('logBox').innerHTML = '';
+										addLog(t('Start importing...'));
+									}
+									return;
+								}
 								clearInterval(importPollTimer);
 								importPollTimer = null;
 								document.getElementById('progBarFill').style.width = '100%';
 								addLog(t('Conversion complete!'));
-								importResults = data.result || {};
-								var okDev = (importResults.devices || []).filter(function (x) {
-									return x.status === 'ok';
-								}).length;
-								var okFp = (importResults.footprints || []).filter(function (x) {
-									return x.status === 'ok';
-								}).length;
-								var okSym = (importResults.symbols || []).filter(function (x) {
-									return x.status === 'ok';
-								}).length;
-								renderResultList();
-								setTimeout(function () {
-									setStep('results');
-								}, 600);
+								if (currentIsProjectArchive) {
+									renderProjectArchiveForm(importFile ? importFile.name : '');
+									setTimeout(function () {
+										setStep('results');
+									}, 600);
+								} else {
+									var okDev = (importResults.devices || []).filter(function (x) {
+										return x.status === 'ok';
+									}).length;
+									var okFp = (importResults.footprints || []).filter(function (x) {
+										return x.status === 'ok';
+									}).length;
+									var okSym = (importResults.symbols || []).filter(function (x) {
+										return x.status === 'ok';
+									}).length;
+									renderResultList();
+									setTimeout(function () {
+										setStep('results');
+									}, 600);
+								}
 							}
 							// 导入执行完成，关闭向导
 							if (data.cmd === 'import-done') {

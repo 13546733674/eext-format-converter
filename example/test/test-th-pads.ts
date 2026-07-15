@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
+import { parsePadsFile } from '../../src/converter/hkp-parser';
 
 const DATA = 'D:/Downloads/easyeda2xpedition-main/备份/easyeda2xpedition-main/导入插件/测试用例/xpedition_library_18files';
 const psk = fs.readFileSync(path.join(DATA, 'PadstackDB.PSK.HKP'), 'utf-8');

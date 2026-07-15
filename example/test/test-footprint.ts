@@ -7,7 +7,7 @@ import JSZip from 'jszip';
 import * as path from 'path';
 
 import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
-import type { XpedCell, XpedHole, XpedPad, XpedPadstack } from '../../src/converter/hkp-parser';
+import type { XpedHole, XpedPad, XpedPadstack } from '../../src/converter/hkp-parser';
 import { generateFootprintSource } from '../../src/converter/pro-writer-footprint';
 
 const REF_DIR = path.resolve(__dirname, '..', '..', '参考格式');
