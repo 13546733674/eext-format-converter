@@ -3,8 +3,8 @@
 /**
  * 入口文件
  */
-import type { ConvertItem, ImportResult } from './converter';
-import { exportFromProEditor, filterImportResult, importArchive } from './converter';
+import type { ConvertItem, ImportResult, ProDocumentType } from './converter';
+import { exportDocumentToKicad, exportFromProEditor, filterImportResult, importArchive } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function activate(status?: 'onStartupFinished', arg?: string): void {}
@@ -519,6 +519,42 @@ async function _handleImportExecuteCmd(data: any, teams: Array<{ name: string; u
 	} catch (err) {
 		console.error(TAG, 'Import execute failed:', err);
 		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'import-error', seq: importSeq, error: String(err) }));
+	}
+}
+
+/** 从当前打开的符号库/封装库文档导出 KiCad 文件 */
+export async function exportCurrentDocToKicad(): Promise<void> {
+	try {
+		const doc = await eda.dmt_SelectControl.getCurrentDocumentInfo();
+		if (!doc) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Please open a symbol or footprint library document first.'));
+			return;
+		}
+
+		const docTypeNumber = typeof doc.documentType === 'number' ? doc.documentType : Number(doc.documentType);
+		let docType: ProDocumentType | undefined;
+		if (docTypeNumber === 2) {
+			docType = 'symbol';
+		} else if (docTypeNumber === 4) {
+			docType = 'footprint';
+		}
+		if (!docType) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Please open a symbol or footprint library document first.'));
+			return;
+		}
+
+		const source = await eda.sys_FileManager.getDocumentSource();
+		if (!source) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Failed to read document source.'));
+			return;
+		}
+
+		const result = exportDocumentToKicad(source, docType);
+		const blob = new Blob([result.content], { type: 'text/plain' });
+		await eda.sys_FileSystem.saveFile(blob, result.filename);
+	} catch (err) {
+		console.error(TAG, '导出 KiCad 失败:', err);
+		await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Export KiCad failed: ${1}', undefined, undefined, err));
 	}
 }
 

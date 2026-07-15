@@ -50,15 +50,28 @@
 				]
 			}
 		],
-		"pcb": [
+		"symbol": [
 			{
 				"id": "format-convert",
 				"title": "格式转换",
 				"menuItems": [
 					{
-						"id": "import-export-wizard",
-						"title": "导入向导",
-						"registerFn": "readAllLibraries"
+						"id": "export-kicad",
+						"title": "导出 KiCad",
+						"registerFn": "exportCurrentDocToKicad"
+					}
+				]
+			}
+		],
+		"footprint": [
+			{
+				"id": "format-convert",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "export-kicad",
+						"title": "导出 KiCad",
+						"registerFn": "exportCurrentDocToKicad"
 					}
 				]
 			}

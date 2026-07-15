@@ -125,6 +125,19 @@ async function processSymbolItem(
 	}
 }
 
+export type ProDocumentType = 'symbol' | 'footprint';
+
+export function exportDocumentToKicad(source: string, docType: ProDocumentType): { filename: string; content: string } {
+	if (docType === 'symbol') {
+		const sym = parseProSymbol(source);
+		const name = sanitize(sym.info.name || 'unnamed');
+		return { filename: `${name}.kicad_sym`, content: generateKicadSymbolLibrary([sym]) };
+	}
+	const fp = parseProFootprint(source);
+	const name = sanitize(fp.info.name || 'unnamed');
+	return { filename: `${name}.kicad_mod`, content: generateKicadFootprint(fp) };
+}
+
 export async function exportItemsToKicad(
 	items: ConvertItem[],
 	fetchFn: (type: string, uuid: string, libraryUuid: string) => Promise<string | null>,

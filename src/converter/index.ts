@@ -32,6 +32,8 @@ export type { ConvertItem, ImportResult, ImportItemResult, ImportFootprintItem, 
 
 export { importXpeditionZip, filterImportResult } from './xpedition/xpedition-import';
 
+export { exportDocumentToKicad, type ProDocumentType } from './kicad/kicad-export';
+
 const exporters = new Map<string, ConverterExporter>();
 const importers = new Map<string, ConverterImporter>();
 
