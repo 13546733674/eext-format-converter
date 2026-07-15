@@ -119,68 +119,28 @@ async function _safeCloseDocument(id: string): Promise<void> {
 	}
 }
 
-/** 从工作区收集团队信息 */
-async function _collectWorkspaceTeams(teamMap: Map<string, any>): Promise<void> {
-	try {
-		const workspaces = (await eda.dmt_Workspace.getAllWorkspacesInfo()) || [];
-		console.log(TAG, 'getAllWorkspacesInfo count:', workspaces.length);
-		const savedWs = await eda.dmt_Workspace.getCurrentWorkspaceInfo().catch(() => undefined);
-		for (const ws of workspaces) {
-			try {
-				await eda.dmt_Workspace.toggleToWorkspace(ws.uuid);
-				await _sleep(300);
-				const wsTeams = (await eda.dmt_Team.getAllTeamsInfo()) || [];
-				for (const t of wsTeams) {
-					if (t && t.uuid) teamMap.set(t.uuid, t);
-				}
-			} catch (e) {
-				console.warn(TAG, 'Workspace team fetch failed for', ws.name, e);
-			}
-		}
-		if (savedWs?.uuid) {
-			try {
-				await eda.dmt_Workspace.toggleToWorkspace(savedWs.uuid);
-			} catch (_) {
-				// ignore
-			}
-		}
-	} catch (e) {
-		console.warn(TAG, 'getAllWorkspacesInfo failed:', e);
-	}
-}
-
-async function _gatherTeams(): Promise<Array<{ name: string; uuid: string }>> {
-	const teamMap = new Map<string, any>();
-	try {
-		const involved = (await eda.dmt_Team.getAllInvolvedTeamInfo()) || [];
-		console.log(TAG, 'getAllInvolvedTeamInfo count:', involved.length);
-		for (const t of involved) {
-			if (t && t.uuid) teamMap.set(t.uuid, t);
-		}
-	} catch (e) {
-		console.warn(TAG, 'getAllInvolvedTeamInfo failed:', e);
-	}
+/** 获取当前工作区下的团队列表 */
+async function _getCurrentWorkspaceTeams(): Promise<Array<{ name: string; uuid: string }>> {
 	try {
 		const direct = (await eda.dmt_Team.getAllTeamsInfo()) || [];
 		console.log(TAG, 'getAllTeamsInfo count:', direct.length);
-		for (const t of direct) {
-			if (t && t.uuid) teamMap.set(t.uuid, t);
-		}
+		const result = direct
+			.filter((t) => t && t.uuid)
+			.map((t) => ({
+				name: String(t.name || t.title || t.uuid),
+				uuid: String(t.uuid),
+			}));
+		console.log(
+			TAG,
+			'Current workspace teams:',
+			result.length,
+			result.map((t) => t.name),
+		);
+		return result;
 	} catch (e) {
 		console.warn(TAG, 'getAllTeamsInfo failed:', e);
+		return [];
 	}
-	await _collectWorkspaceTeams(teamMap);
-	const result = Array.from(teamMap.values()).map((t) => ({
-		name: String(t.name || t.title || t.uuid),
-		uuid: String(t.uuid),
-	}));
-	console.log(
-		TAG,
-		'Total unique teams:',
-		result.length,
-		result.map((t) => t.name),
-	);
-	return result;
 }
 
 /** 获取团队的第一个文件夹 UUID */
@@ -351,7 +311,8 @@ async function _handleImportCmd(data: any, teams: Array<{ name: string; uuid: st
 		// Store blob for later use (import-execute)
 		let filename = data.filename || 'imported.elibz2';
 		if (importResult.isProjectArchive) {
-			filename = data.filename ? data.filename.replace(/\.(zip|elibz2)$/i, '.epro2') : 'imported.epro2';
+			const base = data.filename ? data.filename.replace(/\.[^.]+$/, '') : 'imported';
+			filename = base + '.epro2';
 		}
 		_lastImportBlob = importResult.blob;
 		_lastImportFilename = filename;
@@ -562,11 +523,11 @@ export async function exportCurrentDocToKicad(): Promise<void> {
 
 export async function readAllLibraries(): Promise<void> {
 	try {
-		const teams = await _gatherTeams();
+		let teams: Array<{ name: string; uuid: string }> = [];
 		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: '', seq: 0, items: null }));
 
 		eda.sys_IFrame.openIFrame('/iframe/wizard.html', 720, 600, 'wizard', {
-			title: '',
+			title: eda.sys_I18n.text('Import/Export Wizard'),
 			maximizeButton: false,
 			minimizeButton: false,
 		});
@@ -587,7 +548,10 @@ export async function readAllLibraries(): Promise<void> {
 				continue;
 			}
 
-			if (data.cmd === 'load') {
+			if (data.cmd === 'teams') {
+				teams = await _getCurrentWorkspaceTeams();
+				await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'teams-done' }));
+			} else if (data.cmd === 'load') {
 				await _handleLoadCmd(data, teams);
 			} else if (data.cmd === 'convert') {
 				await _handleConvertCmd(data, teams);

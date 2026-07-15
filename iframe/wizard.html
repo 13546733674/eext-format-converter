@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Format Convert Wizard</title>
+		<title>导入导出向导</title>
 		<style>
 			* {
 				box-sizing: border-box;
@@ -1550,13 +1550,22 @@
 				}
 				updateFooter();
 
-				// 步骤3：首次显示时触发库加载（仅当已选择归属时）
-				if (n === 3 && allItems.length === 0 && !pollTimer) {
-					if (currentAff) {
-						requestLoad(currentAff, currentTeamUuid);
-					} else {
-						document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select ownership first') + '</div>';
+				// 步骤3：按需加载团队列表并触发库加载
+				if (n === 3) {
+					loadTeams();
+					if (allItems.length === 0 && !pollTimer) {
+						if (currentAff) {
+							requestLoad(currentAff, currentTeamUuid);
+						} else {
+							document.getElementById('libScroll').innerHTML =
+								'<div class="empty-msg">' + t('Please select ownership first') + '</div>';
+						}
 					}
+				}
+
+				// 结果页：按需加载团队列表以选择导入目标
+				if (n === 'results') {
+					loadTeams();
 				}
 			}
 
@@ -1659,6 +1668,15 @@
 				geda: 'gEDA PCB file (*.zip, *.pcb)',
 				'pcad-pcb': 'P-CAD PCB file (*.zip, *.pcb)',
 				tinycad: 'TinyCAD schematic file (*.zip, *.dsn)',
+			};
+
+			var importDescMap = {
+				xpedition: 'Import Xpedition description',
+				'cadstar-pcb': 'Import Cadstar description',
+				'fabmaster-pcb': 'Import Fabmaster description',
+				geda: 'Import gEDA description',
+				'pcad-pcb': 'Import P-CAD description',
+				tinycad: 'Import TinyCAD description',
 			};
 
 			function updateTypeSelection() {
@@ -1960,20 +1978,22 @@
 					requestLoad('personal', null);
 				} else {
 					document.getElementById('ddTeam').style.display = '';
-					if (teams.length > 0) {
-						var first = teams[0];
-						teamTrigger.dataset.value = first.uuid;
-						teamTrigger.querySelector('.dd-text').textContent = first.name;
-						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
-							o.classList.toggle('active', o.dataset.value === first.uuid);
-						});
-						requestLoad('team', first.uuid);
-					} else {
-						teamTrigger.dataset.value = '';
-						teamTrigger.querySelector('.dd-text').textContent = t('No team');
-						document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
-						document.getElementById('selInfo').textContent = '';
-					}
+					loadTeams().then(function (loadedTeams) {
+						if (loadedTeams.length > 0) {
+							var first = loadedTeams[0];
+							teamTrigger.dataset.value = first.uuid;
+							teamTrigger.querySelector('.dd-text').textContent = first.name;
+							teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+								o.classList.toggle('active', o.dataset.value === first.uuid);
+							});
+							requestLoad('team', first.uuid);
+						} else {
+							teamTrigger.dataset.value = '';
+							teamTrigger.querySelector('.dd-text').textContent = t('No team');
+							document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
+							document.getElementById('selInfo').textContent = '';
+						}
+					});
 				}
 				updateFooter();
 			});
@@ -2162,8 +2182,8 @@
 						cmdData.projectName = document.getElementById('projectNameInput').value.trim() || 'ImportedProject_' + Date.now();
 					} else {
 						cmdData.createDevice = document.getElementById('chkCreateDevice').checked;
-						var selUuids = Object.keys(importResultSelectedUuids);
-						var allSelected = selUuids.length === allResultItems.length;
+						var selUuids = Object.keys(importResultSelectedUuids || {});
+						var allSelected = selUuids.length === (allResultItems || []).length;
 						if (!allSelected && selUuids.length > 0) cmdData.selectedUuids = selUuids;
 					}
 					await storeWrite(cmdData);
@@ -2211,19 +2231,12 @@
 
 			var importTeamUuid = 'personal';
 			var importIsPersonal = true;
+			var teamsLoading = false;
 
-			// ── 初始化 ──
-
-			async function init() {
-				try {
-					var data = await storeRead();
-					teams = data.teams || [];
-				} catch (e) {
-					console.warn('Failed to read team data:', e);
-				}
-
+			function renderStep3TeamDropdown() {
 				var teamPanel = document.getElementById('ddTeamPanel');
 				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
+				teamPanel.innerHTML = '';
 				for (var tt of teams) {
 					var opt = document.createElement('div');
 					opt.className = 'dd-option';
@@ -2247,11 +2260,12 @@
 						if (val) requestLoad('team', val);
 					});
 				});
+			}
 
-				// 填充导入完成团队面板：个人优先，然后过滤团队
+			function renderImportTeamDropdown() {
 				var importTeamPanel = document.getElementById('ddImportTeamPanel');
 				var importTeamTrigger = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
-				// 从团队数组中查找个人团队UUID（兼容中英文名称）
+				importTeamPanel.innerHTML = '';
 				var personalTeam = teams.find(function (tt) {
 					return tt.name === '个人' || tt.name === 'Personal';
 				});
@@ -2272,13 +2286,6 @@
 					opt2.textContent = t2.name;
 					importTeamPanel.appendChild(opt2);
 				}
-				// 默认选中个人
-				importTeamUuid = personalUuid;
-				importIsPersonal = true;
-				importTeamTrigger.dataset.value = personalUuid;
-				importTeamTrigger.querySelector('.dd-text').textContent = t('Personal');
-				personalOpt.classList.add('active');
-
 				importTeamPanel.querySelectorAll('.dd-option').forEach(function (opt2) {
 					opt2.addEventListener('click', function (e) {
 						e.stopPropagation();
@@ -2297,6 +2304,52 @@
 						updateFooter();
 					});
 				});
+				importTeamUuid = personalUuid;
+				importIsPersonal = true;
+				importTeamTrigger.dataset.value = personalUuid;
+				importTeamTrigger.querySelector('.dd-text').textContent = t('Personal');
+				personalOpt.classList.add('active');
+			}
+
+			async function loadTeams() {
+				if (teamsLoading || (teams && teams.length > 0)) return teams;
+				teamsLoading = true;
+				try {
+					await storeWrite({ cmd: 'teams' });
+					var done = false;
+					while (!done) {
+						await new Promise(function (resolve) {
+							setTimeout(resolve, 300);
+						});
+						var data = await storeRead();
+						if (data.cmd === 'teams-done') {
+							teams = data.teams || [];
+							done = true;
+						}
+					}
+					renderStep3TeamDropdown();
+					renderImportTeamDropdown();
+				} catch (e) {
+					console.warn('Failed to load teams:', e);
+				} finally {
+					teamsLoading = false;
+				}
+				return teams;
+			}
+
+			// ── 初始化 ──
+
+			async function init() {
+				try {
+					var data = await storeRead();
+					teams = data.teams || [];
+				} catch (e) {
+					console.warn('Failed to read team data:', e);
+				}
+
+				renderStep3TeamDropdown();
+				renderImportTeamDropdown();
+
 				var importTeamTriggerEl = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
 				var importTeamPanelEl = document.getElementById('ddImportTeam').querySelector('.dd-panel');
 				importTeamTriggerEl.addEventListener('click', function (e) {
@@ -2672,7 +2725,7 @@
 
 				setStep('progress');
 				document.getElementById('progTitle').textContent = t('Converting progress...');
-				document.getElementById('progDesc').textContent = t('Import convert description');
+				document.getElementById('progDesc').textContent = t(importDescMap[selectedType] || 'Import convert description');
 				document.getElementById('progBarFill').style.width = '0%';
 				document.getElementById('progLbl').textContent = t('Reading file...');
 				document.getElementById('logBox').innerHTML = '';
@@ -2723,7 +2776,9 @@
 											createDevice: false,
 										});
 										document.getElementById('progTitle').textContent = t('Executing...');
-										document.getElementById('progDesc').textContent = t('Import convert description');
+										document.getElementById('progDesc').textContent = t(
+											importDescMap[selectedType] || 'Import convert description',
+										);
 										document.getElementById('progBarFill').style.width = '0%';
 										document.getElementById('progLbl').textContent = t('Please wait...');
 										document.getElementById('logBox').innerHTML = '';
