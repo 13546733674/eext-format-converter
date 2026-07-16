@@ -12,7 +12,7 @@ import type {
 	EeFootprintText,
 	EeFootprintTrack,
 } from '../easyeda-pro/easyeda-pro-models';
-import { KICAD_PAD_SHAPES, at, fmtMm, fmtRawMm, indent, mapEeLayerToKicad, mirrorY, q, toMm, xy } from './kicad-helpers';
+import { KICAD_PAD_SHAPES, at, fmtMm, fmtRawMm, indent, mapEeLayerToKicad, mirrorY, q, toMm, xyCmd } from './kicad-helpers';
 
 function isThroughHolePad(pad: EeFootprintPad): boolean {
 	return pad.holeRadius > 0 || (pad.shape.toUpperCase() === 'ROUND' && pad.holeRadius > 0);
@@ -63,7 +63,7 @@ function renderPad(pad: EeFootprintPad): string {
 	if (shape === 'custom' && pad.points) {
 		const pts = parsePoints(pad.points);
 		if (pts.length > 2) {
-			polygon = `\n${indent(2)}  (primitives\n${indent(3)}(gr_poly\n${indent(4)}(pts ${pts.map((p) => xy(p[0], p[1])).join(' ')})\n${indent(4)})\n${indent(2)}  )`;
+			polygon = `\n${indent(2)}  (primitives\n${indent(3)}(gr_poly\n${indent(4)}(pts ${pts.map((p) => xyCmd(p[0], p[1])).join(' ')})\n${indent(4)})\n${indent(2)}  )`;
 		}
 	}
 
@@ -106,7 +106,7 @@ function renderPolygon(poly: EeFootprintPolygon): string {
 	if (pts.length < 3) return '';
 	const layer = mapEeLayerToKicad(poly.layerId)[0] ?? 'F.SilkS';
 	const width = fmtMm(poly.strokeWidth || 0.1);
-	return `${indent(1)}(fp_poly\n${indent(2)}(pts ${pts.map((p) => xy(p[0], p[1])).join(' ')})\n${indent(2)}(stroke (width ${width}) (type default))\n${indent(2)}(fill none)\n${indent(2)}(layer ${q(layer)})\n${indent(1)})`;
+	return `${indent(1)}(fp_poly\n${indent(2)}(pts ${pts.map((p) => xyCmd(p[0], p[1])).join(' ')})\n${indent(2)}(stroke (width ${width}) (type default))\n${indent(2)}(fill none)\n${indent(2)}(layer ${q(layer)})\n${indent(1)})`;
 }
 
 function renderText(text: EeFootprintText): string {

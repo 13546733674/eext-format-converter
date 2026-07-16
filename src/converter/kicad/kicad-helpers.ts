@@ -101,6 +101,11 @@ export function xy(x: number, y: number): string {
 	return `(${fmtMm(x)} ${fmtMm(mirrorY(y))})`;
 }
 
+/** Render a point with the 'xy' prefix used inside fp_poly / gr_poly. */
+export function xyCmd(x: number, y: number): string {
+	return `(xy ${fmtMm(x)} ${fmtMm(mirrorY(y))})`;
+}
+
 /** Render a point with rotation as s-expression (at x y r). */
 export function at(x: number, y: number, rotation = 0): string {
 	if (rotation === 0) return `(at ${fmtMm(x)} ${fmtMm(mirrorY(y))})`;
