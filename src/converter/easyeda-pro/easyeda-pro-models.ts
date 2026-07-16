@@ -395,6 +395,14 @@ export interface EeFootprintSolidRegion {
 	isLocked: boolean;
 }
 
+export interface EeFootprintPolygon {
+	points: string;
+	strokeWidth: number;
+	layerId: number;
+	id: string;
+	isLocked: boolean;
+}
+
 export interface EeFootprint {
 	info: EeFootprintInfo;
 	bbox: EeFootprintBbox;
@@ -406,6 +414,7 @@ export interface EeFootprint {
 	arcs: EeFootprintArc[];
 	rectangles: EeFootprintRectangle[];
 	texts: EeFootprintText[];
+	polygons: EeFootprintPolygon[];
 	copperAreas: EeFootprintCopperArea[];
 	solidRegions: EeFootprintSolidRegion[];
 }

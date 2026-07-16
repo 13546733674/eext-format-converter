@@ -7,6 +7,7 @@ import type {
 	EeFootprintCircle,
 	EeFootprintHole,
 	EeFootprintPad,
+	EeFootprintPolygon,
 	EeFootprintRectangle,
 	EeFootprintText,
 	EeFootprintTrack,
@@ -100,6 +101,14 @@ function renderHole(hole: EeFootprintHole): string {
 	return `${indent(1)}(pad "" np_thru_hole circle ${pos}\n${indent(2)}(size ${fmtMm(hole.radius * 2)} ${fmtMm(hole.radius * 2)})\n${indent(2)}(drill ${fmtMm(hole.radius * 2)})\n${indent(2)}(layers *.Cu *.Mask)\n${indent(1)})`;
 }
 
+function renderPolygon(poly: EeFootprintPolygon): string {
+	const pts = parsePoints(poly.points);
+	if (pts.length < 3) return '';
+	const layer = mapEeLayerToKicad(poly.layerId)[0] ?? 'F.SilkS';
+	const width = fmtMm(poly.strokeWidth || 0.1);
+	return `${indent(1)}(fp_poly\n${indent(2)}(pts ${pts.map((p) => xy(p[0], p[1])).join(' ')})\n${indent(2)}(stroke (width ${width}) (type default))\n${indent(2)}(fill none)\n${indent(2)}(layer ${q(layer)})\n${indent(1)})`;
+}
+
 function renderText(text: EeFootprintText): string {
 	if (!text.isDisplayed) return '';
 	const layer = mapEeLayerToKicad(text.layerId)[0] ?? 'F.SilkS';
@@ -150,6 +159,10 @@ export function generateKicadFootprint(footprint: EeFootprint): string {
 	for (const rect of footprint.rectangles) lines.push(renderRectangle(rect));
 	for (const circle of footprint.circles) lines.push(renderCircle(circle));
 	for (const hole of footprint.holes) lines.push(renderHole(hole));
+	for (const poly of footprint.polygons) {
+		const rendered = renderPolygon(poly);
+		if (rendered) lines.push(rendered);
+	}
 	for (const text of footprint.texts) {
 		const rendered = renderText(text);
 		if (rendered) lines.push(rendered);

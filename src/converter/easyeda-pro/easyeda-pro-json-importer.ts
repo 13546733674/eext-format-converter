@@ -421,6 +421,7 @@ export class EasyedaFootprintImporter {
 			arcs: [],
 			rectangles: [],
 			texts: [],
+			polygons: [],
 			copperAreas: [],
 			solidRegions: [],
 		};

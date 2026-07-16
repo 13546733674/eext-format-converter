@@ -357,6 +357,12 @@ function convertPointsString(points: string | undefined): string {
 		.trim();
 }
 
+function pathArrayToString(path: any): string {
+	if (!path) return '';
+	if (Array.isArray(path)) return path.map((v) => (typeof v === 'number' ? v : String(v))).join(' ');
+	return String(path);
+}
+
 // eslint-disable-next-line complexity
 export function parseProFootprint(source: string): EeFootprint {
 	const doc = parseProSource(source);
@@ -406,6 +412,19 @@ export function parseProFootprint(source: string): EeFootprint {
 					}
 				}
 				break;
+			case 'POLY': {
+				const pts = pathArrayToString(d.path)
+					.split(/[\s,]+/)
+					.map(Number)
+					.filter((n) => !isNaN(n));
+				for (let i = 0; i < pts.length; i += 2) {
+					minX = Math.min(minX, fromProUnit(pts[i]));
+					minY = Math.min(minY, fromProUnit(pts[i + 1]));
+					maxX = Math.max(maxX, fromProUnit(pts[i]));
+					maxY = Math.max(maxY, fromProUnit(pts[i + 1]));
+				}
+				break;
+			}
 		}
 	}
 	if (minX === Infinity) {
@@ -435,6 +454,7 @@ export function parseProFootprint(source: string): EeFootprint {
 		arcs: [],
 		rectangles: [],
 		texts: [],
+		polygons: [],
 		copperAreas: [],
 		solidRegions: [],
 	};
@@ -546,6 +566,15 @@ export function parseProFootprint(source: string): EeFootprint {
 					text: d.text ?? d.value ?? '',
 					textPath: d.textPath ?? '',
 					isDisplayed: d.display ?? d.isDisplayed ?? true,
+					id: elem.id,
+					isLocked: d.locked ?? false,
+				});
+				break;
+			case 'POLY':
+				footprint.polygons.push({
+					points: convertPointsString(pathArrayToString(d.path)),
+					strokeWidth: fromProUnit(d.width ?? d.strokeWidth ?? 0),
+					layerId: d.layerId ?? d.layer ?? 0,
 					id: elem.id,
 					isLocked: d.locked ?? false,
 				});
