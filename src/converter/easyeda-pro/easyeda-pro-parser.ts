@@ -343,6 +343,20 @@ function buildSub(partId: string, elements: ProElement[], attrsByParent: Map<str
 
 // ─── Footprint parser ────────────────────────────────────────────────────────
 
+// Pro V3 FOOTPRINT source stores lengths in mils; the internal EeFootprint model
+// uses the standard EasyEDA unit (0.01 inch), so divide mil values by 10.
+function fromProUnit(v: number | undefined): number {
+	return (v ?? 0) / 10;
+}
+
+function convertPointsString(points: string | undefined): string {
+	if (!points) return '';
+	return points
+		.replace(/-?\d+(?:\.\d+)?/g, (m) => String(fromProUnit(parseFloat(m))))
+		.replace(/\s+/g, ' ')
+		.trim();
+}
+
 // eslint-disable-next-line complexity
 export function parseProFootprint(source: string): EeFootprint {
 	const doc = parseProSource(source);
@@ -354,23 +368,28 @@ export function parseProFootprint(source: string): EeFootprint {
 	for (const elem of doc.elements) {
 		const d = elem.data;
 		switch (elem.type) {
-			case 'PAD':
-				minX = Math.min(minX, (d.x || d.centerX || 0) - (d.width || 0) / 2);
-				minY = Math.min(minY, (d.y || d.centerY || 0) - (d.height || 0) / 2);
-				maxX = Math.max(maxX, (d.x || d.centerX || 0) + (d.width || 0) / 2);
-				maxY = Math.max(maxY, (d.y || d.centerY || 0) + (d.height || 0) / 2);
+			case 'PAD': {
+				const cx = fromProUnit(d.x ?? d.centerX ?? 0);
+				const cy = fromProUnit(d.y ?? d.centerY ?? 0);
+				const padW = fromProUnit(d.defaultPad?.width ?? d.width ?? d.outerDiameter ?? 0);
+				const padH = fromProUnit(d.defaultPad?.height ?? d.height ?? d.outerDiameter ?? 0);
+				minX = Math.min(minX, cx - padW / 2);
+				minY = Math.min(minY, cy - padH / 2);
+				maxX = Math.max(maxX, cx + padW / 2);
+				maxY = Math.max(maxY, cy + padH / 2);
 				break;
+			}
 			case 'RECT':
-				minX = Math.min(minX, d.dotX1 ?? d.x ?? 0, d.dotX2 ?? (d.x ?? 0) + (d.width ?? 0));
-				minY = Math.min(minY, d.dotY1 ?? d.y ?? 0, d.dotY2 ?? (d.y ?? 0) + (d.height ?? 0));
-				maxX = Math.max(maxX, d.dotX1 ?? d.x ?? 0, d.dotX2 ?? (d.x ?? 0) + (d.width ?? 0));
-				maxY = Math.max(maxY, d.dotY1 ?? d.y ?? 0, d.dotY2 ?? (d.y ?? 0) + (d.height ?? 0));
+				minX = Math.min(minX, fromProUnit(d.dotX1 ?? d.x ?? 0), fromProUnit(d.dotX2 ?? (d.x ?? 0) + (d.width ?? 0)));
+				minY = Math.min(minY, fromProUnit(d.dotY1 ?? d.y ?? 0), fromProUnit(d.dotY2 ?? (d.y ?? 0) + (d.height ?? 0)));
+				maxX = Math.max(maxX, fromProUnit(d.dotX1 ?? d.x ?? 0), fromProUnit(d.dotX2 ?? (d.x ?? 0) + (d.width ?? 0)));
+				maxY = Math.max(maxY, fromProUnit(d.dotY1 ?? d.y ?? 0), fromProUnit(d.dotY2 ?? (d.y ?? 0) + (d.height ?? 0)));
 				break;
 			case 'CIRCLE':
-				minX = Math.min(minX, d.centerX - d.radius);
-				minY = Math.min(minY, d.centerY - d.radius);
-				maxX = Math.max(maxX, d.centerX + d.radius);
-				maxY = Math.max(maxY, d.centerY + d.radius);
+				minX = Math.min(minX, fromProUnit(d.centerX - d.radius));
+				minY = Math.min(minY, fromProUnit(d.centerY - d.radius));
+				maxX = Math.max(maxX, fromProUnit(d.centerX + d.radius));
+				maxY = Math.max(maxY, fromProUnit(d.centerY + d.radius));
 				break;
 			case 'TRACK':
 			case 'LINE':
@@ -380,10 +399,10 @@ export function parseProFootprint(source: string): EeFootprint {
 						.map(Number)
 						.filter((n) => !isNaN(n));
 					for (let i = 0; i < pts.length; i += 2) {
-						minX = Math.min(minX, pts[i]);
-						minY = Math.min(minY, pts[i + 1]);
-						maxX = Math.max(maxX, pts[i]);
-						maxY = Math.max(maxY, pts[i + 1]);
+						minX = Math.min(minX, fromProUnit(pts[i]));
+						minY = Math.min(minY, fromProUnit(pts[i + 1]));
+						maxX = Math.max(maxX, fromProUnit(pts[i]));
+						maxY = Math.max(maxY, fromProUnit(pts[i + 1]));
 					}
 				}
 				break;
@@ -397,7 +416,9 @@ export function parseProFootprint(source: string): EeFootprint {
 	}
 
 	const bbox: EeFootprintBbox = { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-	const hasThHole = doc.elements.some((e) => e.type === 'PAD' && (e.data.holeRadius > 0 || e.data.holeDiameter > 0));
+	const hasThHole = doc.elements.some(
+		(e) => e.type === 'PAD' && ((e.data.hole?.width ?? 0) > 0 || e.data.holeRadius > 0 || e.data.holeDiameter > 0),
+	);
 
 	const footprintAttr = doc.elements.find((e) => e.type === 'ATTR' && e.data.key === 'Footprint');
 	const meta = doc.elements.find((e) => e.type === 'META');
@@ -421,62 +442,68 @@ export function parseProFootprint(source: string): EeFootprint {
 	for (const elem of doc.elements) {
 		const d = elem.data;
 		switch (elem.type) {
-			case 'PAD':
+			case 'PAD': {
+				const padShape = d.defaultPad?.padType || d.shape || (d.holeRadius ? 'ROUND' : 'RECT');
+				const holeW = d.hole?.width;
+				const holeH = d.hole?.height;
+				const legacyHoleRadius = d.holeRadius ?? (d.holeDiameter ? d.holeDiameter / 2 : 0);
+				const holeRadius = holeW ? fromProUnit(holeW) / 2 : fromProUnit(legacyHoleRadius);
 				footprint.pads.push({
-					shape: d.shape || (d.holeRadius ? 'ROUND' : 'RECT'),
-					centerX: d.x ?? d.centerX ?? 0,
-					centerY: d.y ?? d.centerY ?? 0,
-					width: d.width ?? d.outerDiameter ?? 0,
-					height: d.height ?? d.outerDiameter ?? 0,
+					shape: padShape,
+					centerX: fromProUnit(d.x ?? d.centerX ?? 0),
+					centerY: fromProUnit(d.y ?? d.centerY ?? 0),
+					width: fromProUnit(d.defaultPad?.width ?? d.width ?? d.outerDiameter ?? 0),
+					height: fromProUnit(d.defaultPad?.height ?? d.height ?? d.outerDiameter ?? 0),
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					number: String(d.number ?? d.padNumber ?? ''),
-					holeRadius: (d.holeRadius ?? d.holeDiameter) ? (d.holeRadius ?? d.holeDiameter / 2) : 0,
-					points: d.points ?? '',
+					number: String(d.num ?? d.number ?? d.padNumber ?? ''),
+					holeRadius,
+					points: convertPointsString(d.points),
 					rotation: d.rotation ?? 0,
 					id: elem.id,
-					holeLength: d.holeLength ?? 0,
-					holePoint: d.holePoint ?? '',
+					holeLength: holeH ? fromProUnit(holeH) : fromProUnit(d.holeLength ?? 0),
+					holePoint: convertPointsString(d.holePoint),
 					isPlated: d.isPlated ?? true,
 					isLocked: d.locked ?? false,
 				});
 				break;
+			}
 			case 'TRACK':
 				footprint.tracks.push({
-					strokeWidth: d.strokeWidth ?? 0,
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					points: d.points ?? '',
+					points: convertPointsString(d.points),
 					id: elem.id,
 					isLocked: d.locked ?? false,
 				});
 				break;
 			case 'HOLE':
 				footprint.holes.push({
-					centerX: d.centerX ?? d.x ?? 0,
-					centerY: d.centerY ?? d.y ?? 0,
-					radius: d.radius ?? (d.diameter ? d.diameter / 2 : 0),
+					centerX: fromProUnit(d.centerX ?? d.x ?? 0),
+					centerY: fromProUnit(d.centerY ?? d.y ?? 0),
+					radius: fromProUnit(d.radius ?? (d.diameter ? d.diameter / 2 : 0)),
 					id: elem.id,
 					isLocked: d.locked ?? false,
 				});
 				break;
 			case 'VIA':
 				footprint.vias.push({
-					centerX: d.centerX ?? d.x ?? 0,
-					centerY: d.centerY ?? d.y ?? 0,
-					diameter: d.diameter ?? 0,
+					centerX: fromProUnit(d.centerX ?? d.x ?? 0),
+					centerY: fromProUnit(d.centerY ?? d.y ?? 0),
+					diameter: fromProUnit(d.diameter ?? 0),
 					net: d.net ?? '',
-					radius: d.radius ?? 0,
+					radius: fromProUnit(d.radius ?? 0),
 					id: elem.id,
 					isLocked: d.locked ?? false,
 				});
 				break;
 			case 'CIRCLE':
 				footprint.circles.push({
-					cx: d.centerX ?? 0,
-					cy: d.centerY ?? 0,
-					radius: d.radius ?? 0,
-					strokeWidth: d.strokeWidth ?? '',
+					cx: fromProUnit(d.centerX ?? 0),
+					cy: fromProUnit(d.centerY ?? 0),
+					radius: fromProUnit(d.radius ?? 0),
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					layerId: d.layerId ?? d.layer ?? 0,
 					id: elem.id,
 					isLocked: d.locked ?? false,
@@ -484,11 +511,11 @@ export function parseProFootprint(source: string): EeFootprint {
 				break;
 			case 'RECT':
 				footprint.rectangles.push({
-					x: d.dotX1 ?? d.x ?? 0,
-					y: d.dotY1 ?? d.y ?? 0,
-					width: d.width ?? Math.abs((d.dotX2 ?? 0) - (d.dotX1 ?? d.x ?? 0)),
-					height: d.height ?? Math.abs((d.dotY2 ?? 0) - (d.dotY1 ?? d.y ?? 0)),
-					strokeWidth: d.strokeWidth ?? '',
+					x: fromProUnit(d.dotX1 ?? d.x ?? 0),
+					y: fromProUnit(d.dotY1 ?? d.y ?? 0),
+					width: fromProUnit(d.width ?? Math.abs((d.dotX2 ?? 0) - (d.dotX1 ?? d.x ?? 0))),
+					height: fromProUnit(d.height ?? Math.abs((d.dotY2 ?? 0) - (d.dotY1 ?? d.y ?? 0))),
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					id: elem.id,
 					layerId: d.layerId ?? d.layer ?? 0,
 					isLocked: d.locked ?? false,
@@ -496,10 +523,10 @@ export function parseProFootprint(source: string): EeFootprint {
 				break;
 			case 'ARC':
 				footprint.arcs.push({
-					strokeWidth: d.strokeWidth ?? '',
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					path: d.path ?? d.d ?? '',
+					path: convertPointsString(d.path ?? d.d ?? ''),
 					helperDots: '',
 					id: elem.id,
 					isLocked: d.locked ?? false,
@@ -508,14 +535,14 @@ export function parseProFootprint(source: string): EeFootprint {
 			case 'TEXT':
 				footprint.texts.push({
 					type: d.type ?? '',
-					centerX: d.x ?? d.centerX ?? 0,
-					centerY: d.y ?? d.centerY ?? 0,
-					strokeWidth: d.strokeWidth ?? '',
+					centerX: fromProUnit(d.x ?? d.centerX ?? 0),
+					centerY: fromProUnit(d.y ?? d.centerY ?? 0),
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					rotation: d.rotation ?? 0,
 					miror: d.mirror ?? '',
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					fontSize: d.fontSize ?? '',
+					fontSize: fromProUnit(d.fontSize ?? 0),
 					text: d.text ?? d.value ?? '',
 					textPath: d.textPath ?? '',
 					isDisplayed: d.display ?? d.isDisplayed ?? true,
@@ -525,11 +552,11 @@ export function parseProFootprint(source: string): EeFootprint {
 				break;
 			case 'COPPERAREA':
 				footprint.copperAreas.push({
-					strokeWidth: d.strokeWidth ?? '',
+					strokeWidth: fromProUnit(d.strokeWidth ?? 0),
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					points: d.points ?? '',
-					clearanceWidth: d.clearanceWidth ?? '',
+					points: convertPointsString(d.points),
+					clearanceWidth: fromProUnit(d.clearanceWidth ?? 0),
 					fillStyle: d.fillStyle ?? '',
 					id: elem.id,
 					thermal: d.thermal ?? '',
@@ -542,7 +569,7 @@ export function parseProFootprint(source: string): EeFootprint {
 				footprint.solidRegions.push({
 					layerId: d.layerId ?? d.layer ?? 0,
 					net: d.net ?? '',
-					points: d.points ?? '',
+					points: convertPointsString(d.points),
 					type: d.type ?? '',
 					id: elem.id,
 					isLocked: d.locked ?? false,

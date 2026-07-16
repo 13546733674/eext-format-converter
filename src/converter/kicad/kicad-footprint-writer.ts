@@ -11,7 +11,7 @@ import type {
 	EeFootprintText,
 	EeFootprintTrack,
 } from '../easyeda-pro/easyeda-pro-models';
-import { KICAD_PAD_SHAPES, at, fmtMm, indent, mapEeLayerToKicad, mirrorY, q, toMm, xy } from './kicad-helpers';
+import { KICAD_PAD_SHAPES, at, fmtMm, fmtRawMm, indent, mapEeLayerToKicad, mirrorY, q, toMm, xy } from './kicad-helpers';
 
 function isThroughHolePad(pad: EeFootprintPad): boolean {
 	return pad.holeRadius > 0 || (pad.shape.toUpperCase() === 'ROUND' && pad.holeRadius > 0);
@@ -37,7 +37,15 @@ function renderPad(pad: EeFootprintPad): string {
 	const shape = KICAD_PAD_SHAPES[pad.shape.toUpperCase()] ?? 'rect';
 	const pos = at(pad.centerX, pad.centerY, pad.rotation || 0);
 	const size = `(size ${fmtMm(pad.width)} ${fmtMm(pad.height)})`;
-	const layers = mapEeLayerToKicad(pad.layerId);
+
+	let layers: string[];
+	if (padType === 'thru_hole') {
+		layers = ['*.Cu', '*.Mask'];
+	} else if (pad.layerId === 2) {
+		layers = ['B.Cu', 'B.Paste', 'B.Mask'];
+	} else {
+		layers = ['F.Cu', 'F.Paste', 'F.Mask'];
+	}
 	const layersStr = `(layers ${layers.map(q).join(' ')})`;
 
 	let drill = '';
@@ -126,11 +134,11 @@ export function generateKicadFootprint(footprint: EeFootprint): string {
 
 	const lines: string[] = [`(footprint ${name}`, `  (version 20221018)`, `  (generator "eext-format-convert")`, `  (layer "F.Cu")`, `  ${attr}`];
 
-	lines.push(`${indent(1)}(fp_text reference "REF**" (at 0 ${fmtMm(-toMm(footprint.bbox.height) / 2 - 1.27)}) (layer "F.SilkS")`);
+	lines.push(`${indent(1)}(fp_text reference "REF**" (at 0 ${fmtRawMm(-toMm(footprint.bbox.height) / 2 - 1.27)}) (layer "F.SilkS")`);
 	lines.push(`${indent(2)}(effects (font (size 1 1) (thickness 0.15)))`);
 	lines.push(`${indent(1)})`);
 
-	lines.push(`${indent(1)}(fp_text value ${name} (at 0 ${fmtMm(toMm(footprint.bbox.height) / 2 + 1.27)}) (layer "F.Fab")`);
+	lines.push(`${indent(1)}(fp_text value ${name} (at 0 ${fmtRawMm(toMm(footprint.bbox.height) / 2 + 1.27)}) (layer "F.Fab")`);
 	lines.push(`${indent(2)}(effects (font (size 1 1) (thickness 0.15)))`);
 	lines.push(`${indent(1)})`);
 

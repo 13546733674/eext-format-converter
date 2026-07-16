@@ -22,6 +22,11 @@ export function fmtMm(value: number): string {
 		.replace(/\.?0+$/, '');
 }
 
+/** Format a value that is already in millimetres. */
+export function fmtRawMm(value: number): string {
+	return value.toFixed(4).replace(/\.?0+$/, '');
+}
+
 /** Escape a string for KiCad s-expression. */
 export function kicadEscape(value: string): string {
 	return String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"');

@@ -8,13 +8,12 @@
 
 | 类型     | 文件扩展名 | 转换工具           | 输出后缀     |
 | -------- | ---------- | ------------------ | ------------ |
-| 焊盘堆栈 | `.psk`   | PadstackDB2HKP.exe | `.PSK.HKP` |
-| 封装     | `.cel`   | CellDB2HKP.exe     | `.CEL.HKP` |
-| 器件     | `.pdb`   | PartsDB2HKP.exe    | `.PDB.HKP` |
+| 焊盘堆栈 | `.psk`     | PadstackDB2HKP.exe | `.PSK.HKP`   |
+| 封装     | `.cel`     | CellDB2HKP.exe     | `.CEL.HKP`   |
+| 器件     | `.pdb`     | PartsDB2HKP.exe    | `.PDB.HKP`   |
 | 符号     | 目录       | 直接复制           | 目录原样打包 |
 
 #### 安装教程
-
 
 直接运行（需要Python环境）
 
