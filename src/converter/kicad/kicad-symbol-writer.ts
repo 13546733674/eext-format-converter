@@ -50,8 +50,9 @@ function renderPin(pin: EeSymbolPin): string {
 	const ptype = pinType(settings.type);
 	const nameText = q(pinName.text || '');
 	const numText = q(pinNumber.text || '');
-	const nameEffects = `(effects (font (size ${fmtMm(pinName.fontSize || 1.27)} ${fmtMm(pinName.fontSize || 1.27)})))`;
-	const numEffects = `(effects (font (size ${fmtMm(pinNumber.fontSize || 1.27)} ${fmtMm(pinNumber.fontSize || 1.27)})))`;
+	const fontSize = pinName.fontSize || pinNumber.fontSize || 5;
+	const nameEffects = `(effects (font (size ${fmtMm(fontSize)} ${fmtMm(fontSize)})))`;
+	const numEffects = `(effects (font (size ${fmtMm(fontSize)} ${fmtMm(fontSize)})))`;
 	return `${indent(3)}(pin ${ptype} line ${pos} (length ${length})\n${indent(4)}(name ${nameText} ${nameEffects})\n${indent(4)}(number ${numText} ${numEffects})\n${indent(3)})`;
 }
 
@@ -129,8 +130,8 @@ function renderSymbol(symbol: EeSymbol): string {
 	const prefix = symbol.info.prefix || 'U';
 	const lines: string[] = [
 		`  (symbol ${q(name)}`,
-		`    (pin_numbers hide)`,
-		`    (pin_names (offset 1.016) hide)`,
+		`    (pin_numbers)`,
+		`    (pin_names (offset 1.016))`,
 		`    (in_bom yes)`,
 		`    (on_board yes)`,
 		`    (property "Reference" ${q(prefix)} (id 0) (at 0 ${fmtMm(2.54)} 0)`,
