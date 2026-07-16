@@ -42,7 +42,7 @@ function parsePinPath(path: string): { x: number; y: number; length: number; ang
 	return { x, y, length: 0, angle: 0 };
 }
 
-function renderPin(pin: EeSymbolPin, unit: number): string {
+function renderPin(pin: EeSymbolPin): string {
 	const { settings, name: pinName, number: pinNumber, pinPath } = pin;
 	const pathInfo = parsePinPath(pinPath.path);
 	const pos = `(at ${fmtMm(pathInfo.x)} ${fmtMm(mirrorY(pathInfo.y))} ${pathInfo.angle})`;
@@ -52,19 +52,19 @@ function renderPin(pin: EeSymbolPin, unit: number): string {
 	const numText = q(pinNumber.text || '');
 	const nameEffects = `(effects (font (size ${fmtMm(pinName.fontSize || 1.27)} ${fmtMm(pinName.fontSize || 1.27)})))`;
 	const numEffects = `(effects (font (size ${fmtMm(pinNumber.fontSize || 1.27)} ${fmtMm(pinNumber.fontSize || 1.27)})))`;
-	return `${indent(3)}(pin ${ptype} line ${pos} (length ${length})\n${indent(4)}(name ${nameText} ${nameEffects})\n${indent(4)}(number ${numText} ${numEffects})\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+	return `${indent(3)}(pin ${ptype} line ${pos} (length ${length})\n${indent(4)}(name ${nameText} ${nameEffects})\n${indent(4)}(number ${numText} ${numEffects})\n${indent(3)})`;
 }
 
-function renderRectangle(rect: EeSymbolRectangle, unit: number): string {
-	return `${indent(3)}(rectangle (start ${fmtMm(rect.posX)} ${fmtMm(mirrorY(rect.posY))}) (end ${fmtMm(rect.posX + rect.width)} ${fmtMm(mirrorY(rect.posY + rect.height))})\n${indent(4)}(stroke (width ${fmtMm(Number(rect.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${rect.fillColor && rect.fillColor !== 'none' ? 'background' : 'none'}))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+function renderRectangle(rect: EeSymbolRectangle): string {
+	return `${indent(3)}(rectangle (start ${fmtMm(rect.posX)} ${fmtMm(mirrorY(rect.posY))}) (end ${fmtMm(rect.posX + rect.width)} ${fmtMm(mirrorY(rect.posY + rect.height))})\n${indent(4)}(stroke (width ${fmtMm(Number(rect.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${rect.fillColor && rect.fillColor !== 'none' ? 'background' : 'none'}))\n${indent(3)})`;
 }
 
-function renderCircle(circle: EeSymbolCircle, unit: number): string {
-	return `${indent(3)}(circle (center ${fmtMm(circle.centerX)} ${fmtMm(mirrorY(circle.centerY))}) (radius ${fmtMm(circle.radius)})\n${indent(4)}(stroke (width ${fmtMm(Number(circle.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${circle.fillColor ? 'background' : 'none'}))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+function renderCircle(circle: EeSymbolCircle): string {
+	return `${indent(3)}(circle (center ${fmtMm(circle.centerX)} ${fmtMm(mirrorY(circle.centerY))}) (radius ${fmtMm(circle.radius)})\n${indent(4)}(stroke (width ${fmtMm(Number(circle.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${circle.fillColor ? 'background' : 'none'}))\n${indent(3)})`;
 }
 
-function renderLine(line: EeSymbolLine, unit: number): string {
-	return `${indent(3)}(polyline\n${indent(4)}(pts (xy ${fmtMm(line.x1)} ${fmtMm(mirrorY(line.y1))}) (xy ${fmtMm(line.x2)} ${fmtMm(mirrorY(line.y2))}))\n${indent(4)}(stroke (width ${fmtMm(Number(line.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type none))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+function renderLine(line: EeSymbolLine): string {
+	return `${indent(3)}(polyline\n${indent(4)}(pts (xy ${fmtMm(line.x1)} ${fmtMm(mirrorY(line.y1))}) (xy ${fmtMm(line.x2)} ${fmtMm(mirrorY(line.y2))}))\n${indent(4)}(stroke (width ${fmtMm(Number(line.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type none))\n${indent(3)})`;
 }
 
 function parsePoints(points: string): Array<[number, number]> {
@@ -81,42 +81,42 @@ function parsePoints(points: string): Array<[number, number]> {
 	return result;
 }
 
-function renderPolyline(pl: EeSymbolPolyline | EeSymbolPolygon, unit: number, closed: boolean): string {
+function renderPolyline(pl: EeSymbolPolyline | EeSymbolPolygon, closed: boolean): string {
 	const pts = parsePoints(pl.points);
 	if (pts.length < 2) return '';
-	return `${indent(3)}(polyline\n${indent(4)}(pts ${pts.map((p) => `(xy ${fmtMm(p[0])} ${fmtMm(mirrorY(p[1]))})`).join(' ')})\n${indent(4)}(stroke (width ${fmtMm(Number(pl.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${closed && pl.fillColor ? 'background' : 'none'}))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+	return `${indent(3)}(polyline\n${indent(4)}(pts ${pts.map((p) => `(xy ${fmtMm(p[0])} ${fmtMm(mirrorY(p[1]))})`).join(' ')})\n${indent(4)}(stroke (width ${fmtMm(Number(pl.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${closed && pl.fillColor ? 'background' : 'none'}))\n${indent(3)})`;
 }
 
-function renderArc(arc: EeSymbolArc, unit: number): string {
+function renderArc(arc: EeSymbolArc): string {
 	// Fallback: draw a small circle placeholder; real arc conversion from SVG path needs more work.
-	return `${indent(3)}(arc (start 0 0) (mid ${fmtMm(0.5)} 0) (end 1 0)\n${indent(4)}(stroke (width ${fmtMm(Number(arc.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type none))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+	return `${indent(3)}(arc (start 0 0) (mid ${fmtMm(0.5)} 0) (end 1 0)\n${indent(4)}(stroke (width ${fmtMm(Number(arc.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type none))\n${indent(3)})`;
 }
 
-function renderPath(path: EeSymbolPath, unit: number): string {
+function renderPath(path: EeSymbolPath): string {
 	const pts = parsePoints(path.paths || path.paths);
 	if (pts.length < 2) return '';
-	return `${indent(3)}(polyline\n${indent(4)}(pts ${pts.map((p) => `(xy ${fmtMm(p[0])} ${fmtMm(mirrorY(p[1]))})`).join(' ')})\n${indent(4)}(stroke (width ${fmtMm(Number(path.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${path.fillColor ? 'background' : 'none'}))\n${indent(3)}  (unit ${unit})\n${indent(3)})`;
+	return `${indent(3)}(polyline\n${indent(4)}(pts ${pts.map((p) => `(xy ${fmtMm(p[0])} ${fmtMm(mirrorY(p[1]))})`).join(' ')})\n${indent(4)}(stroke (width ${fmtMm(Number(path.strokeWidth) || 0)}) (type default) (color 0 0 0 0))\n${indent(4)}(fill (type ${path.fillColor ? 'background' : 'none'}))\n${indent(3)})`;
 }
 
 function renderSub(symbolName: string, sub: EeSymbolSub, unitIndex: number): string {
 	const unit = unitIndex + 1;
 	const lines: string[] = [`${indent(2)}(symbol "${symbolName}_${unit}_0"`];
 
-	for (const pin of sub.pins) lines.push(renderPin(pin, unit));
-	for (const rect of sub.rectangles) lines.push(renderRectangle(rect, unit));
-	for (const circle of sub.circles) lines.push(renderCircle(circle, unit));
-	for (const line of sub.lines) lines.push(renderLine(line, unit));
+	for (const pin of sub.pins) lines.push(renderPin(pin));
+	for (const rect of sub.rectangles) lines.push(renderRectangle(rect));
+	for (const circle of sub.circles) lines.push(renderCircle(circle));
+	for (const line of sub.lines) lines.push(renderLine(line));
 	for (const pl of sub.polylines) {
-		const r = renderPolyline(pl, unit, false);
+		const r = renderPolyline(pl, false);
 		if (r) lines.push(r);
 	}
 	for (const pg of sub.polygons) {
-		const r = renderPolyline(pg, unit, true);
+		const r = renderPolyline(pg, true);
 		if (r) lines.push(r);
 	}
-	for (const arc of sub.arcs) lines.push(renderArc(arc, unit));
+	for (const arc of sub.arcs) lines.push(renderArc(arc));
 	for (const path of sub.paths) {
-		const r = renderPath(path, unit);
+		const r = renderPath(path);
 		if (r) lines.push(r);
 	}
 

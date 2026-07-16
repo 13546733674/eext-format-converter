@@ -1,16 +1,16 @@
 /**
  * 测试脚本（仅符号）：解析Xpedition符号文件，转换并输出.elibz2
  *
- * 用法: npx ts-node test-import.ts
+ * 用法: npx tsx test/test-import.ts
  */
 import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { generateSymbolDocument } from '../../src/converter/pro-writer-symbol';
-import { parseSymbolFile } from '../../src/converter/symbol-text-parser';
+import { generateSymbolDocument } from '../src/converter/easyeda-pro/easyeda-pro-symbol-writer';
+import { parseSymbolFile } from '../src/converter/xpedition/symbol-text-parser';
 
-const REF_DIR = path.resolve(__dirname, '..', '..', '参考格式');
+const DATA_DIR = path.resolve(__dirname, 'data');
 
 function genUUID(): string {
 	const hex = '0123456789abcdef';
@@ -25,7 +25,7 @@ async function main() {
 	console.log('========================================');
 
 	// 读取符号文件
-	const symPath = path.join(REF_DIR, 'xpedition符号');
+	const symPath = path.join(DATA_DIR, 'xpedition_symbol.txt');
 	const symContent = fs.readFileSync(symPath, 'utf-8');
 	console.log(`\n─── 解析符号文件 ───`);
 	console.log(`  文件: ${symPath}`);
@@ -90,7 +90,7 @@ async function main() {
 	outZip.file('device2.json', JSON.stringify(deviceData, null, 2));
 
 	const elibzBuffer = await outZip.generateAsync({ type: 'nodebuffer' });
-	const outputFile = path.join(REF_DIR, 'test-output-symbol.elibz2');
+	const outputFile = path.join(DATA_DIR, 'test-output-symbol.elibz2');
 	fs.writeFileSync(outputFile, new Uint8Array(elibzBuffer));
 	console.log(`\n========================================`);
 	console.log(`  输出: ${outputFile} (${(elibzBuffer.length / 1024).toFixed(1)} KB)`);

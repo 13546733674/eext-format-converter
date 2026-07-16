@@ -3,7 +3,7 @@ import JSZip from 'jszip';
 import * as path from 'path';
 
 async function main() {
-	const buf = fs.readFileSync(path.join(__dirname, '..', '..', '参考格式', 'test-full-library.elibz2'));
+	const buf = fs.readFileSync(path.join(__dirname, 'data', 'test-full-library.elibz2'));
 	const zip = await JSZip.loadAsync(new Uint8Array(buf));
 	const jsonStr = await zip.file('device2.json')!.async('string');
 	const data = JSON.parse(jsonStr);

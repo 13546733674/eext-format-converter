@@ -1,21 +1,20 @@
 /**
  * Full library test: Convert complete Xpedition library (18 files) → EasyEDA Pro .elibz2
- * Usage: npx ts-node test-full-library.ts
+ * Usage: npx tsx test/test-full-library.ts
  */
 import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
-import type { XpedCell } from '../../src/converter/hkp-parser';
-import { parsePartsFile } from '../../src/converter/parts-parser';
-import type { XpedPart } from '../../src/converter/parts-parser';
-import { generateFootprintSource } from '../../src/converter/pro-writer-footprint';
-import { generateSymbolDocument } from '../../src/converter/pro-writer-symbol';
-import { parseSymbolFile } from '../../src/converter/symbol-text-parser';
+import { generateFootprintSource } from '../src/converter/easyeda-pro/easyeda-pro-footprint-writer';
+import { generateSymbolDocument } from '../src/converter/easyeda-pro/easyeda-pro-symbol-writer';
+import { parseCellFile, parsePadsFile } from '../src/converter/xpedition/hkp-parser';
+import type { XpedCell } from '../src/converter/xpedition/hkp-parser';
+import { parsePartsFile } from '../src/converter/xpedition/parts-parser';
+import type { XpedPart } from '../src/converter/xpedition/parts-parser';
+import { parseSymbolFile } from '../src/converter/xpedition/symbol-text-parser';
 
-const DATA_DIR = path.resolve(__dirname, '..', '..', '测试用例', 'xpedition_library_18files');
-const REF_DIR = path.resolve(__dirname, '..', '..', '参考格式');
+const DATA_DIR = path.resolve(__dirname, 'data');
 
 function genUUID(): string {
 	const hex = '0123456789abcdef';
@@ -188,7 +187,7 @@ async function main() {
 	outZip.file('lib2.elibu', libLines.join('\n\n'));
 	outZip.file('device2.json', JSON.stringify(deviceData, null, 2));
 	const buffer = await outZip.generateAsync({ type: 'nodebuffer' });
-	const outFile = path.join(REF_DIR, 'test-full-library.elibz2');
+	const outFile = path.join(DATA_DIR, 'test-full-library.elibz2');
 	fs.writeFileSync(outFile, new Uint8Array(buffer));
 
 	console.log(`\n=== Results ===`);

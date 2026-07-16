@@ -26,7 +26,7 @@
 	"headerMenus": {
 		"home": [
 			{
-				"id": "format-convert",
+				"id": "format-convert1",
 				"title": "格式转换",
 				"menuItems": [
 					{
@@ -39,7 +39,7 @@
 		],
 		"sch": [
 			{
-				"id": "format-convert",
+				"id": "format-convert2",
 				"title": "格式转换",
 				"menuItems": [
 					{
@@ -52,7 +52,7 @@
 		],
 		"pcb": [
 			{
-				"id": "format-convert",
+				"id": "format-convert3",
 				"title": "格式转换",
 				"menuItems": [
 					{
@@ -65,7 +65,7 @@
 		],
 		"symbol": [
 			{
-				"id": "format-convert",
+				"id": "format-convert4",
 				"title": "格式转换",
 				"menuItems": [
 					{
@@ -78,13 +78,26 @@
 		],
 		"footprint": [
 			{
-				"id": "format-convert",
+				"id": "format-convert5",
 				"title": "格式转换",
 				"menuItems": [
 					{
 						"id": "export-kicad",
 						"title": "导出 KiCad...",
 						"registerFn": "exportCurrentDocToKicad"
+					}
+				]
+			}
+		],
+		"blank": [
+			{
+				"id": "format-convert6",
+				"title": "格式转换",
+				"menuItems": [
+					{
+						"id": "import-export-wizard",
+						"title": "导入向导...",
+						"registerFn": "readAllLibraries"
 					}
 				]
 			}

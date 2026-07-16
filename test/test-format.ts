@@ -1,14 +1,14 @@
 /**
  * Verify output format matches EasyEDA Pro reference
- * Usage: npx ts-node test-format.ts
+ * Usage: npx tsx test/test-format.ts
  */
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
-import { generateFootprintSource } from '../../src/converter/pro-writer-footprint';
+import { generateFootprintSource } from '../src/converter/easyeda-pro/easyeda-pro-footprint-writer';
+import { parseCellFile, parsePadsFile } from '../src/converter/xpedition/hkp-parser';
 
-const DATA = path.resolve(__dirname, '..', '..', '测试用例', 'xpedition_library_18files');
+const DATA = path.resolve(__dirname, 'data');
 const psk = fs.readFileSync(path.join(DATA, 'PadstackDB.PSK.HKP'), 'utf-8');
 const cel = fs.readFileSync(path.join(DATA, 'Sample.CEL.HKP'), 'utf-8');
 const { pads, holes, padstacks } = parsePadsFile(psk);

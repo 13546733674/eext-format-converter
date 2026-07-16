@@ -10,6 +10,7 @@
 		"allowJs": true,
 		"sourceMap": false,
 		"outDir": "./dist/",
+		"rootDir": ".",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -24,5 +25,5 @@
 		"alwaysStrict": true,
 		"isolatedModules": true
 	},
-	"include": ["./src/", "./node_modules/@jlceda/pro-api-types/"]
+	"include": ["./src/", "./test/", "./node_modules/@jlceda/pro-api-types/"]
 }

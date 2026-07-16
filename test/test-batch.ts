@@ -1,15 +1,15 @@
 /**
  * 批量测试：将 testsym.zip 中的所有符号转为 elibz2
- * 用法: npx ts-node test-batch.ts
+ * 用法: npx tsx test/test-batch.ts
  */
 import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { generateSymbolDocument } from '../../src/converter/pro-writer-symbol';
-import { parseSymbolFile } from '../../src/converter/symbol-text-parser';
+import { generateSymbolDocument } from '../src/converter/easyeda-pro/easyeda-pro-symbol-writer';
+import { parseSymbolFile } from '../src/converter/xpedition/symbol-text-parser';
 
-const REF_DIR = path.resolve(__dirname, '..', '..', '参考格式');
+const DATA_DIR = path.resolve(__dirname, 'data');
 
 function genUUID(): string {
 	const hex = '0123456789abcdef';
@@ -23,7 +23,7 @@ async function main() {
 	console.log('  testsym.zip 批量符号转换测试');
 	console.log('========================================');
 
-	const zipPath = path.join(REF_DIR, 'testsym.zip');
+	const zipPath = path.join(DATA_DIR, 'testsym.zip');
 	const data = new Uint8Array(fs.readFileSync(zipPath));
 	const zip = await JSZip.loadAsync(data);
 
@@ -76,7 +76,7 @@ async function main() {
 	outZip.file('device2.json', JSON.stringify(deviceData, null, 2));
 
 	const elibzBuffer = await outZip.generateAsync({ type: 'nodebuffer' });
-	const outputFile = path.join(REF_DIR, 'test-batch-output.elibz2');
+	const outputFile = path.join(DATA_DIR, 'test-batch-output.elibz2');
 	fs.writeFileSync(outputFile, new Uint8Array(elibzBuffer));
 
 	console.log(`\n========================================`);

@@ -1,16 +1,16 @@
 /**
  * Test footprint conversion: Xpedition cell/padstack → EasyEDA Professional
- * Usage: npx ts-node test-footprint.ts
+ * Usage: npx tsx test/test-footprint.ts
  */
 import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { parseCellFile, parsePadsFile } from '../../src/converter/hkp-parser';
-import type { XpedHole, XpedPad, XpedPadstack } from '../../src/converter/hkp-parser';
-import { generateFootprintSource } from '../../src/converter/pro-writer-footprint';
+import { generateFootprintSource } from '../src/converter/easyeda-pro/easyeda-pro-footprint-writer.ts';
+import { parseCellFile, parsePadsFile } from '../src/converter/xpedition/hkp-parser.ts';
+import type { XpedHole, XpedPad, XpedPadstack } from '../src/converter/xpedition/hkp-parser.ts';
 
-const REF_DIR = path.resolve(__dirname, '..', '..', '参考格式');
+const DATA_DIR = path.resolve(__dirname, 'data');
 
 function genUUID(): string {
 	const hex = '0123456789abcdef';
@@ -74,8 +74,8 @@ async function testCC0805() {
 	console.log('=== CC0805 SMD Footprint Conversion ===\n');
 
 	// Parse real data
-	const padContent = fs.readFileSync(path.join(REF_DIR, 'xpedition焊盘堆栈.txt'), 'utf-8');
-	const cellContent = fs.readFileSync(path.join(REF_DIR, 'xpedition封装.txt'), 'utf-8');
+	const padContent = fs.readFileSync(path.join(DATA_DIR, 'PadstackDB.PSK.HKP'), 'utf-8');
+	const cellContent = fs.readFileSync(path.join(DATA_DIR, 'Sample.CEL.HKP'), 'utf-8');
 
 	const { pads, holes, padstacks } = parsePadsFile(padContent);
 	const padMap = new Map(pads.map((p) => [p.name, p]));
@@ -141,7 +141,7 @@ async function testCC0805() {
 	const outZip = new JSZip();
 	outZip.file('lib2.elibu', source);
 	const outBuffer = await outZip.generateAsync({ type: 'nodebuffer' });
-	const outputFile = path.join(REF_DIR, 'test-footprint-cc0805.elibz2');
+	const outputFile = path.join(DATA_DIR, 'test-footprint-cc0805.elibz2');
 	fs.writeFileSync(outputFile, new Uint8Array(outBuffer));
 	console.log(`\nSaved: ${outputFile} (${(outBuffer.length / 1024).toFixed(1)} KB)`);
 }

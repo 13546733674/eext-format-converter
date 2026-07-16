@@ -5,7 +5,6 @@
  * This is intentionally structured so that runtime PCB insertion APIs can later
  * replace the generated-source path without changing the parsers.
  */
-import { mmToEeUnit } from '../easyeda-pro/easyeda-pro-layers';
 import type {
 	PcbArc,
 	PcbBoard,
@@ -20,7 +19,8 @@ import type {
 	PcbText,
 	PcbTrack,
 	PcbVia,
-} from './pcb-models';
+} from '../pcb/pcb-models';
+import { mmToEeUnit } from './easyeda-pro-layers';
 
 // ─── Layer mapping ───────────────────────────────────────────────────────────
 

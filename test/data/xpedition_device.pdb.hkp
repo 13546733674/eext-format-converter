@@ -1,0 +1,39 @@
+!.LCID 2052
+.Filetype ASCII_PDB
+.Version "02.01"
+.LIBRARY_DB_TYPE "Enterprise"
+.Units mm
+.Notation Si
+
+.Number "101-RES"
+	..Name "101-RES"
+		...Default
+	..Label "101-RES"
+		...Default
+	..Desc "RES, TF, SMD, 1206, 10K OHMS, 1%"
+	..RefPrefix "R"
+	..TopCell "CC1206"
+	..BottomCell ""
+	..Modified	1408559992 ! 2014/8/21 2:39
+	..Prop "Type",	"Resistor",	"Text"
+	..Prop "Underside Space",	"0.02",	"Real"
+	..Prop "Height",	"0.55",	"Real"
+	..SwapGroup	"gate"
+		...SwapID	"P0"
+		...SwapID	"P1"
+		...SwapIDProperties	"P0"
+			....Prop "Pin Type",	"Bidir",	"Text"
+		...SwapIDProperties	"P1"
+			....Prop "Pin Type",	"Bidir",	"Text"
+	..Symbol	"Sample:resistor"
+		...Default
+		...Symbol_SwapGroup	"gate"
+			....PinName	"N1"
+			....PinName	"N2"
+	..Slots
+		...Slot_SwapGroup	"gate"
+			....SlotID	1
+			....SwapCode	0
+			....PinNumber	"1"
+			....PinNumber	"2"
+

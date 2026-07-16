@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
 
-import { parseSymbolFile } from '../../src/converter/symbol-text-parser';
+import { parseSymbolFile } from '../src/converter/xpedition/symbol-text-parser';
 
 async function main() {
-	const data = new Uint8Array(fs.readFileSync(path.join(__dirname, '..', '..', '参考格式', 'testsym.zip')));
+	const data = new Uint8Array(fs.readFileSync(path.join(__dirname, 'data', 'testsym.zip')));
 	const zip = await JSZip.loadAsync(data);
 	const content = await zip.file('sym/term.1')!.async('string');
 	const symbol = parseSymbolFile(content, 'term.1');

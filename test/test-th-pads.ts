@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { parsePadsFile } from '../../src/converter/hkp-parser';
+import { parsePadsFile } from '../src/converter/xpedition/hkp-parser';
 
-const DATA = 'D:/Downloads/easyeda2xpedition-main/备份/easyeda2xpedition-main/导入插件/测试用例/xpedition_library_18files';
+const DATA = path.resolve(__dirname, 'data');
 const psk = fs.readFileSync(path.join(DATA, 'PadstackDB.PSK.HKP'), 'utf-8');
 const { pads, holes, padstacks } = parsePadsFile(psk);
 const padMap = new Map(pads.map((p) => [p.name, p]));

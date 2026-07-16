@@ -399,8 +399,12 @@ export function parseProFootprint(source: string): EeFootprint {
 	const bbox: EeFootprintBbox = { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
 	const hasThHole = doc.elements.some((e) => e.type === 'PAD' && (e.data.holeRadius > 0 || e.data.holeDiameter > 0));
 
+	const footprintAttr = doc.elements.find((e) => e.type === 'ATTR' && e.data.key === 'Footprint');
+	const meta = doc.elements.find((e) => e.type === 'META');
+	const footprintName = footprintAttr?.data.value || meta?.data.title || doc.docHead?.uuid || '';
+
 	const footprint: EeFootprint = {
-		info: { name: doc.docHead?.uuid || '', fpType: hasThHole ? 'tht' : 'smd', model3dName: '', layers: [] },
+		info: { name: footprintName, fpType: hasThHole ? 'tht' : 'smd', model3dName: '', layers: [] },
 		bbox,
 		pads: [],
 		tracks: [],

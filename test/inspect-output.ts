@@ -3,7 +3,7 @@ import * as JSZip from 'jszip';
 import * as path from 'path';
 
 async function main() {
-	const data = new Uint8Array(fs.readFileSync(path.join(__dirname, '..', '..', '参考格式', 'test-output-symbol.elibz2')));
+	const data = new Uint8Array(fs.readFileSync(path.join(__dirname, 'data', 'test-output-symbol.elibz2')));
 	const zip = await JSZip.loadAsync(data);
 	const content = await zip.file('lib2.elibu')!.async('string');
 	const lines = content.split('\n');

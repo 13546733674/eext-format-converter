@@ -3,8 +3,8 @@
  */
 import JSZip from 'jszip';
 
+import { generatePcbDocumentSource } from '../easyeda-pro/easyeda-pro-pcb-writer';
 import { buildEpro2Archive } from '../easyeda-pro/epro2-builder';
-import { generatePcbDocumentSource } from '../pcb/easyeda-pro-pcb-writer';
 import type { ConverterImporter, ImportResult } from '../types';
 import { parseCadstarPcb } from './cadstar-pcb-parser';
 
