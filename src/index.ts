@@ -191,7 +191,7 @@ async function _handleLoadCmd(data: any, teams: Array<{ name: string; uuid: stri
 async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: string }>) {
 	const convertItems: ConvertItem[] = data.items || [];
 	const format: string = data.format || 'xpedition';
-	const filename: string = data.filename || (format === 'kicad' ? 'asyeda2kicad.zip' : 'asyeda2xpedition.zip');
+	const filename: string = data.filename || (format === 'kicad' ? 'easyeda2kicad.zip' : 'easyeda2xpedition.zip');
 
 	// Toggle workspace before conversion (same as load command)
 	const convTeamUuid: string | undefined = data.teamUuid || undefined;
@@ -230,6 +230,21 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 					console.warn(TAG, '跳过：libraryUuid 为空', type, uuid);
 					return null;
 				}
+
+				// Try to fetch the document source directly without opening the editor.
+				// The documented API does not guarantee this field, so fall back to
+				// openInEditor + getDocumentSource if it is missing.
+				try {
+					const item = type === '符号' ? await eda.lib_Symbol.get(uuid, libraryUuid) : await eda.lib_Footprint.get(uuid, libraryUuid);
+					const directSource = (item as any)?.documentSource;
+					if (typeof directSource === 'string' && directSource.length > 0) {
+						console.log(TAG, 'direct documentSource:', type, uuid, directSource.length + ' chars');
+						return directSource;
+					}
+				} catch (e) {
+					console.warn(TAG, '直接获取文档源码失败，回退到编辑器:', type, uuid, e);
+				}
+
 				let tabId: string | undefined;
 				try {
 					const openPromise =

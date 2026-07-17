@@ -1453,7 +1453,7 @@
 							<div class="save-label" id="saveLabel"></div>
 							<div class="save-desc" id="saveDesc"></div>
 							<div class="filename-row">
-								<input type="text" class="filename-input" id="filenameInput" value="asyeda2xpedition" spellcheck="false" />
+								<input type="text" class="filename-input" id="filenameInput" value="easyeda2xpedition" spellcheck="false" />
 								<span class="filename-suffix" id="filenameSuffix">.zip</span>
 							</div>
 							<div class="pw-section">
@@ -1641,8 +1641,8 @@
 			var selectedType = 'xpedition';
 
 			var exportFilenameDefaults = {
-				xpedition: 'asyeda2xpedition',
-				kicad: 'asyeda2kicad',
+				xpedition: 'easyeda2xpedition',
+				kicad: 'easyeda2kicad',
 			};
 
 			var importFormatTitles = {
@@ -1697,7 +1697,7 @@
 			function applyTypeSideEffects() {
 				// update default export filename
 				if (selectedMode === 'export') {
-					var def = exportFilenameDefaults[selectedType] || 'asyeda2xpedition';
+					var def = exportFilenameDefaults[selectedType] || 'easyeda2xpedition';
 					filenameInput.value = def;
 					filenameBase = def;
 				}
@@ -2011,7 +2011,7 @@
 
 			// ── 步骤4：文件名、密码与保存 ──
 
-			var filenameBase = 'asyeda2xpedition';
+			var filenameBase = 'easyeda2xpedition';
 
 			var filenameInput = document.getElementById('filenameInput');
 			var filenameSuffix = document.getElementById('filenameSuffix');
@@ -2029,7 +2029,7 @@
 			filenameInput.addEventListener('blur', function () {
 				var v = filenameInput.value.trim();
 				if (!v) {
-					v = 'asyeda2xpedition';
+					v = 'easyeda2xpedition';
 					filenameInput.value = v;
 					filenameBase = v;
 				}
@@ -2142,9 +2142,7 @@
 							document.getElementById('progBarFill').style.width = '100%';
 							document.getElementById('progLbl').textContent = t('Conversion complete!');
 							addLog(t('Conversion complete, file saved'));
-							setTimeout(function () {
-								setStep(4);
-							}, 600);
+							await storeWrite({ teams: teams, cmd: 'done-wizard' });
 						}
 						if (data.cmd === 'convert-error') {
 							clearInterval(convertPollTimer);
