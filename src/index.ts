@@ -22,6 +22,21 @@ const _sleep = (ms: number) =>
 		setTimeout(r, ms);
 	});
 
+function _withTimeout<T>(p: Promise<T>, ms: number, label?: string): Promise<T | undefined> {
+	return Promise.race([
+		p.then(
+			(v) => v,
+			() => undefined,
+		),
+		new Promise<undefined>((resolve) => {
+			setTimeout(() => {
+				console.warn(TAG, (label || 'operation') + ' timeout');
+				resolve(undefined);
+			}, ms);
+		}),
+	]);
+}
+
 // ─── 库读取工具 ──────────────────────────────────────────────────────────────
 
 async function _searchAllDevices(libUuid: string): Promise<Array<{ title: string; uuid: string; libraryUuid: string }>> {
@@ -122,14 +137,36 @@ async function _safeCloseDocument(id: string): Promise<void> {
 /** 获取当前工作区下的团队列表 */
 async function _getCurrentWorkspaceTeams(): Promise<Array<{ name: string; uuid: string }>> {
 	try {
-		const direct = (await eda.dmt_Team.getAllTeamsInfo()) || [];
-		console.log(TAG, 'getAllTeamsInfo count:', direct.length);
-		const result = direct
-			.filter((t) => t && t.uuid)
-			.map((t) => ({
-				name: String(t.name || t.title || t.uuid),
-				uuid: String(t.uuid),
-			}));
+		// EasyEDA 的团队接口在刚切换工作区或客户端尚未同步完成时，返回结果偶尔会变少。
+		// 这里多做几次采样并取并集，避免下拉列表时多时少。
+		const seen = new Set<string>();
+		const result: Array<{ name: string; uuid: string }> = [];
+		const addAll = (arr: any[]) => {
+			for (const t of arr || []) {
+				if (!t || !t.uuid || seen.has(String(t.uuid))) continue;
+				seen.add(String(t.uuid));
+				result.push({ name: String(t.name || t.title || t.uuid), uuid: String(t.uuid) });
+			}
+		};
+
+		for (let attempt = 0; attempt < 3; attempt++) {
+			try {
+				const involved = (await eda.dmt_Team.getAllInvolvedTeamInfo()) || [];
+				console.log(TAG, 'getAllInvolvedTeamInfo attempt', attempt + 1, 'count:', involved.length);
+				addAll(involved);
+			} catch (e) {
+				console.warn(TAG, 'getAllInvolvedTeamInfo failed:', e);
+			}
+			try {
+				const direct = (await eda.dmt_Team.getAllTeamsInfo()) || [];
+				console.log(TAG, 'getAllTeamsInfo attempt', attempt + 1, 'count:', direct.length);
+				addAll(direct);
+			} catch (e) {
+				console.warn(TAG, 'getAllTeamsInfo failed:', e);
+			}
+			if (result.length > 0 && attempt < 2) await _sleep(300);
+		}
+
 		console.log(
 			TAG,
 			'Current workspace teams:',
@@ -159,6 +196,8 @@ async function _getFirstFolder(teamUuid: string): Promise<string | undefined> {
 let _lastImportBlob: Blob | null = null;
 let _lastImportFilename = '';
 let _lastImportResult: ImportResult | null = null;
+let _lastExportBlob: Blob | null = null;
+let _lastExportFilename = '';
 let _wizardFrameId = 'wizard';
 
 // ─── 命令处理函数 ────────────────────────────────────────────────────────────
@@ -219,7 +258,7 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 				console.log(TAG, 'fetchFn:', type, 'uuid=' + uuid, 'libUuid=' + libraryUuid);
 				if (type === '器件') {
 					try {
-						const dev = await eda.lib_Device.get(uuid);
+						const dev = await _withTimeout(eda.lib_Device.get(uuid), 15000, 'lib_Device.get');
 						return dev ? JSON.stringify(dev) : null;
 					} catch (de) {
 						console.warn(TAG, 'Device get failed:', de);
@@ -235,7 +274,11 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 				// The documented API does not guarantee this field, so fall back to
 				// openInEditor + getDocumentSource if it is missing.
 				try {
-					const item = type === '符号' ? await eda.lib_Symbol.get(uuid, libraryUuid) : await eda.lib_Footprint.get(uuid, libraryUuid);
+					const item = await _withTimeout(
+						type === '符号' ? eda.lib_Symbol.get(uuid, libraryUuid) : eda.lib_Footprint.get(uuid, libraryUuid),
+						15000,
+						'lib.get',
+					);
 					const directSource = (item as any)?.documentSource;
 					if (typeof directSource === 'string' && directSource.length > 0) {
 						console.log(TAG, 'direct documentSource:', type, uuid, directSource.length + ' chars');
@@ -266,8 +309,9 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 					}
 
 					await _sleep(2000);
-					const source = await eda.sys_FileManager.getDocumentSource();
+					const source = await _withTimeout(eda.sys_FileManager.getDocumentSource(), 10000, 'getDocumentSource');
 					console.log(TAG, 'getDocumentSource:', source ? source.length + ' chars' : 'null');
+					await _sleep(300);
 					_safeCloseDocument(tabId);
 					return source || null;
 				} catch (e) {
@@ -283,7 +327,9 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 				);
 			},
 		);
-		await eda.sys_FileSystem.saveFile(blob, filename);
+		_lastExportBlob = blob;
+		_lastExportFilename = filename;
+		console.log(TAG, '转换完成，blob size=' + blob.size + ' filename=' + filename);
 		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'convert-done', seq: data.seq }));
 	} catch (err) {
 		console.error(TAG, '转换失败:', err);
@@ -291,10 +337,29 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 	}
 
 	// Show wizard again with result
+	console.log(TAG, 'showIFrame:', _wizardFrameId);
 	try {
 		await eda.sys_IFrame.showIFrame(_wizardFrameId);
 	} catch (e) {
 		console.warn(TAG, 'showIFrame:', e);
+	}
+}
+
+/** 处理 download 命令：下载上一次导出的 ZIP */
+async function _handleDownloadCmd(data: any, teams: Array<{ name: string; uuid: string }>) {
+	const downloadSeq: number = data.seq;
+	console.log(TAG, 'download cmd received, blob=' + (_lastExportBlob ? _lastExportBlob.size + 'B' : 'null') + ' filename=' + _lastExportFilename);
+	try {
+		if (!_lastExportBlob) throw new Error('No export blob available');
+		await eda.sys_FileSystem.saveFile(_lastExportBlob, _lastExportFilename || 'export.zip');
+		console.log(TAG, 'saveFile done');
+		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: 'download-done', seq: downloadSeq }));
+	} catch (err) {
+		console.error(TAG, '下载失败:', err);
+		await eda.sys_Storage.setExtensionUserConfig(
+			STORE_KEY,
+			JSON.stringify({ teams, cmd: 'download-error', seq: downloadSeq, error: String(err) }),
+		);
 	}
 }
 
@@ -620,6 +685,8 @@ async function _runWizard(mode: 'import' | 'export', titleKey: string): Promise<
 				await _handleLoadCmd(data, teams);
 			} else if (data.cmd === 'convert') {
 				await _handleConvertCmd(data, teams);
+			} else if (data.cmd === 'download') {
+				await _handleDownloadCmd(data, teams);
 			} else if (data.cmd === 'import') {
 				await _handleImportCmd(data, teams);
 			} else if (data.cmd === 'import-execute') {

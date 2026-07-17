@@ -18,7 +18,7 @@
 4. 预览转换结果，选择需要导入的器件/符号/封装
 5. 选择归属（个人/团队），点击导入
 
-    ![demo-import](images/demo-import.gif)
+    ![demo-import](images/demo-import.png)
 
 ## 支持的文件格式
 

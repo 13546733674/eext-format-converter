@@ -170,7 +170,7 @@ export async function exportItemsToKicad(
 
 	// Generate one symbol library containing all symbols
 	if (symbols.length > 0) {
-		zip.file('asyeda.kicad_sym', generateKicadSymbolLibrary(symbols));
+		zip.file('easyeda.kicad_sym', generateKicadSymbolLibrary(symbols));
 	}
 
 	// Generate one footprint file per footprint

@@ -703,6 +703,12 @@
 			.spinner-ring.done svg {
 				fill: #34a853;
 			}
+			.prog-actions {
+				display: flex;
+				justify-content: center;
+				gap: 8px;
+				margin-top: 16px;
+			}
 			.prog-title {
 				font-size: 18px;
 				font-weight: 700;
@@ -1296,11 +1302,10 @@
 						<div class="aff-row">
 							<span class="aff-label" data-i18n="Ownership">归属</span>
 							<div class="dd-wrap dd-aff" id="ddAff">
-								<div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Personal">个人</span></div>
-								<div class="dd-panel">
-									<div class="dd-option" data-value="personal" data-i18n="Personal">个人</div>
-									<div class="dd-option" data-value="team" data-i18n="Team">团队</div>
+								<div class="dd-trigger" data-value="">
+									<span class="dd-text" data-i18n="Please select ownership">请选择归属</span>
 								</div>
+								<div class="dd-panel" id="ddAffPanel"></div>
 							</div>
 							<div class="dd-wrap dd-team" id="ddTeam" style="display: none">
 								<div class="dd-trigger" data-value=""><span class="dd-text" data-i18n="Please select team">请选择团队</span></div>
@@ -1441,6 +1446,9 @@
 						<div class="prog-bar-bg"><div class="prog-bar-fill" id="progBarFill"></div></div>
 						<div class="prog-lbl" id="progLbl"></div>
 						<div class="log-box" id="logBox"></div>
+						<div class="prog-actions" id="progActions" style="display: none">
+							<div class="btn btn-primary" id="progDownloadBtn">下载 ZIP</div>
+						</div>
 					</div>
 
 					<!-- ===== 步骤4：导出完成（保存文件） ===== -->
@@ -1978,43 +1986,24 @@
 
 			// ── 归属下拉框 ──
 
-			initDropdown(document.getElementById('ddAff'), function (val) {
-				var isTeam = val === 'team';
-				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-				var teamPanel = document.getElementById('ddTeamPanel');
-				if (!isTeam) {
-					document.getElementById('ddTeam').style.display = 'none';
-					requestLoad('personal', null);
-				} else {
-					document.getElementById('ddTeam').style.display = '';
-					loadTeams().then(function (loadedTeams) {
-						if (loadedTeams.length > 0) {
-							var first = loadedTeams[0];
-							teamTrigger.dataset.value = first.uuid;
-							teamTrigger.querySelector('.dd-text').textContent = first.name;
-							teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
-								o.classList.toggle('active', o.dataset.value === first.uuid);
-							});
-							requestLoad('team', first.uuid);
-						} else {
-							teamTrigger.dataset.value = '';
-							teamTrigger.querySelector('.dd-text').textContent = t('No team');
-							document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('No available team') + '</div>';
-							document.getElementById('selInfo').textContent = '';
-						}
-					});
-				}
-				updateFooter();
-			});
-
-			initDropdown(document.getElementById('ddTeam'), function (val) {
-				if (val) {
-					requestLoad('team', val);
-				} else {
-					document.getElementById('libScroll').innerHTML = '<div class="empty-msg">' + t('Please select team') + '</div>';
-					document.getElementById('selInfo').textContent = '';
-				}
-			});
+			(function () {
+				var affWrap = document.getElementById('ddAff');
+				var affTrigger = affWrap.querySelector('.dd-trigger');
+				var affPanel = document.getElementById('ddAffPanel');
+				affTrigger.addEventListener('click', function (e) {
+					e.stopPropagation();
+					closeAllDropdowns(affWrap);
+					var isOpen = affPanel.classList.contains('show');
+					if (isOpen) {
+						affPanel.classList.remove('show');
+						affTrigger.classList.remove('open');
+					} else {
+						loadTeams(true);
+						affPanel.classList.add('show');
+						affTrigger.classList.add('open');
+					}
+				});
+			})();
 
 			// ── 步骤4：文件名、密码与保存 ──
 
@@ -2152,13 +2141,31 @@
 								ring.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
 							}
 							document.getElementById('progTitle').textContent = t('Conversion complete!');
-							document.getElementById('progDesc').textContent = t('Conversion complete, file saved');
+							document.getElementById('progDesc').textContent = t('Conversion complete, file ready');
 							document.getElementById('progBarFill').style.width = '100%';
-							document.getElementById('progLbl').textContent = t('Conversion complete!');
-							addLog(t('Conversion complete, file saved'));
-							setTimeout(function () {
-								storeWrite({ teams: teams, cmd: 'done-wizard' });
-							}, 1200);
+							document.getElementById('progLbl').textContent = t('Click the button below to download the ZIP');
+							addLog(t('Conversion complete, file ready'));
+							document.getElementById('progActions').style.display = '';
+							document.getElementById('progDownloadBtn').textContent = t('Download ZIP');
+						}
+						if (data.cmd === 'download-done') {
+							clearInterval(downloadPollTimer);
+							downloadPollTimer = null;
+							addLog(t('Download complete'));
+							var dlBtn = document.getElementById('progDownloadBtn');
+							dlBtn.textContent = t('Downloaded');
+							dlBtn.className = 'btn btn-disabled';
+							var exitBtn = document.getElementById('btnExit');
+							exitBtn.textContent = t('Done');
+							exitBtn.className = 'btn btn-primary';
+						}
+						if (data.cmd === 'download-error') {
+							clearInterval(downloadPollTimer);
+							downloadPollTimer = null;
+							var dlBtn2 = document.getElementById('progDownloadBtn');
+							dlBtn2.textContent = t('Download failed, retry');
+							dlBtn2.className = 'btn btn-primary';
+							addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
 						}
 						if (data.cmd === 'convert-error') {
 							clearInterval(convertPollTimer);
@@ -2179,6 +2186,42 @@
 			}
 
 			var convertPollTimer = null;
+			var downloadPollTimer = null;
+
+			document.getElementById('progDownloadBtn').addEventListener('click', async function () {
+				console.log('[FormatConvert wizard] download button clicked');
+				var btn = document.getElementById('progDownloadBtn');
+				btn.className = 'btn btn-disabled';
+				btn.textContent = t('Downloading...');
+				await storeWrite({ teams: teams, cmd: 'download', seq: Date.now() });
+				console.log('[FormatConvert wizard] download cmd written');
+				if (downloadPollTimer) clearInterval(downloadPollTimer);
+				downloadPollTimer = setInterval(async function () {
+					try {
+						var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+						if (!raw) return;
+						var data = JSON.parse(raw);
+						if (data.cmd === 'download-done' || data.cmd === 'download-error') {
+							clearInterval(downloadPollTimer);
+							downloadPollTimer = null;
+							if (data.cmd === 'download-done') {
+								btn.textContent = t('Downloaded');
+								btn.className = 'btn btn-disabled';
+								addLog(t('Download complete'));
+								var exitBtn = document.getElementById('btnExit');
+								exitBtn.textContent = t('Done');
+								exitBtn.className = 'btn btn-primary';
+							} else {
+								btn.textContent = t('Download failed, retry');
+								btn.className = 'btn btn-primary';
+								addLog(t('Error: ${1}', data.error || t('Unknown error')), true);
+							}
+						}
+					} catch (e) {
+						/* continue polling */
+					}
+				}, 300);
+			});
 
 			// 完成按钮 - 处理导出完成和导入执行
 			document.getElementById('btnDone').addEventListener('click', async function () {
@@ -2247,31 +2290,48 @@
 			var importIsPersonal = true;
 			var teamsLoading = false;
 
-			function renderStep3TeamDropdown() {
-				var teamPanel = document.getElementById('ddTeamPanel');
-				var teamTrigger = document.getElementById('ddTeam').querySelector('.dd-trigger');
-				teamPanel.innerHTML = '';
-				for (var tt of teams) {
+			function renderStep3OwnershipDropdown() {
+				var affWrap = document.getElementById('ddAff');
+				var panel = document.getElementById('ddAffPanel');
+				var trigger = affWrap.querySelector('.dd-trigger');
+				panel.innerHTML = '';
+				var personalOpt = document.createElement('div');
+				personalOpt.className = 'dd-option';
+				personalOpt.dataset.aff = 'personal';
+				personalOpt.dataset.value = '';
+				personalOpt.textContent = t('Personal');
+				panel.appendChild(personalOpt);
+				var filteredTeams = teams.filter(function (tt) {
+					return tt.name !== '个人' && tt.name !== 'Personal';
+				});
+				for (var tt of filteredTeams) {
 					var opt = document.createElement('div');
 					opt.className = 'dd-option';
+					opt.dataset.aff = 'team';
 					opt.dataset.value = tt.uuid;
 					opt.textContent = tt.name;
-					teamPanel.appendChild(opt);
+					panel.appendChild(opt);
 				}
-				teamPanel.querySelectorAll('.dd-option').forEach(function (opt) {
+				panel.querySelectorAll('.dd-option').forEach(function (opt) {
 					opt.addEventListener('click', function (e) {
 						e.stopPropagation();
+						var aff = opt.dataset.aff;
 						var val = opt.dataset.value;
 						var text = opt.textContent;
-						teamTrigger.dataset.value = val;
-						teamTrigger.querySelector('.dd-text').textContent = text;
-						teamPanel.querySelectorAll('.dd-option').forEach(function (o) {
+						trigger.dataset.value = aff === 'personal' ? 'personal' : val;
+						trigger.querySelector('.dd-text').textContent = text;
+						panel.querySelectorAll('.dd-option').forEach(function (o) {
 							o.classList.remove('active');
 						});
 						opt.classList.add('active');
-						teamPanel.classList.remove('show');
-						teamTrigger.classList.remove('open');
-						if (val) requestLoad('team', val);
+						panel.classList.remove('show');
+						trigger.classList.remove('open');
+						if (aff === 'personal') {
+							requestLoad('personal', null);
+						} else if (val) {
+							requestLoad('team', val);
+						}
+						updateFooter();
 					});
 				});
 			}
@@ -2325,8 +2385,9 @@
 				personalOpt.classList.add('active');
 			}
 
-			async function loadTeams() {
-				if (teamsLoading || (teams && teams.length > 0)) return teams;
+			async function loadTeams(force) {
+				if (teamsLoading) return teams;
+				if (!force && teams && teams.length > 0) return teams;
 				teamsLoading = true;
 				try {
 					await storeWrite({ cmd: 'teams' });
@@ -2341,7 +2402,7 @@
 							done = true;
 						}
 					}
-					renderStep3TeamDropdown();
+					renderStep3OwnershipDropdown();
 					renderImportTeamDropdown();
 				} catch (e) {
 					console.warn('Failed to load teams:', e);
@@ -2361,7 +2422,7 @@
 					console.warn('Failed to read team data:', e);
 				}
 
-				renderStep3TeamDropdown();
+				renderStep3OwnershipDropdown();
 				renderImportTeamDropdown();
 
 				var importTeamTriggerEl = document.getElementById('ddImportTeam').querySelector('.dd-trigger');
@@ -2437,9 +2498,9 @@
 				});
 				// Step 3
 				document.querySelector('#step3 .aff-label').textContent = t('Ownership') + ':';
-				document.querySelector('#ddAff .dd-option[data-value="personal"]').textContent = t('Personal');
-				document.querySelector('#ddAff .dd-option[data-value="team"]').textContent = t('Team');
-				document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Personal');
+				if (!currentAff) {
+					document.querySelector('#ddAff .dd-trigger .dd-text').textContent = t('Please select ownership');
+				}
 				document.querySelector('#step3 .lib-label').textContent = t('Library list');
 				document.querySelectorAll('#step3 .type-label-text').forEach(function (el, idx) {
 					var labels = [t('Symbol'), t('Footprint'), t('Device')];
