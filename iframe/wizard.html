@@ -1513,7 +1513,8 @@
 			}
 
 			var STORE_KEY = 'libReaderData';
-			var mode = new URLSearchParams(location.search).get('mode') || 'import';
+			var WIZARD_FRAME_ID = window.name || 'wizard';
+			var mode = WIZARD_FRAME_ID === 'export-wizard' ? 'export' : 'import';
 			var isImport = mode === 'import';
 			var isExport = mode === 'export';
 			var allItems = [];
@@ -1614,7 +1615,7 @@
 
 			document.getElementById('btnExit').addEventListener('click', async function () {
 				await storeWrite({ teams: teams, cmd: 'exit' });
-				eda.sys_IFrame.closeIFrame('wizard');
+				eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 			});
 
 			document.getElementById('btnBack').addEventListener('click', function () {
@@ -2210,7 +2211,7 @@
 								addLog(t('Execution complete!'));
 								setTimeout(async function () {
 									await storeWrite({ teams: teams, cmd: 'done-wizard' });
-									eda.sys_IFrame.closeIFrame('wizard');
+									eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 								}, 600);
 							}
 							if (data.cmd === 'import-error') {
@@ -2227,7 +2228,7 @@
 					return;
 				}
 				await storeWrite({ teams: teams, cmd: 'done-wizard' });
-				eda.sys_IFrame.closeIFrame('wizard');
+				eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 			});
 
 			// ── 导入完成归属/团队下拉框 ──
@@ -2838,7 +2839,7 @@
 								document.getElementById('progBarFill').style.width = '100%';
 								addLog(t('Execution complete!'));
 								await storeWrite({ teams: teams, cmd: 'done-wizard' });
-								eda.sys_IFrame.closeIFrame('wizard');
+								eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 							}
 							// 导入出错
 							if (data.cmd === 'import-error') {

@@ -159,6 +159,7 @@ async function _getFirstFolder(teamUuid: string): Promise<string | undefined> {
 let _lastImportBlob: Blob | null = null;
 let _lastImportFilename = '';
 let _lastImportResult: ImportResult | null = null;
+let _wizardFrameId = 'wizard';
 
 // ─── 命令处理函数 ────────────────────────────────────────────────────────────
 
@@ -204,7 +205,7 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 
 	// Hide wizard so it doesn't interfere with editor
 	try {
-		await eda.sys_IFrame.hideIFrame('wizard');
+		await eda.sys_IFrame.hideIFrame(_wizardFrameId);
 	} catch (e) {
 		console.warn(TAG, 'hideIFrame:', e);
 	}
@@ -276,7 +277,7 @@ async function _handleConvertCmd(data: any, teams: Array<{ name: string; uuid: s
 
 	// Show wizard again with result
 	try {
-		await eda.sys_IFrame.showIFrame('wizard');
+		await eda.sys_IFrame.showIFrame(_wizardFrameId);
 	} catch (e) {
 		console.warn(TAG, 'showIFrame:', e);
 	}
@@ -557,11 +558,11 @@ export async function exportCurrentDocToXpedition(): Promise<void> {
 // ─── 主向导流程 ──────────────────────────────────────────────────────────────
 
 export async function openImportWizard(): Promise<void> {
-	return _runWizard('import', 'Import Wizard', '/iframe/wizard.html?mode=import');
+	return _runWizard('import', 'Import Wizard');
 }
 
 export async function openExportWizard(): Promise<void> {
-	return _runWizard('export', 'Export Wizard', '/iframe/wizard.html?mode=export');
+	return _runWizard('export', 'Export Wizard');
 }
 
 /** @deprecated Use openImportWizard() or openExportWizard() instead. */
@@ -569,12 +570,13 @@ export async function readAllLibraries(): Promise<void> {
 	return openImportWizard();
 }
 
-async function _runWizard(mode: 'import' | 'export', titleKey: string, htmlPath: string): Promise<void> {
+async function _runWizard(mode: 'import' | 'export', titleKey: string): Promise<void> {
 	try {
+		_wizardFrameId = mode === 'import' ? 'import-wizard' : 'export-wizard';
 		let teams: Array<{ name: string; uuid: string }> = [];
 		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: '', seq: 0, items: null }));
 
-		eda.sys_IFrame.openIFrame(htmlPath, 720, 600, 'wizard', {
+		eda.sys_IFrame.openIFrame('/iframe/wizard.html', 720, 600, _wizardFrameId, {
 			title: eda.sys_I18n.text(titleKey),
 			maximizeButton: false,
 			minimizeButton: false,
