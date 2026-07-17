@@ -1509,10 +1509,13 @@
 				for (var i = 0; i < phEls.length; i++) {
 					phEls[i].placeholder = t(phEls[i].getAttribute('data-i18n-placeholder'));
 				}
-				document.title = t('Import/Export Wizard');
+				document.title = t(isImport ? 'Import Wizard' : 'Export Wizard');
 			}
 
 			var STORE_KEY = 'libReaderData';
+			var mode = new URLSearchParams(location.search).get('mode') || 'import';
+			var isImport = mode === 'import';
+			var isExport = mode === 'export';
 			var allItems = [];
 			var selectedUuids = {};
 			var teams = [];
@@ -1635,7 +1638,7 @@
 			});
 			// ── 步骤2：类型选择 ──
 
-			var selectedMode = 'import';
+			var selectedMode = mode;
 			var selectedType = 'xpedition';
 
 			var exportFilenameDefaults = {
@@ -2375,13 +2378,30 @@
 
 				// ── i18n: apply translated text ──
 				applyI18n();
+
+				// Hide irrelevant steps and type rows based on wizard mode
+				if (isImport) {
+					document.getElementById('step3').style.display = 'none';
+					document.getElementById('step4').style.display = 'none';
+				} else {
+					document.getElementById('stepImport').style.display = 'none';
+					document.getElementById('stepResults').style.display = 'none';
+				}
+				document.querySelectorAll('#step2 .type-row').forEach(function (row) {
+					if (row.dataset.mode !== mode) {
+						row.style.display = 'none';
+					}
+				});
+
 				// Step 1
-				document.querySelector('#step1 .main-title').textContent = t('Import/Export Wizard');
-				document.querySelector('#step1 .sub-title').textContent = t('File format conversion tool');
-				document.querySelector('#step1 .desc').textContent = t('Wizard description');
+				document.querySelector('#step1 .main-title').textContent = t(isImport ? 'Import Wizard' : 'Export Wizard');
+				document.querySelector('#step1 .sub-title').textContent = t(
+					isImport ? 'Import files from other formats' : 'Export EasyEDA Pro libraries to other formats',
+				);
+				document.querySelector('#step1 .desc').textContent = t(isImport ? 'Import wizard description' : 'Export wizard description');
 				document.querySelector('#step1 .warn-text').textContent = t('Warning disclaimer');
 				// Step 2
-				document.getElementById('step2Title').textContent = t('Select conversion type');
+				document.getElementById('step2Title').textContent = t(isImport ? 'Select import format' : 'Select export format');
 				var typeRows = document.querySelectorAll('#step2 .type-row');
 				var typeLabels = {
 					xpedition: {
@@ -2432,8 +2452,8 @@
 				document.getElementById('ddImportTeamText').textContent = t('Select ownership');
 				document.getElementById('createDeviceLabel').textContent = t('Create device for single symbol');
 				// Step Progress
-				document.getElementById('progTitle').textContent = t('Exporting...');
-				document.getElementById('progDesc').textContent = t('Export description');
+				document.getElementById('progTitle').textContent = t(isImport ? 'Importing...' : 'Exporting...');
+				document.getElementById('progDesc').textContent = t(isImport ? 'Import description' : 'Export description');
 				document.getElementById('progLbl').textContent = t('Preparing...');
 				// Step 4
 				document.getElementById('successTitle').textContent = t('Conversion complete!');

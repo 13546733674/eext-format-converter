@@ -4,7 +4,7 @@
  * 入口文件
  */
 import type { ConvertItem, ImportResult, ProDocumentType } from './converter';
-import { exportDocumentToKicad, exportFromProEditor, filterImportResult, importArchive } from './converter';
+import { exportDocumentToKicad, exportDocumentToXpedition, exportFromProEditor, filterImportResult, importArchive } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function activate(status?: 'onStartupFinished', arg?: string): void {}
@@ -519,15 +519,63 @@ export async function exportCurrentDocToKicad(): Promise<void> {
 	}
 }
 
+/** 从当前打开的符号库/封装库文档导出 Xpedition 文件 */
+export async function exportCurrentDocToXpedition(): Promise<void> {
+	try {
+		const doc = await eda.dmt_SelectControl.getCurrentDocumentInfo();
+		if (!doc) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Please open a symbol or footprint library document first.'));
+			return;
+		}
+
+		const docTypeNumber = typeof doc.documentType === 'number' ? doc.documentType : Number(doc.documentType);
+		let docType: ProDocumentType | undefined;
+		if (docTypeNumber === 2) {
+			docType = 'symbol';
+		} else if (docTypeNumber === 4) {
+			docType = 'footprint';
+		}
+		if (!docType) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Please open a symbol or footprint library document first.'));
+			return;
+		}
+
+		const source = await eda.sys_FileManager.getDocumentSource();
+		if (!source) {
+			await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Failed to read document source.'));
+			return;
+		}
+
+		const result = await exportDocumentToXpedition(source, docType);
+		await eda.sys_FileSystem.saveFile(result.blob, result.filename);
+	} catch (err) {
+		console.error(TAG, '导出 Xpedition 失败:', err);
+		await eda.sys_Dialog.showInformationMessage(eda.sys_I18n.text('Export Xpedition failed: ${1}', undefined, undefined, err));
+	}
+}
+
 // ─── 主向导流程 ──────────────────────────────────────────────────────────────
 
+export async function openImportWizard(): Promise<void> {
+	return _runWizard('import', 'Import Wizard', '/iframe/wizard.html?mode=import');
+}
+
+export async function openExportWizard(): Promise<void> {
+	return _runWizard('export', 'Export Wizard', '/iframe/wizard.html?mode=export');
+}
+
+/** @deprecated Use openImportWizard() or openExportWizard() instead. */
 export async function readAllLibraries(): Promise<void> {
+	return openImportWizard();
+}
+
+async function _runWizard(mode: 'import' | 'export', titleKey: string, htmlPath: string): Promise<void> {
 	try {
 		let teams: Array<{ name: string; uuid: string }> = [];
 		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: '', seq: 0, items: null }));
 
-		eda.sys_IFrame.openIFrame('/iframe/wizard.html', 720, 600, 'wizard', {
-			title: eda.sys_I18n.text('Import/Export Wizard'),
+		eda.sys_IFrame.openIFrame(htmlPath, 720, 600, 'wizard', {
+			title: eda.sys_I18n.text(titleKey),
 			maximizeButton: false,
 			minimizeButton: false,
 		});

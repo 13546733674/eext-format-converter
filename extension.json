@@ -30,9 +30,14 @@
 				"title": "格式转换",
 				"menuItems": [
 					{
-						"id": "import-export-wizard",
+						"id": "import-wizard",
 						"title": "导入向导...",
-						"registerFn": "readAllLibraries"
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}
@@ -43,9 +48,14 @@
 				"title": "格式转换",
 				"menuItems": [
 					{
-						"id": "import-export-wizard",
+						"id": "import-wizard",
 						"title": "导入向导...",
-						"registerFn": "readAllLibraries"
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}
@@ -56,9 +66,14 @@
 				"title": "格式转换",
 				"menuItems": [
 					{
-						"id": "import-export-wizard",
+						"id": "import-wizard",
 						"title": "导入向导...",
-						"registerFn": "readAllLibraries"
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}
@@ -72,6 +87,11 @@
 						"id": "export-kicad",
 						"title": "导出 KiCad...",
 						"registerFn": "exportCurrentDocToKicad"
+					},
+					{
+						"id": "export-xpedition",
+						"title": "导出 Xpedition...",
+						"registerFn": "exportCurrentDocToXpedition"
 					}
 				]
 			}
@@ -85,6 +105,11 @@
 						"id": "export-kicad",
 						"title": "导出 KiCad...",
 						"registerFn": "exportCurrentDocToKicad"
+					},
+					{
+						"id": "export-xpedition",
+						"title": "导出 Xpedition...",
+						"registerFn": "exportCurrentDocToXpedition"
 					}
 				]
 			}
@@ -95,9 +120,14 @@
 				"title": "格式转换",
 				"menuItems": [
 					{
-						"id": "import-export-wizard",
+						"id": "import-wizard",
 						"title": "导入向导...",
-						"registerFn": "readAllLibraries"
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}

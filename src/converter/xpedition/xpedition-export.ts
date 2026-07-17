@@ -4,7 +4,7 @@
 import JSZip from 'jszip';
 
 import { parseProFootprint, parseProSymbol } from '../easyeda-pro/easyeda-pro-parser';
-import type { ConvertItem, ConverterExporter } from '../types';
+import type { ConvertItem, ConverterExporter, ProDocumentType } from '../types';
 import { FootprintConverter } from './xpedition-footprint-converter';
 import { SymbolConverter } from './xpedition-symbol-converter';
 
@@ -129,6 +129,28 @@ async function processSymbolItem(
 	for (const [partName, content] of Object.entries(files)) {
 		zip.file(`${sanitize(partName)}`, content);
 	}
+}
+
+export async function exportDocumentToXpedition(source: string, docType: ProDocumentType): Promise<{ filename: string; blob: Blob }> {
+	const zip = new JSZip();
+	if (docType === 'symbol') {
+		const sym = parseProSymbol(source);
+		const name = sanitize(sym.info.name || 'unnamed');
+		const converter = SymbolConverter.fromEeSymbol(sym);
+		converter.convert();
+		const files = converter.saveToFiles();
+		for (const [partName, content] of Object.entries(files)) {
+			zip.file(`${name}_${sanitize(partName)}`, content);
+		}
+		return { filename: `${name}_xpedition.zip`, blob: await zip.generateAsync({ type: 'blob' }) };
+	}
+	const fp = parseProFootprint(source);
+	const name = sanitize(fp.info.name || 'unnamed');
+	const converter = FootprintConverter.fromEeFootprint(fp);
+	converter.convert();
+	zip.file(`${name}_Pads.hkp`, converter.savePadstacksToString());
+	zip.file(`${name}_Cell.hkp`, converter.saveCellToString());
+	return { filename: `${name}_xpedition.zip`, blob: await zip.generateAsync({ type: 'blob' }) };
 }
 
 export async function convertFromProEditor(

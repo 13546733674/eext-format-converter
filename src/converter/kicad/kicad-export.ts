@@ -5,7 +5,7 @@ import JSZip from 'jszip';
 
 import type { EeFootprint, EeSymbol } from '../easyeda-pro/easyeda-pro-models';
 import { parseProFootprint, parseProSymbol } from '../easyeda-pro/easyeda-pro-parser';
-import type { ConvertItem, ConverterExporter } from '../types';
+import type { ConvertItem, ConverterExporter, ProDocumentType } from '../types';
 import { generateKicadFootprint } from './kicad-footprint-writer';
 import { generateKicadSymbolLibrary } from './kicad-symbol-writer';
 
@@ -124,8 +124,6 @@ async function processSymbolItem(
 		symbolNames.add(sym.info.name);
 	}
 }
-
-export type ProDocumentType = 'symbol' | 'footprint';
 
 export function exportDocumentToKicad(source: string, docType: ProDocumentType): { filename: string; content: string } {
 	if (docType === 'symbol') {

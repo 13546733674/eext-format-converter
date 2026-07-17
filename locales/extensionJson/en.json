@@ -7,7 +7,9 @@
 	"Xpedition": "Xpedition",
 	"导入": "Import",
 	"导入向导...": "Import Wizard...",
+	"导出向导...": "Export Wizard...",
 	"导出 KiCad...": "Export KiCad...",
+	"导出 Xpedition...": "Export Xpedition...",
 	"支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad": "Convert between Xpedition, Cadstar, Fabmaster, P-CAD, Allegro, gEDA, TinyCAD and EasyEDA Pro, and export to KiCad",
 	"库转换": "Library Conversion",
 	"格式转换": "Format Convert"

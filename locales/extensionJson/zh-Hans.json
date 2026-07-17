@@ -7,7 +7,9 @@
 	"Xpedition": "Xpedition",
 	"导入": "导入",
 	"导入向导...": "导入向导...",
+	"导出向导...": "导出向导...",
 	"导出 KiCad...": "导出 KiCad...",
+	"导出 Xpedition...": "导出 Xpedition...",
 	"支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad": "支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad",
 	"库转换": "库转换",
 	"格式转换": "格式转换"

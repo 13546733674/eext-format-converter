@@ -59,6 +59,8 @@ export interface ImportResult {
 	isProjectArchive?: boolean;
 }
 
+export type ProDocumentType = 'symbol' | 'footprint';
+
 export interface ConverterExporter {
 	name: string;
 	displayName: string;
