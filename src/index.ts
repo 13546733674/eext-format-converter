@@ -574,7 +574,7 @@ async function _runWizard(mode: 'import' | 'export', titleKey: string): Promise<
 	try {
 		_wizardFrameId = mode === 'import' ? 'import-wizard' : 'export-wizard';
 		let teams: Array<{ name: string; uuid: string }> = [];
-		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: '', seq: 0, items: null }));
+		await eda.sys_Storage.setExtensionUserConfig(STORE_KEY, JSON.stringify({ teams, cmd: '', seq: 0, items: null, mode }));
 
 		eda.sys_IFrame.openIFrame('/iframe/wizard.html', 720, 600, _wizardFrameId, {
 			title: eda.sys_I18n.text(titleKey),
@@ -610,6 +610,11 @@ async function _runWizard(mode: 'import' | 'export', titleKey: string): Promise<
 			} else if (data.cmd === 'import-execute') {
 				await _handleImportExecuteCmd(data, teams);
 			} else if (data.cmd === 'exit' || data.cmd === 'done-wizard') {
+				try {
+					await eda.sys_IFrame.closeIFrame(_wizardFrameId);
+				} catch (e) {
+					console.warn(TAG, 'closeIFrame failed:', e);
+				}
 				break;
 			}
 		}

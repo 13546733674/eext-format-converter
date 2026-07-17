@@ -1513,10 +1513,9 @@
 			}
 
 			var STORE_KEY = 'libReaderData';
-			var WIZARD_FRAME_ID = window.name || 'wizard';
-			var mode = WIZARD_FRAME_ID === 'export-wizard' ? 'export' : 'import';
-			var isImport = mode === 'import';
-			var isExport = mode === 'export';
+			var mode = 'import';
+			var isImport = true;
+			var isExport = false;
 			var allItems = [];
 			var selectedUuids = {};
 			var teams = [];
@@ -1615,7 +1614,6 @@
 
 			document.getElementById('btnExit').addEventListener('click', async function () {
 				await storeWrite({ teams: teams, cmd: 'exit' });
-				eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 			});
 
 			document.getElementById('btnBack').addEventListener('click', function () {
@@ -2211,7 +2209,6 @@
 								addLog(t('Execution complete!'));
 								setTimeout(async function () {
 									await storeWrite({ teams: teams, cmd: 'done-wizard' });
-									eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 								}, 600);
 							}
 							if (data.cmd === 'import-error') {
@@ -2228,7 +2225,6 @@
 					return;
 				}
 				await storeWrite({ teams: teams, cmd: 'done-wizard' });
-				eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 			});
 
 			// ── 导入完成归属/团队下拉框 ──
@@ -2473,7 +2469,25 @@
 				applyTypeSideEffects();
 			}
 
-			init();
+			async function initWizard() {
+				try {
+					var raw = await eda.sys_Storage.getExtensionUserConfig(STORE_KEY);
+					if (raw) {
+						var data = JSON.parse(raw);
+						if (data.mode === 'export' || data.mode === 'import') {
+							mode = data.mode;
+							selectedMode = mode;
+							isImport = mode === 'import';
+							isExport = mode === 'export';
+						}
+					}
+				} catch (e) {
+					console.warn('Failed to read wizard mode from storage:', e);
+				}
+				init();
+			}
+
+			initWizard();
 
 			// ── 导入模式逻辑 ──
 
@@ -2839,7 +2853,6 @@
 								document.getElementById('progBarFill').style.width = '100%';
 								addLog(t('Execution complete!'));
 								await storeWrite({ teams: teams, cmd: 'done-wizard' });
-								eda.sys_IFrame.closeIFrame(WIZARD_FRAME_ID);
 							}
 							// 导入出错
 							if (data.cmd === 'import-error') {
