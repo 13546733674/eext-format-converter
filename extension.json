@@ -1,8 +1,8 @@
 {
-	"name": "eext-format-convert",
+	"name": "eext-format-converter",
 	"uuid": "d16ec4f7259c47fda39f9183547c52d5",
 	"displayName": "格式转换",
-	"description": "支持 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 KiCad",
+	"description": "支持导入 Xpedition、Cadstar、Fabmaster、P-CAD、Allegro、gEDA、TinyCAD 等格式与嘉立创EDA专业版互转，并支持导出 Xpedition、KiCad",
 	"version": "1.0.3",
 	"publisher": "EasyEDA",
 	"engines": {
@@ -11,15 +11,15 @@
 	"license": "Apache-2.0",
 	"repository": {
 		"type": "github",
-		"url": "https://github.com/easyeda/eext-format-convert"
+		"url": "https://github.com/easyeda/eext-format-converter"
 	},
 	"categories": "Other",
-	"keywords": ["Xpedition", "导入", "格式转换", "库转换"],
+	"keywords": ["导入导出", "导入", "格式转换", "库转换"],
 	"images": {
 		"logo": "./images/logo.jpg"
 	},
-	"homepage": "https://github.com/easyeda",
-	"bugs": "https://github.com/easyeda/eext-format-convert/issues",
+	"homepage": "https://github.com/easyeda/eext-format-converter",
+	"bugs": "https://github.com/easyeda/eext-format-converter/issues",
 	"activationEvents": {},
 	"entry": "./dist/index",
 	"dependentExtensions": {},
@@ -92,6 +92,16 @@
 						"id": "export-xpedition",
 						"title": "导出 Xpedition...",
 						"registerFn": "exportCurrentDocToXpedition"
+					},
+					{
+						"id": "import-wizard",
+						"title": "导入向导...",
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}
@@ -110,6 +120,16 @@
 						"id": "export-xpedition",
 						"title": "导出 Xpedition...",
 						"registerFn": "exportCurrentDocToXpedition"
+					},
+					{
+						"id": "import-wizard",
+						"title": "导入向导...",
+						"registerFn": "openImportWizard"
+					},
+					{
+						"id": "export-wizard",
+						"title": "导出向导...",
+						"registerFn": "openExportWizard"
 					}
 				]
 			}

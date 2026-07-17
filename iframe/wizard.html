@@ -696,6 +696,13 @@
 				height: 40px;
 				fill: #2d6ee8;
 			}
+			.spinner-ring.done {
+				animation: none;
+				background: #e9f9ef;
+			}
+			.spinner-ring.done svg {
+				fill: #34a853;
+			}
 			.prog-title {
 				font-size: 18px;
 				font-weight: 700;
@@ -2139,10 +2146,19 @@
 						if (data.cmd === 'convert-done') {
 							clearInterval(convertPollTimer);
 							convertPollTimer = null;
+							var ring = document.querySelector('#stepProgress .spinner-ring');
+							if (ring) {
+								ring.classList.add('done');
+								ring.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+							}
+							document.getElementById('progTitle').textContent = t('Conversion complete!');
+							document.getElementById('progDesc').textContent = t('Conversion complete, file saved');
 							document.getElementById('progBarFill').style.width = '100%';
 							document.getElementById('progLbl').textContent = t('Conversion complete!');
 							addLog(t('Conversion complete, file saved'));
-							await storeWrite({ teams: teams, cmd: 'done-wizard' });
+							setTimeout(function () {
+								storeWrite({ teams: teams, cmd: 'done-wizard' });
+							}, 1200);
 						}
 						if (data.cmd === 'convert-error') {
 							clearInterval(convertPollTimer);
