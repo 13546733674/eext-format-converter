@@ -1,1 +1,823 @@
-<?xml version="1.0" encoding="utf-8"?><TinyCADSheets><TinyCAD><NAME>Sheet 1</NAME><DETAILS><Size width="1485" height="1050"/><GUIDES horiz="7" vert="5"/><TITLE>DS10A Water Sensor</TITLE><AUTHOR>Bob Gardner</AUTHOR><REVISION>1.0</REVISION><DOCNUMBER/><ORGANISATION/><SHEETS>1 of 1</SHEETS><SHOWS>3</SHOWS><DATE>02/20/2010</DATE><GRID spacing="100" snap="1"/></DETAILS><FONT id="1"><HEIGHT>10</HEIGHT><FACENAME>Arial</FACENAME><WIDTH/><WEIGHT>400</WEIGHT><ITALIC/><UNDERLINE/><STRIKEOUT/><CHARSET/></FONT><FONT id="2"><HEIGHT>6</HEIGHT><FACENAME>Arial</FACENAME><WIDTH/><WEIGHT>400</WEIGHT><ITALIC/><UNDERLINE/><STRIKEOUT/><CHARSET/></FONT><STYLE id="1"><STYLE/><COLOR>000000</COLOR><THICKNESS>2</THICKNESS></STYLE><STYLE id="2"><STYLE/><COLOR>000000</COLOR><THICKNESS>1</THICKNESS></STYLE><STYLE id="3"><STYLE>2</STYLE><COLOR>000000</COLOR><THICKNESS>1</THICKNESS></STYLE><STYLE id="4"><STYLE>5</STYLE><COLOR>000000</COLOR><THICKNESS>1</THICKNESS></STYLE><SYMBOLDEF id="1"><NAME type="0">NPN</NAME><GUID>c0cd0ec8f94e43d6e5a9a401e0efe8b8</GUID><REF type="0">Q?</REF><DESCRIPTION>NPN Transistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="60,58" power="false" part="1"/><TinyCAD><PIN pos="54,58" direction="0" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="60,52" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="48,52" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><POLYGON polygon="0" style="2" pos="52,54" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="51,52" fill="0"><POINT pos="2,2" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56.6,52" fill="0"><POINT pos="0,1" arc="0"/><POINT pos="0.4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56,52.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0.6,0.6" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56,52" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="0,0.4" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="55,52" fill="0"><POINT pos="0,2" arc="0"/><POINT pos="2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="50,52" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="57,52" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="54,54" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,3" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="2"><NAME type="0">Small RES</NAME><GUID>d6391268df9c006b21daa22c031e8d02</GUID><REF type="0">R?</REF><DESCRIPTION>Small Resistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="80,61" power="false" part="1"/><TinyCAD><PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="77,54.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,55.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,56.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,57.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53" fill="0"><POINT pos="0,0.4" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0"><POINT pos="0,0.6799999999999955" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="3"><NAME type="0">Small Cap</NAME><GUID>589f1f01cb49176b700e7af612a66b88</GUID><REF type="0">C?</REF><DESCRIPTION>Small Ceramic Capacitor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="99,54" power="false" part="1"/><TinyCAD><PIN pos="99,52" direction="2" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><PIN pos="93,52" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="95,50" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,4" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="97,50" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,4" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="4"><NAME type="0">BATTERY</NAME><GUID>92b2b469950c48d6f79e1ec8540b78f6</GUID><REF type="0">B?</REF><DESCRIPTION>Coin Cell Battery</DESCRIPTION><PPP>1</PPP><REF_POINT pos="78,64" power="false" part="1"/><TinyCAD><POLYGON polygon="0" style="2" pos="74,59" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="75,56.6" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="1.2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="73,59" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="72,58" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="75.6,56" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,1.2" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="74,56" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,2" arc="0"/></POLYGON><PIN pos="74,52" direction="1" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="74,64" direction="0" number="2" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="5"><NAME type="0">Schottky Diode</NAME><GUID>a321b4dd2f056fc731ad8748529dfb1a</GUID><REF type="0">D?</REF><DESCRIPTION>Schottky Diode</DESCRIPTION><PPP>1</PPP><REF_POINT pos="42,26" power="false" part="1"/><TinyCAD><PIN pos="40,26" direction="0" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="40,12" direction="1" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><POLYGON polygon="0" style="2" pos="38,20" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="40,18" fill="0"><POINT pos="2,2" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="38,18" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,2" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="38,17" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="40,20" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="40,17" fill="0"><POINT pos="0,1" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="38,16" fill="0"><POINT pos="0,1" arc="0"/><POINT pos="0,0" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="41,17" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="1,1" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="6"><NAME type="0">2X1HDR</NAME><GUID>447b60b0ea4728a49b132549e9729eb5</GUID><REF type="0">J?</REF><DESCRIPTION>2 X 1 Header  X .100</DESCRIPTION><PPP>1</PPP><REF_POINT pos="36,70" power="false" part="1"/><TinyCAD><PIN pos="36,64" direction="2" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/><PIN pos="36,68" direction="2" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/><RECTANGLE a="30,62" b="26,70" style="1" fill="0"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="7"><NAME type="0">DCSupply</NAME><GUID>15552db814b7ebb6ce61451d8c25d992</GUID><REF type="0">PS?</REF><DESCRIPTION>DC Power Supply</DESCRIPTION><PPP>1</PPP><REF_POINT pos="53,60" power="false" part="1"/><TinyCAD><PIN pos="53,54" direction="2" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3">DC+</PIN><PIN pos="53,58" direction="2" number="2" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3">DC-</PIN><RECTANGLE a="49,52" b="38,60" style="2" fill="0"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="8"><NAME type="0">Water Sensor</NAME><GUID>bcd90ab0caf5d983ca2a8caf69e9ea31</GUID><REF type="0">J?</REF><DESCRIPTION>Water Sensor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="80,56" power="false" part="1"/><TinyCAD><RECTANGLE a="64,52" b="77,56" style="2" fill="0"/><PIN pos="62,54" direction="3" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><POLYGON polygon="0" style="2" pos="64,53" fill="0"><POINT pos="0,1" arc="0"/><POINT pos="1,1" arc="0"/><POINT pos="1,0" arc="0"/><POINT pos="3,0" arc="0"/><POINT pos="3,1.6374699999999962" arc="0"/><POINT pos="3,0" arc="0"/><POINT pos="5,0" arc="0"/><POINT pos="5,1.6129500000000008" arc="0"/><POINT pos="5,0" arc="0"/><POINT pos="7,0" arc="0"/><POINT pos="7,1.6129500000000008" arc="0"/><POINT pos="7,0" arc="0"/><POINT pos="9,0" arc="0"/><POINT pos="9,1.6374699999999962" arc="0"/><POINT pos="9,0" arc="0"/><POINT pos="11,0" arc="0"/><POINT pos="11,1.6129500000000008" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="66,53.41157" fill="0"><POINT pos="11,0.5884300000000053" arc="0"/><POINT pos="10,0.5884300000000053" arc="0"/><POINT pos="10,1.5884300000000053" arc="0"/><POINT pos="8,1.5884300000000053" arc="0"/><POINT pos="8,0" arc="0"/><POINT pos="8,1.5884300000000053" arc="0"/><POINT pos="6,1.5884300000000053" arc="0"/><POINT pos="6,0" arc="0"/><POINT pos="6,1.5884300000000053" arc="0"/><POINT pos="4,1.5884300000000053" arc="0"/><POINT pos="4,0" arc="0"/><POINT pos="4,1.5884300000000053" arc="0"/><POINT pos="2,1.5884300000000053" arc="0"/><POINT pos="2,0" arc="0"/><POINT pos="2,1.5884300000000053" arc="0"/><POINT pos="0,1.5884300000000053" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><PIN pos="80,54" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/><POLYGON polygon="0" style="2" pos="77,54" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="9"><NAME type="0">Small RES</NAME><GUID>59c9ebad778e8f3536e8f9aa5db0424b</GUID><REF type="0">R?</REF><DESCRIPTION>Small Resistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="80,61" power="false" part="1"/><TinyCAD><PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="77,54.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,55.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,56.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,57.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53" fill="0"><POINT pos="0,0.4" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0"><POINT pos="0,0.6799999999999955" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="10"><NAME type="0">NLAS4501</NAME><GUID>2ef182594b3a087a22c8d108d1583095</GUID><REF type="0">U?</REF><DESCRIPTION>SPST Analog Switch</DESCRIPTION><PPP>1</PPP><REF_POINT pos="86,98" power="false" part="1"/><TinyCAD><RECTANGLE a="72,78" b="84,98" style="2" fill="0"/><POLYGON polygon="0" style="2" pos="72,80" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,0" arc="0"/><POINT pos="6,6" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="72,86" fill="0"><POINT pos="0,2" arc="0"/><POINT pos="2,2" arc="0"/><POINT pos="2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="74,86" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="75.5525,85.79915" fill="0"><POINT pos="0.4714900000000057,0.20746000000000323" arc="0"/><POINT pos="0,0" arc="0"/><POINT pos="0,0.39605999999999997" arc="0"/><POINT pos="0.4526299999999992,0.20746000000000323" arc="0"/></POLYGON><PIN pos="70,80" direction="3" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">COM</PIN><PIN pos="70,88" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">NO</PIN><PIN pos="70,96" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">GND</PIN><PIN pos="86,80" direction="2" number="5" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">VCC</PIN><PIN pos="86,96" direction="2" number="4" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">ENAB</PIN><POLYGON polygon="0" style="3" pos="75.32104000000001,82" fill="0"><POINT pos="8.678959999999995,14" arc="0"/><POINT pos="6.678959999999995,14" arc="0"/><POINT pos="6.678959999999995,0" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><NOTE_TEXT a="72,78.4" b="75.599609375,80" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">COM</NOTE_TEXT><NOTE_TEXT a="72,88.4" b="74.6,90" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">NO</NOTE_TEXT><NOTE_TEXT a="72,96.4" b="75.4666015625,98" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">GND</NOTE_TEXT><NOTE_TEXT a="80,78.4" b="83.33359375,80" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">VCC</NOTE_TEXT><NOTE_TEXT a="78,96.4" b="82.0677734375,98" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">ENAB</NOTE_TEXT></TinyCAD></SYMBOLDEF><SYMBOLDEF id="12"><NAME type="0">Small Cap</NAME><GUID>02a6799e9fbfbec54eb50b7b598e2863</GUID><REF type="0">C?</REF><DESCRIPTION>Small Ceramic Capacitor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="99,54" power="false" part="1"/><TinyCAD><PIN pos="99,52" direction="2" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><PIN pos="93,52" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="95,50" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,4" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="97,50" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,4" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="13"><NAME type="0">Small RES</NAME><GUID>e30cb7751e11b469e35d2d9fef5fe5b8</GUID><REF type="0">R?</REF><DESCRIPTION>Small Resistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="80,61" power="false" part="1"/><TinyCAD><PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="77,54.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,55.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,56.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,57.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53" fill="0"><POINT pos="0,0.4" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0"><POINT pos="0,0.6799999999999955" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="14"><NAME type="0">NPN</NAME><GUID>ab97f057a1fc8947cd685b5b77bbe308</GUID><REF type="0">Q?</REF><DESCRIPTION>NPN Transistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="60,58" power="false" part="1"/><TinyCAD><PIN pos="54,58" direction="0" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="60,52" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><PIN pos="48,52" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/><POLYGON polygon="0" style="2" pos="52,54" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="51,52" fill="0"><POINT pos="2,2" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56.6,52" fill="0"><POINT pos="0,1" arc="0"/><POINT pos="0.4,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56,52.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0.6,0.6" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="56,52" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="0,0.4" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="55,52" fill="0"><POINT pos="0,2" arc="0"/><POINT pos="2,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="50,52" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="57,52" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="54,54" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,3" arc="0"/></POLYGON></TinyCAD></SYMBOLDEF><SYMBOLDEF id="15"><NAME type="0">Small RES</NAME><GUID>3c57d2a6844c2a24076a60538043a7d2</GUID><REF type="0">R?</REF><DESCRIPTION>Small Resistor</DESCRIPTION><PPP>1</PPP><REF_POINT pos="80,61" power="false" part="1"/><TinyCAD><PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/><POLYGON polygon="0" style="2" pos="77,54.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,55.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,56.4" fill="0"><POINT pos="2,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,57.4" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="2,1" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77,53" fill="0"><POINT pos="0,0.4" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0"><POINT pos="0,0.6799999999999955" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/></TinyCAD></SYMBOLDEF><SYMBOLDEF id="16"><NAME type="0">VREG</NAME><GUID>98f303251dee4440adb9e6400902a6cc</GUID><REF type="0">U?</REF><DESCRIPTION>New 3 Term Reg</DESCRIPTION><PPP>1</PPP><REF_POINT pos="30,20" power="false" part="1"/><TinyCAD><PIN pos="10,10" direction="3" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">IN</PIN><PIN pos="20,20" direction="0" number="3" length="25" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">GND</PIN><PIN pos="30,10" direction="2" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">OUT</PIN><POLYGON polygon="0" style="2" pos="15,10" fill="0"><POINT pos="1,0" arc="0"/><POINT pos="0,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="24,10" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="1,0" arc="0"/></POLYGON><POLYGON polygon="0" style="2" pos="20,15" fill="0"><POINT pos="0,0" arc="0"/><POINT pos="0,1" arc="0"/></POLYGON><RECTANGLE a="24,9" b="16,15" style="2" fill="0"/><NOTE_TEXT a="17.95301,13.187270000000002" b="21.419611562500002,14.787270000000001" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">GND</NOTE_TEXT><NOTE_TEXT a="16.50278,9.5713" b="18.50278,11.1713" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">IN</NOTE_TEXT><NOTE_TEXT a="19.83981,9.529860000000001" b="23.1728178125,11.12986" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">OUT</NOTE_TEXT></TinyCAD></SYMBOLDEF><OPTIONS><GRID>1</GRID><UNITS>1</UNITS><SHOW_LABEL_CONNECTION_POINT>1</SHOW_LABEL_CONNECTION_POINT><COLOR_WIRE>FF0000</COLOR_WIRE><COLOR_BUS>0000FF</COLOR_BUS><COLOR_JUNCTION>000000</COLOR_JUNCTION><COLOR_NOCONNECT>000000</COLOR_NOCONNECT><COLOR_LABEL>208000</COLOR_LABEL><COLOR_POWER>000000</COLOR_POWER><COLOR_PIN>4040C0</COLOR_PIN><COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN><COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND><COLOR_NOTETEXT_FILL>AFFFFF</COLOR_NOTETEXT_FILL><COLOR_NOTETEXT_LINE>FF0000</COLOR_NOTETEXT_LINE><COLOR_NOTETEXT_TEXT>FF0000</COLOR_NOTETEXT_TEXT></OPTIONS><JUNCTION pos="144,60"/><SYMBOL pos="200,50" id="6" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4"><FIELD pos="-3,6.4" value="J1" description="Ref" type="0" show="1"/><FIELD pos="-9,4" value="DS10A Switch" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-1.2" value="TB2X100" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="180,62" id="10" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4"><FIELD pos="-9,-21.6" value="U1" description="Ref" type="0" show="1"/><FIELD pos="-13,-24" value="NLAS4501" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-13.2" value="SOT23-5" description="Package" type="1" show="0"/></SYMBOL><POWER pos="162,42" which="3" direction="0">+5V</POWER><POWER pos="182,62" which="4" direction="1">GND</POWER><WIRE a="162,42" b="162,44"/><WIRE a="162,44" b="164,44"/><WIRE a="180,44" b="190,44"/><WIRE a="186,52" b="186,48"/><WIRE a="186,52" b="180,52"/><WIRE a="180,60" b="182,60"/><WIRE a="182,60" b="182,62"/><SYMBOL pos="146,58" id="9" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="1,-5.6" value="R1" description="Ref" type="0" show="1"/><FIELD pos="1,-8" value="10K" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="144,74" id="14" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="4,-4" value="Q1" description="Ref" type="0" show="1"/><FIELD pos="2,-6" value="2N3904" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-6,4.4" value="SOT23" description="Package" type="1" show="0"/></SYMBOL><POWER pos="144,88" which="4" direction="1">GND</POWER><POWER pos="144,48" which="3" direction="0">+5V</POWER><WIRE a="144,60" b="144,62"/><WIRE a="144,86" b="144,88"/><WIRE a="164,60" b="144,60"/><WIRE a="144,58" b="144,60"/><JUNCTION pos="116,126"/><JUNCTION pos="150,126"/><JUNCTION pos="178,108"/><SYMBOL pos="100,112" id="4" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-6" value="B1" description="Ref" type="0" show="1"/><FIELD pos="-14,-8" value="3.0V Button Cell" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-12,4.4" value="COINCELLSM" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="170,110" id="5" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-6" value="D1" description="Ref" type="0" show="1"/><FIELD pos="-14,-8" value="Schottky Diode" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-14,4.4" value="SD1005" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="170,128" id="5" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-6" value="D2" description="Ref" type="0" show="1"/><FIELD pos="-14,-8" value="Schottky Diode" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-14,4.4" value="SD1005" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="198,114" id="6" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4"><FIELD pos="-3,6.4" value="J2" description="Ref" type="0" show="1"/><FIELD pos="-7,4" value="DS10A Power" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-1.2" value="TB2X100" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="102,132" id="7" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="-11,-7.6" value="PS1" description="Ref" type="0" show="1"/><FIELD pos="-13,-10" value="DCSupply" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-1.2" value="DCPOWERJACK_2.1" description="Package" type="1" show="0"/></SYMBOL><POWER pos="104,136" which="4" direction="1">GND</POWER><POWER pos="86,110" which="4" direction="1">GND</POWER><WIRE a="100,108" b="156,108"/><WIRE a="178,108" b="188,108"/><WIRE a="102,130" b="104,130"/><WIRE a="104,130" b="104,136"/><WIRE a="88,108" b="86,108"/><WIRE a="86,108" b="86,110"/><POWER pos="186,114" which="4" direction="1">GND</POWER><WIRE a="188,112" b="186,112"/><WIRE a="186,112" b="186,114"/><LABEL pos="106,126" font="1" color="208000" direction="3" style="0">+5V</LABEL><SYMBOL pos="140,136" id="16" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="-11,-11.6" value="U2" description="Ref" type="0" show="1"/><FIELD pos="-17,-14" value="LM3804 - 3.3V" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="SOT23" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="118,134" id="12" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-2" value="C1" description="Ref" type="0" show="1"/><FIELD pos="-10,-4" value="0.1uf" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="152,134" id="12" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-2" value="C2" description="Ref" type="0" show="1"/><FIELD pos="-10,-4" value="0.1uf" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/></SYMBOL><POWER pos="116,136" which="4" direction="1">GND</POWER><POWER pos="130,136" which="4" direction="1">GND</POWER><POWER pos="150,136" which="4" direction="1">GND</POWER><WIRE a="116,126" b="120,126"/><WIRE a="116,128" b="116,126"/><WIRE a="102,126" b="116,126"/><WIRE a="116,136" b="116,134"/><WIRE a="150,136" b="150,134"/><WIRE a="150,126" b="156,126"/><WIRE a="150,128" b="150,126"/><WIRE a="140,126" b="150,126"/><WIRE a="170,126" b="178,126"/><WIRE a="178,126" b="178,108"/><WIRE a="170,108" b="178,108"/><WIRE a="186,48" b="190,48"/><JUNCTION pos="106,76"/><JUNCTION pos="116,68"/><SYMBOL pos="116,82" id="1" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="4,-4" value="Q2" description="Ref" type="0" show="1"/><FIELD pos="2,-6" value="2N3904" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-6,4.4" value="SOT23" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="102,78" id="2" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-6,2" value="R2" description="Ref" type="0" show="1"/><FIELD pos="-6,-4" value="10K" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-10,4.4" value="R0805" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="108,86" id="3" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="2"><FIELD pos="-10,0" value="C3" description="Ref" type="0" show="1"/><FIELD pos="-10,-2" value="10uf" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="88,78" id="8" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="-11,2.4" value="J3" description="Ref" type="0" show="1"/><FIELD pos="-15,-6" value="Water Sensor" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="3.5MMJACK" description="Package" type="1" show="0"/></SYMBOL><POWER pos="116,88" which="4" direction="1">GND</POWER><POWER pos="106,88" which="4" direction="1">GND</POWER><POWER pos="66,72" which="3" direction="0">+5V</POWER><POWER pos="116,56" which="3" direction="0">+5V</POWER><WIRE a="66,72" b="66,76"/><WIRE a="66,76" b="70,76"/><WIRE a="88,76" b="92,76"/><WIRE a="106,76" b="110,76"/><WIRE a="106,80" b="106,76"/><WIRE a="102,76" b="106,76"/><WIRE a="106,86" b="106,88"/><SYMBOL pos="128,70" id="13" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3"><FIELD pos="-8,-4" value="R3" description="Ref" type="0" show="1"/><FIELD pos="-8,-6" value="10K" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="-10,4.4" value="R0805" description="Package" type="1" show="0"/></SYMBOL><SYMBOL pos="118,66" id="13" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="-9,-1.6" value="R4" description="Ref" type="0" show="1"/><FIELD pos="-9,-4" value="1K" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/></SYMBOL><WIRE a="116,68" b="116,70"/><WIRE a="116,82" b="116,88"/><WIRE a="118,68" b="116,68"/><WIRE a="116,66" b="116,68"/><WIRE a="134,68" b="138,68"/><SYMBOL pos="136,82" id="15" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0"><FIELD pos="1,-1.6" value="R5" description="Ref" type="0" show="1"/><FIELD pos="1,-4" value="10K" description="Name" type="0" show="1"/><FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/><FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/><FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/></SYMBOL><WIRE a="134,72" b="134,68"/><JUNCTION pos="134,68"/><WIRE a="128,68" b="134,68"/><WIRE a="134,82" b="134,86"/><WIRE a="134,86" b="144,86"/><JUNCTION pos="144,86"/><WIRE a="144,74" b="144,86"/></TinyCAD><DSNSETTINGS><SHOW_RULERS>1</SHOW_RULERS></DSNSETTINGS><NETLIST_TYPES><TYPE name="default"/></NETLIST_TYPES></TinyCADSheets>
+<?xml version="1.0" encoding="utf-8"?>
+<TinyCADSheets>
+    <TinyCAD>
+        <NAME>Sheet 1</NAME>
+        <DETAILS>
+            <Size width="1485" height="1050"/>
+            <GUIDES horiz="7" vert="5"/>
+            <TITLE>DS10A Water Sensor</TITLE>
+            <AUTHOR>Bob Gardner</AUTHOR>
+            <REVISION>1.0</REVISION>
+            <DOCNUMBER/>
+            <ORGANISATION/>
+            <SHEETS>1 of 1</SHEETS>
+            <SHOWS>3</SHOWS>
+            <DATE>02/20/2010</DATE>
+            <GRID spacing="100" snap="1"/>
+        </DETAILS>
+        <FONT id="1">
+            <HEIGHT>10</HEIGHT>
+            <FACENAME>Arial</FACENAME>
+            <WIDTH/>
+            <WEIGHT>400</WEIGHT>
+            <ITALIC/>
+            <UNDERLINE/>
+            <STRIKEOUT/>
+            <CHARSET/>
+        </FONT>
+        <FONT id="2">
+            <HEIGHT>6</HEIGHT>
+            <FACENAME>Arial</FACENAME>
+            <WIDTH/>
+            <WEIGHT>400</WEIGHT>
+            <ITALIC/>
+            <UNDERLINE/>
+            <STRIKEOUT/>
+            <CHARSET/>
+        </FONT>
+        <STYLE id="1">
+            <STYLE/>
+            <COLOR>000000</COLOR>
+            <THICKNESS>2</THICKNESS>
+        </STYLE>
+        <STYLE id="2">
+            <STYLE/>
+            <COLOR>000000</COLOR>
+            <THICKNESS>1</THICKNESS>
+        </STYLE>
+        <STYLE id="3">
+            <STYLE>2</STYLE>
+            <COLOR>000000</COLOR>
+            <THICKNESS>1</THICKNESS>
+        </STYLE>
+        <STYLE id="4">
+            <STYLE>5</STYLE>
+            <COLOR>000000</COLOR>
+            <THICKNESS>1</THICKNESS>
+        </STYLE>
+        <SYMBOLDEF id="1">
+            <NAME type="0">NPN</NAME>
+            <GUID>c0cd0ec8f94e43d6e5a9a401e0efe8b8</GUID>
+            <REF type="0">Q?</REF>
+            <DESCRIPTION>NPN Transistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="60,58" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="54,58" direction="0" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="60,52" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="48,52" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <POLYGON polygon="0" style="2" pos="52,54" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="51,52" fill="0">
+                    <POINT pos="2,2" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56.6,52" fill="0">
+                    <POINT pos="0,1" arc="0"/>
+                    <POINT pos="0.4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56,52.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0.6,0.6" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56,52" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="0,0.4" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="55,52" fill="0">
+                    <POINT pos="0,2" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="50,52" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="57,52" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="54,54" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,3" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="2">
+            <NAME type="0">Small RES</NAME>
+            <GUID>d6391268df9c006b21daa22c031e8d02</GUID>
+            <REF type="0">R?</REF>
+            <DESCRIPTION>Small Resistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="80,61" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="77,54.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,55.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,56.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,57.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53" fill="0">
+                    <POINT pos="0,0.4" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0">
+                    <POINT pos="0,0.6799999999999955" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="3">
+            <NAME type="0">Small Cap</NAME>
+            <GUID>589f1f01cb49176b700e7af612a66b88</GUID>
+            <REF type="0">C?</REF>
+            <DESCRIPTION>Small Ceramic Capacitor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="99,54" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="99,52" direction="2" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <PIN pos="93,52" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="95,50" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,4" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="97,50" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,4" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="4">
+            <NAME type="0">BATTERY</NAME>
+            <GUID>92b2b469950c48d6f79e1ec8540b78f6</GUID>
+            <REF type="0">B?</REF>
+            <DESCRIPTION>Coin Cell Battery</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="78,64" power="false" part="1"/>
+            <TinyCAD>
+                <POLYGON polygon="0" style="2" pos="74,59" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="75,56.6" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1.2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="73,59" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="72,58" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="75.6,56" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,1.2" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="74,56" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,2" arc="0"/>
+                </POLYGON>
+                <PIN pos="74,52" direction="1" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="74,64" direction="0" number="2" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="5">
+            <NAME type="0">Schottky Diode</NAME>
+            <GUID>a321b4dd2f056fc731ad8748529dfb1a</GUID>
+            <REF type="0">D?</REF>
+            <DESCRIPTION>Schottky Diode</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="42,26" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="40,26" direction="0" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="40,12" direction="1" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <POLYGON polygon="0" style="2" pos="38,20" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="40,18" fill="0">
+                    <POINT pos="2,2" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="38,18" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,2" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="38,17" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="40,20" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="40,17" fill="0">
+                    <POINT pos="0,1" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="38,16" fill="0">
+                    <POINT pos="0,1" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="41,17" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="1,1" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="6">
+            <NAME type="0">2X1HDR</NAME>
+            <GUID>447b60b0ea4728a49b132549e9729eb5</GUID>
+            <REF type="0">J?</REF>
+            <DESCRIPTION>2 X 1 Header  X .100</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="36,70" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="36,64" direction="2" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/>
+                <PIN pos="36,68" direction="2" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/>
+                <RECTANGLE a="30,62" b="26,70" style="1" fill="0"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="7">
+            <NAME type="0">DCSupply</NAME>
+            <GUID>15552db814b7ebb6ce61451d8c25d992</GUID>
+            <REF type="0">PS?</REF>
+            <DESCRIPTION>DC Power Supply</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="53,60" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="53,54" direction="2" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3">DC+</PIN>
+                <PIN pos="53,58" direction="2" number="2" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3">DC-</PIN>
+                <RECTANGLE a="49,52" b="38,60" style="2" fill="0"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="8">
+            <NAME type="0">Water Sensor</NAME>
+            <GUID>bcd90ab0caf5d983ca2a8caf69e9ea31</GUID>
+            <REF type="0">J?</REF>
+            <DESCRIPTION>Water Sensor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="80,56" power="false" part="1"/>
+            <TinyCAD>
+                <RECTANGLE a="64,52" b="77,56" style="2" fill="0"/>
+                <PIN pos="62,54" direction="3" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <POLYGON polygon="0" style="2" pos="64,53" fill="0">
+                    <POINT pos="0,1" arc="0"/>
+                    <POINT pos="1,1" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="3,0" arc="0"/>
+                    <POINT pos="3,1.6374699999999962" arc="0"/>
+                    <POINT pos="3,0" arc="0"/>
+                    <POINT pos="5,0" arc="0"/>
+                    <POINT pos="5,1.6129500000000008" arc="0"/>
+                    <POINT pos="5,0" arc="0"/>
+                    <POINT pos="7,0" arc="0"/>
+                    <POINT pos="7,1.6129500000000008" arc="0"/>
+                    <POINT pos="7,0" arc="0"/>
+                    <POINT pos="9,0" arc="0"/>
+                    <POINT pos="9,1.6374699999999962" arc="0"/>
+                    <POINT pos="9,0" arc="0"/>
+                    <POINT pos="11,0" arc="0"/>
+                    <POINT pos="11,1.6129500000000008" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="66,53.41157" fill="0">
+                    <POINT pos="11,0.5884300000000053" arc="0"/>
+                    <POINT pos="10,0.5884300000000053" arc="0"/>
+                    <POINT pos="10,1.5884300000000053" arc="0"/>
+                    <POINT pos="8,1.5884300000000053" arc="0"/>
+                    <POINT pos="8,0" arc="0"/>
+                    <POINT pos="8,1.5884300000000053" arc="0"/>
+                    <POINT pos="6,1.5884300000000053" arc="0"/>
+                    <POINT pos="6,0" arc="0"/>
+                    <POINT pos="6,1.5884300000000053" arc="0"/>
+                    <POINT pos="4,1.5884300000000053" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                    <POINT pos="4,1.5884300000000053" arc="0"/>
+                    <POINT pos="2,1.5884300000000053" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="2,1.5884300000000053" arc="0"/>
+                    <POINT pos="0,1.5884300000000053" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <PIN pos="80,54" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="0" part="0" show="3"/>
+                <POLYGON polygon="0" style="2" pos="77,54" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="9">
+            <NAME type="0">Small RES</NAME>
+            <GUID>59c9ebad778e8f3536e8f9aa5db0424b</GUID>
+            <REF type="0">R?</REF>
+            <DESCRIPTION>Small Resistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="80,61" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="77,54.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,55.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,56.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,57.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53" fill="0">
+                    <POINT pos="0,0.4" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0">
+                    <POINT pos="0,0.6799999999999955" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="10">
+            <NAME type="0">NLAS4501</NAME>
+            <GUID>2ef182594b3a087a22c8d108d1583095</GUID>
+            <REF type="0">U?</REF>
+            <DESCRIPTION>SPST Analog Switch</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="86,98" power="false" part="1"/>
+            <TinyCAD>
+                <RECTANGLE a="72,78" b="84,98" style="2" fill="0"/>
+                <POLYGON polygon="0" style="2" pos="72,80" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="6,6" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="72,86" fill="0">
+                    <POINT pos="0,2" arc="0"/>
+                    <POINT pos="2,2" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="74,86" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="75.5525,85.79915" fill="0">
+                    <POINT pos="0.4714900000000057,0.20746000000000323" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,0.39605999999999997" arc="0"/>
+                    <POINT pos="0.4526299999999992,0.20746000000000323" arc="0"/>
+                </POLYGON>
+                <PIN pos="70,80" direction="3" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">COM</PIN>
+                <PIN pos="70,88" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">NO</PIN>
+                <PIN pos="70,96" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">GND</PIN>
+                <PIN pos="86,80" direction="2" number="5" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">VCC</PIN>
+                <PIN pos="86,96" direction="2" number="4" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">ENAB</PIN>
+                <POLYGON polygon="0" style="3" pos="75.32104000000001,82" fill="0">
+                    <POINT pos="8.678959999999995,14" arc="0"/>
+                    <POINT pos="6.678959999999995,14" arc="0"/>
+                    <POINT pos="6.678959999999995,0" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <NOTE_TEXT a="72,78.4" b="75.599609375,80" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">COM</NOTE_TEXT>
+                <NOTE_TEXT a="72,88.4" b="74.6,90" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">NO</NOTE_TEXT>
+                <NOTE_TEXT a="72,96.4" b="75.4666015625,98" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">GND</NOTE_TEXT>
+                <NOTE_TEXT a="80,78.4" b="83.33359375,80" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">VCC</NOTE_TEXT>
+                <NOTE_TEXT a="78,96.4" b="82.0677734375,98" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">ENAB</NOTE_TEXT>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="12">
+            <NAME type="0">Small Cap</NAME>
+            <GUID>02a6799e9fbfbec54eb50b7b598e2863</GUID>
+            <REF type="0">C?</REF>
+            <DESCRIPTION>Small Ceramic Capacitor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="99,54" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="99,52" direction="2" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <PIN pos="93,52" direction="3" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="95,50" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,4" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="97,50" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,4" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="13">
+            <NAME type="0">Small RES</NAME>
+            <GUID>e30cb7751e11b469e35d2d9fef5fe5b8</GUID>
+            <REF type="0">R?</REF>
+            <DESCRIPTION>Small Resistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="80,61" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="77,54.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,55.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,56.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,57.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53" fill="0">
+                    <POINT pos="0,0.4" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0">
+                    <POINT pos="0,0.6799999999999955" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="14">
+            <NAME type="0">NPN</NAME>
+            <GUID>ab97f057a1fc8947cd685b5b77bbe308</GUID>
+            <REF type="0">Q?</REF>
+            <DESCRIPTION>NPN Transistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="60,58" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="54,58" direction="0" number="1" length="20" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="60,52" direction="2" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <PIN pos="48,52" direction="3" number="3" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="3"/>
+                <POLYGON polygon="0" style="2" pos="52,54" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="51,52" fill="0">
+                    <POINT pos="2,2" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56.6,52" fill="0">
+                    <POINT pos="0,1" arc="0"/>
+                    <POINT pos="0.4,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56,52.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0.6,0.6" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="56,52" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="0,0.4" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="55,52" fill="0">
+                    <POINT pos="0,2" arc="0"/>
+                    <POINT pos="2,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="50,52" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="57,52" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="54,54" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,3" arc="0"/>
+                </POLYGON>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="15">
+            <NAME type="0">Small RES</NAME>
+            <GUID>3c57d2a6844c2a24076a60538043a7d2</GUID>
+            <REF type="0">R?</REF>
+            <DESCRIPTION>Small Resistor</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="80,61" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="78,51" direction="1" number="2" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+                <POLYGON polygon="0" style="2" pos="77,54.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,55.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,56.4" fill="0">
+                    <POINT pos="2,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,57.4" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="2,1" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77,53" fill="0">
+                    <POINT pos="0,0.4" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="77.96000000000001,58.36" fill="0">
+                    <POINT pos="0,0.6799999999999955" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <PIN pos="78,61" direction="0" number="1" length="10" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="1"/>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <SYMBOLDEF id="16">
+            <NAME type="0">VREG</NAME>
+            <GUID>98f303251dee4440adb9e6400902a6cc</GUID>
+            <REF type="0">U?</REF>
+            <DESCRIPTION>New 3 Term Reg</DESCRIPTION>
+            <PPP>1</PPP>
+            <REF_POINT pos="30,20" power="false" part="1"/>
+            <TinyCAD>
+                <PIN pos="10,10" direction="3" number="2" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">IN</PIN>
+                <PIN pos="20,20" direction="0" number="3" length="25" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">GND</PIN>
+                <PIN pos="30,10" direction="2" number="1" length="30" number_pos="0" centre_name="0" which="0" elec="4" part="0" show="2">OUT</PIN>
+                <POLYGON polygon="0" style="2" pos="15,10" fill="0">
+                    <POINT pos="1,0" arc="0"/>
+                    <POINT pos="0,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="24,10" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="1,0" arc="0"/>
+                </POLYGON>
+                <POLYGON polygon="0" style="2" pos="20,15" fill="0">
+                    <POINT pos="0,0" arc="0"/>
+                    <POINT pos="0,1" arc="0"/>
+                </POLYGON>
+                <RECTANGLE a="24,9" b="16,15" style="2" fill="0"/>
+                <NOTE_TEXT a="17.95301,13.187270000000002" b="21.419611562500002,14.787270000000001" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">GND</NOTE_TEXT>
+                <NOTE_TEXT a="16.50278,9.5713" b="18.50278,11.1713" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">IN</NOTE_TEXT>
+                <NOTE_TEXT a="19.83981,9.529860000000001" b="23.1728178125,11.12986" font="2" color="000000" style="4" fill="0" direction="3" border_style="2">OUT</NOTE_TEXT>
+            </TinyCAD>
+        </SYMBOLDEF>
+        <OPTIONS>
+            <GRID>1</GRID>
+            <UNITS>1</UNITS>
+            <SHOW_LABEL_CONNECTION_POINT>1</SHOW_LABEL_CONNECTION_POINT>
+            <COLOR_WIRE>FF0000</COLOR_WIRE>
+            <COLOR_BUS>0000FF</COLOR_BUS>
+            <COLOR_JUNCTION>000000</COLOR_JUNCTION>
+            <COLOR_NOCONNECT>000000</COLOR_NOCONNECT>
+            <COLOR_LABEL>208000</COLOR_LABEL>
+            <COLOR_POWER>000000</COLOR_POWER>
+            <COLOR_PIN>4040C0</COLOR_PIN>
+            <COLOR_HIDDEN_PIN>208020</COLOR_HIDDEN_PIN>
+            <COLOR_BACKGROUND>FFFFFF</COLOR_BACKGROUND>
+            <COLOR_NOTETEXT_FILL>AFFFFF</COLOR_NOTETEXT_FILL>
+            <COLOR_NOTETEXT_LINE>FF0000</COLOR_NOTETEXT_LINE>
+            <COLOR_NOTETEXT_TEXT>FF0000</COLOR_NOTETEXT_TEXT>
+        </OPTIONS>
+        <JUNCTION pos="144,60"/>
+        <SYMBOL pos="200,50" id="6" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4">
+            <FIELD pos="-3,6.4" value="J1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-9,4" value="DS10A Switch" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-1.2" value="TB2X100" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="180,62" id="10" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4">
+            <FIELD pos="-9,-21.6" value="U1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-13,-24" value="NLAS4501" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-13.2" value="SOT23-5" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <POWER pos="162,42" which="3" direction="0">+5V</POWER>
+        <POWER pos="182,62" which="4" direction="1">GND</POWER>
+        <WIRE a="162,42" b="162,44"/>
+        <WIRE a="162,44" b="164,44"/>
+        <WIRE a="180,44" b="190,44"/>
+        <WIRE a="186,52" b="186,48"/>
+        <WIRE a="186,52" b="180,52"/>
+        <WIRE a="180,60" b="182,60"/>
+        <WIRE a="182,60" b="182,62"/>
+        <SYMBOL pos="146,58" id="9" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="1,-5.6" value="R1" description="Ref" type="0" show="1"/>
+            <FIELD pos="1,-8" value="10K" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="144,74" id="14" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="4,-4" value="Q1" description="Ref" type="0" show="1"/>
+            <FIELD pos="2,-6" value="2N3904" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-6,4.4" value="SOT23" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <POWER pos="144,88" which="4" direction="1">GND</POWER>
+        <POWER pos="144,48" which="3" direction="0">+5V</POWER>
+        <WIRE a="144,60" b="144,62"/>
+        <WIRE a="144,86" b="144,88"/>
+        <WIRE a="164,60" b="144,60"/>
+        <WIRE a="144,58" b="144,60"/>
+        <JUNCTION pos="116,126"/>
+        <JUNCTION pos="150,126"/>
+        <JUNCTION pos="178,108"/>
+        <SYMBOL pos="100,112" id="4" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-6" value="B1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-14,-8" value="3.0V Button Cell" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-12,4.4" value="COINCELLSM" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="170,110" id="5" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-6" value="D1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-14,-8" value="Schottky Diode" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-14,4.4" value="SD1005" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="170,128" id="5" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-6" value="D2" description="Ref" type="0" show="1"/>
+            <FIELD pos="-14,-8" value="Schottky Diode" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-14,4.4" value="SD1005" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="198,114" id="6" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="4">
+            <FIELD pos="-3,6.4" value="J2" description="Ref" type="0" show="1"/>
+            <FIELD pos="-7,4" value="DS10A Power" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-1.2" value="TB2X100" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="102,132" id="7" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="-11,-7.6" value="PS1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-13,-10" value="DCSupply" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-1.2" value="DCPOWERJACK_2.1" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <POWER pos="104,136" which="4" direction="1">GND</POWER>
+        <POWER pos="86,110" which="4" direction="1">GND</POWER>
+        <WIRE a="100,108" b="156,108"/>
+        <WIRE a="178,108" b="188,108"/>
+        <WIRE a="102,130" b="104,130"/>
+        <WIRE a="104,130" b="104,136"/>
+        <WIRE a="88,108" b="86,108"/>
+        <WIRE a="86,108" b="86,110"/>
+        <POWER pos="186,114" which="4" direction="1">GND</POWER>
+        <WIRE a="188,112" b="186,112"/>
+        <WIRE a="186,112" b="186,114"/>
+        <LABEL pos="106,126" font="1" color="208000" direction="3" style="0">+5V</LABEL>
+        <SYMBOL pos="140,136" id="16" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="-11,-11.6" value="U2" description="Ref" type="0" show="1"/>
+            <FIELD pos="-17,-14" value="LM3804 - 3.3V" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="SOT23" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="118,134" id="12" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-2" value="C1" description="Ref" type="0" show="1"/>
+            <FIELD pos="-10,-4" value="0.1uf" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="152,134" id="12" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-2" value="C2" description="Ref" type="0" show="1"/>
+            <FIELD pos="-10,-4" value="0.1uf" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <POWER pos="116,136" which="4" direction="1">GND</POWER>
+        <POWER pos="130,136" which="4" direction="1">GND</POWER>
+        <POWER pos="150,136" which="4" direction="1">GND</POWER>
+        <WIRE a="116,126" b="120,126"/>
+        <WIRE a="116,128" b="116,126"/>
+        <WIRE a="102,126" b="116,126"/>
+        <WIRE a="116,136" b="116,134"/>
+        <WIRE a="150,136" b="150,134"/>
+        <WIRE a="150,126" b="156,126"/>
+        <WIRE a="150,128" b="150,126"/>
+        <WIRE a="140,126" b="150,126"/>
+        <WIRE a="170,126" b="178,126"/>
+        <WIRE a="178,126" b="178,108"/>
+        <WIRE a="170,108" b="178,108"/>
+        <WIRE a="186,48" b="190,48"/>
+        <JUNCTION pos="106,76"/>
+        <JUNCTION pos="116,68"/>
+        <SYMBOL pos="116,82" id="1" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="4,-4" value="Q2" description="Ref" type="0" show="1"/>
+            <FIELD pos="2,-6" value="2N3904" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-6,4.4" value="SOT23" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="102,78" id="2" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-6,2" value="R2" description="Ref" type="0" show="1"/>
+            <FIELD pos="-6,-4" value="10K" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-10,4.4" value="R0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="108,86" id="3" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="2">
+            <FIELD pos="-10,0" value="C3" description="Ref" type="0" show="1"/>
+            <FIELD pos="-10,-2" value="10uf" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-4,4.4" value="C0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="88,78" id="8" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="-11,2.4" value="J3" description="Ref" type="0" show="1"/>
+            <FIELD pos="-15,-6" value="Water Sensor" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="3.5MMJACK" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <POWER pos="116,88" which="4" direction="1">GND</POWER>
+        <POWER pos="106,88" which="4" direction="1">GND</POWER>
+        <POWER pos="66,72" which="3" direction="0">+5V</POWER>
+        <POWER pos="116,56" which="3" direction="0">+5V</POWER>
+        <WIRE a="66,72" b="66,76"/>
+        <WIRE a="66,76" b="70,76"/>
+        <WIRE a="88,76" b="92,76"/>
+        <WIRE a="106,76" b="110,76"/>
+        <WIRE a="106,80" b="106,76"/>
+        <WIRE a="102,76" b="106,76"/>
+        <WIRE a="106,86" b="106,88"/>
+        <SYMBOL pos="128,70" id="13" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="3">
+            <FIELD pos="-8,-4" value="R3" description="Ref" type="0" show="1"/>
+            <FIELD pos="-8,-6" value="10K" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="-10,4.4" value="R0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <SYMBOL pos="118,66" id="13" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="-9,-1.6" value="R4" description="Ref" type="0" show="1"/>
+            <FIELD pos="-9,-4" value="1K" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <WIRE a="116,68" b="116,70"/>
+        <WIRE a="116,82" b="116,88"/>
+        <WIRE a="118,68" b="116,68"/>
+        <WIRE a="116,66" b="116,68"/>
+        <WIRE a="134,68" b="138,68"/>
+        <SYMBOL pos="136,82" id="15" show_power="0" can_scale="0" scale_x="1" scale_y="1" part="0" rotate="0">
+            <FIELD pos="1,-1.6" value="R5" description="Ref" type="0" show="1"/>
+            <FIELD pos="1,-4" value="10K" description="Name" type="0" show="1"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_PROLOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="0,0" value="5" description="$$SPICE_EPILOG_PRIORITY" type="2" show="0"/>
+            <FIELD pos="1,-3.2" value="R0805" description="Package" type="1" show="0"/>
+        </SYMBOL>
+        <WIRE a="134,72" b="134,68"/>
+        <JUNCTION pos="134,68"/>
+        <WIRE a="128,68" b="134,68"/>
+        <WIRE a="134,82" b="134,86"/>
+        <WIRE a="134,86" b="144,86"/>
+        <JUNCTION pos="144,86"/>
+        <WIRE a="144,74" b="144,86"/>
+    </TinyCAD>
+    <DSNSETTINGS>
+        <SHOW_RULERS>1</SHOW_RULERS>
+    </DSNSETTINGS>
+    <NETLIST_TYPES>
+        <TYPE name="default"/>
+    </NETLIST_TYPES>
+</TinyCADSheets>
